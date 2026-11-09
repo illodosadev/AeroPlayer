@@ -1,0 +1,18 @@
+# Bootstrap .gitignore. T-01 merges it with the starter kit's own .gitignore.
+
+# Secrets: this repository is public. Never commit environment files.
+.env
+.env.*
+!.env.example
+docker/app.env
+
+# Dependencies and build output
+/vendor/
+/node_modules/
+/public/build/
+/public/hot
+
+# Local tooling
+.claude/settings.local.json
+.DS_Store
+Thumbs.db

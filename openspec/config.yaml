@@ -1,0 +1,33 @@
+schema: spec-driven
+
+# Project context (optional)
+# This is shown to AI when creating artifacts.
+# T-01 (project-foundation) completes this block with the installed stack and conventions.
+context: |
+  This repository follows spec-driven development with OpenSpec.
+  Traceability chain: Requirement -> Scenario -> Task -> Code.
+  Project: AeroPlayer, a private single-user web music player (Spotify Premium + YouTube Music) with a
+  Frutiger Aero / 2000s look. Public repository: never commit secrets (.env, tokens, cookies).
+  Planned stack (to be confirmed by T-01): Laravel + Inertia + Vue 3 (TypeScript) from the official Laravel Vue
+  starter kit, Tailwind for layout only, own Aero Vue components, Pest (feature) and Pest 4 browser tests.
+  Local stack: own Docker setup (T-20). Hosting: Hostinger at music.<domain> (T-04).
+  UI text: English only. Backlog and discovery docs: Spanish.
+  Data access: every model query and write in app/ goes through a concrete repository class in app/Repositories,
+  injected by the container. NEVER create interfaces for repositories. Only Laravel/Fortify internals are exempt.
+  Tests may use factories and model assertions directly.
+  Conventions: conventional commits; one concern per change; work directly on main (no branches, no PRs, no Jira).
+
+# Per-artifact rules
+rules:
+  proposal:
+    - Always include a "Non-goals" section
+    - Keep proposals under 500 words
+  specs:
+    - Use RFC-2119 keywords (MUST/SHALL/SHOULD/MAY)
+    - Every requirement needs at least one GIVEN/WHEN/THEN scenario
+    - No implementation details in requirements
+  design:
+    - Record alternatives considered and why they were rejected
+  tasks:
+    - Each task must map to a requirement or design decision
+    - Break tasks into chunks of max 2 hours
