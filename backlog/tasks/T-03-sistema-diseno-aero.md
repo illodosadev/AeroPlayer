@@ -3,7 +3,7 @@ id: T-03
 title: Sistema de diseño Frutiger Aero — base y login
 status: enriched
 discovery: reproductor-musica-privado
-change: ~
+change: aero-design-system
 priority: must
 estimate: 5
 language: es
