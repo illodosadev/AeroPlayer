@@ -33,6 +33,7 @@ The pipeline is guided: the user should never have to remember what comes next.
 
 ## Rules for agents
 
+- **The repository is public: no sensitive information in versioned artifacts.** Backlog (discovery, tasks), OpenSpec changes, specs, commit messages and code comments MUST NOT contain secrets (keys, tokens, passwords, Client IDs/secrets, private SSH keys), server reconnaissance details (hosting usernames, absolute server paths, IPs, which PHP functions or other security controls are enabled/disabled), or personal data beyond what is already public. Use placeholders (`<usuario>`, `~/domains/...`, `DEPLOY_PATH`) and keep real values in GitHub secrets/variables or the server's `.env`. Describe accepted risks (e.g. unofficial libraries) neutrally, without written admissions of breaching third-party terms. When data read from an account (e.g. via an MCP) informs a decision, record the decision, not the raw data.
 - `openspec/specs/` is the source of truth for current system behavior. Read it before proposing changes; never edit it directly — it only changes via `/opsx-archive`.
 - Requirements use RFC-2119 keywords (MUST/SHALL/SHOULD/MAY). Each requirement has at least one scenario.
 - If during implementation you discover the spec was wrong or incomplete, stop, update the spec, then continue. Do not silently diverge.
