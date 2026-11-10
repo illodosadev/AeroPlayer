@@ -1,7 +1,7 @@
 ---
 id: T-02
 title: Login de un solo usuario
-status: proposed
+status: done
 discovery: reproductor-musica-privado
 change: single-owner-login
 priority: must
@@ -379,8 +379,19 @@ Pregunta abierta 1 resuelta: hosting compartido Premium de Hostinger, app en `mu
 - **Termina la excepción D8 de T-01:** el código de auth del kit consulta modelos directamente. Hay que añadir `App\Repositories\UserRepository` para lo que quede, y quitar la excepción de AGENTS.md (sección "Code conventions").
 - **Errores de tipos del kit:** unos 20 (`tsconfig.json` y `AppHeader.vue`, donde `auth` es `unknown`). Corregirlos al tocar esos componentes y añadir la comprobación de tipos.
 
+**Cerrada con `single-owner-login` (2026-11-10)**
+
+El cambio refinó algunos criterios de esta tarea al ver el starter kit instalado (v1.0.2). La referencia es ahora `openspec/specs/owner-auth/spec.md` (y el requisito "Root URL redirects by session state" de `app-foundation`):
+
+- El kit no usa Fortify: la auth son sus propios controladores, y las funciones se quitaron borrando rutas, controladores y páginas. No había 2FA ni passkeys que quitar.
+- El bloqueo por intentos redirige a "/login" con el error "Too many login attempts…" en lugar de responder 429.
+- No existe la prop `canRegister`; el enlace "Sign up" se quitó del componente y se comprueba en el navegador.
+- "/" redirige (a "/login" o a "/dashboard") y se borró `Welcome.vue`. El logout redirige a "/login" y borra el historial cifrado de Inertia.
+- El comando no rellena `email_verified_at` y se quitó el middleware `verified`. Solo se niega a ejecutarse con `--no-interaction`; un stdin por tubería se acepta.
+- Los tres escenarios de navegador se comprobaron a mano (Edge headless) el 2026-11-10; T-03 los automatiza.
+
 ## Definition of Done
 
-- [ ] Acceptance criteria covered by tests
-- [ ] Spec deltas archived in openspec/specs/
-- [ ] Work committed on main
+- [x] Acceptance criteria covered by tests
+- [x] Spec deltas archived in openspec/specs/
+- [x] Work committed on main

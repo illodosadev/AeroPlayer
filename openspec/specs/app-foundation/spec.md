@@ -6,15 +6,6 @@ Defines the base AeroPlayer web application every feature builds on: a server-dr
 
 ## Requirements
 
-### Requirement: Root page renders the Welcome page component
-The application SHALL answer the root URL with a page rendered by the frontend page component named "Welcome".
-
-#### Scenario: The root URL returns the Welcome page
-- **GIVEN** the application in the test environment
-- **WHEN** a client requests "/"
-- **THEN** the response status is 200
-- **AND** the page payload names the frontend component "Welcome"
-
 ### Requirement: English locale
 The application locale SHALL be English ("en").
 
@@ -58,3 +49,16 @@ The repository SHALL document the installed stack for future changes and explain
 - **WHEN** the project context in "openspec/config.yaml", the "Stack" section of "AGENTS.md" and the README are read
 - **THEN** the context and the Stack section name Laravel, Inertia, Vue 3 with TypeScript, Tailwind, Pest, the "en" locale and the PHP 8.4 platform
 - **AND** the README explains how to install dependencies, build the frontend and run the tests
+
+### Requirement: Root URL redirects by session state
+The application SHALL answer the root URL with a redirect: to the login page for a visitor without a session, and to the signed-in home page for a signed-in owner.
+
+#### Scenario: Guest opens the root URL
+- **GIVEN** a visitor without a session
+- **WHEN** the visitor requests "/"
+- **THEN** the response redirects to "/login"
+
+#### Scenario: Signed-in owner opens the root URL
+- **GIVEN** the owner signed in
+- **WHEN** the owner requests "/"
+- **THEN** the response redirects to "/dashboard"

@@ -163,6 +163,10 @@ Pregunta abierta 1 resuelta: hosting compartido Premium de Hostinger, app en `mu
 
 - La imagen PHP del stack Docker sigue la versión 8.4 fijada en `config.platform.php` (cambio `project-foundation`).
 
+**Seguimiento de single-owner-login (T-02, 2026-11-10)**
+
+- **Contexto seguro:** el historial cifrado de Inertia necesita `crypto.subtle`, que solo funciona en HTTPS o en direcciones loopback (`localhost`, `127.0.0.1`). Abrir la app local en esas direcciones; desde otra máquina de la red por HTTP la navegación falla.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

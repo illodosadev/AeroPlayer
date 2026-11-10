@@ -333,6 +333,14 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - **Páginas Inertia en minúsculas:** el kit usa `resources/js/pages`. Los tests lo configuran en `tests/TestCase.php`; mantenerlo al crear páginas nuevas.
 - **MODIFICA el requisito "Self-contained automated test suite"** de `project-foundation`: los tests de navegador necesitan un build real.
 
+**Seguimiento de single-owner-login (T-02, 2026-11-10)**
+
+- La página de login ya no tiene "Sign up" ni "Forgot password?", y no queda ninguna página de ajustes. T-03 solo da estilo al login y al dashboard.
+- **Automatizar con el plugin de navegador** los tres escenarios que T-02 comprobó a mano: el login sin enlaces de registro ni recuperación, el menú de usuario sin "Settings" ni enlaces que den 404, y "atrás" tras el logout sin páginas protegidas (`openspec/specs/owner-auth`).
+- **Comprobación de tipos:** T-02 la dejó aquí. Añadir `vue-tsc` (resolviendo el conflicto de versiones de T-01) y corregir los errores del kit en los componentes que se toquen.
+- **Tema:** `useAppearance.ts` y `initializeTheme()` en `app.ts` siguen vivos; quitarlos al fijar el modo claro. `AppearanceTabs.vue` ya está borrado.
+- El pie de la barra lateral del kit conserva los enlaces externos "Github Repo" y "Documentation" (y el nombre "Laravel Starter Kit"); quitarlos o sustituirlos al aplicar el estilo Aero.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests
