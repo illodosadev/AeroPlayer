@@ -8,12 +8,15 @@ context: |
   Traceability chain: Requirement -> Scenario -> Task -> Code.
   Project: AeroPlayer, a private single-user web music player (Spotify Premium + YouTube Music) with a
   Frutiger Aero / 2000s look. Public repository: never commit secrets (.env, tokens, cookies).
-  Planned stack (to be confirmed by T-01): Laravel + Inertia + Vue 3 (TypeScript) from the official Laravel Vue
-  starter kit, Tailwind for layout only, own Aero Vue components, Pest (feature) and Pest 4 browser tests.
-  Local stack: own Docker setup (T-20). Hosting: Hostinger at music.<domain> (T-04).
+  Installed stack (project-foundation, T-01): Laravel 12 (12.71) + Inertia 2 + Vue 3 with TypeScript, from the
+  official Laravel Vue starter kit (v1.0.2), Tailwind for layout only, Fortify auth, Ziggy routes, Pest 4 (v4.7.8)
+  on PHPUnit 12.5. PHP platform pinned to 8.3 in composer.json (config.platform). Commands: `npm ci && npm run build`,
+  `php artisan test`. Own Aero Vue components and Pest 4 browser tests arrive with T-03.
+  Local stack: own Docker setup (T-20). Hosting: Hostinger shared plan, music.illodosadev.io (T-04).
   UI text: English only. Backlog and discovery docs: Spanish.
   Data access: every model query and write in app/ goes through a concrete repository class in app/Repositories,
-  injected by the container. NEVER create interfaces for repositories. Only Laravel/Fortify internals are exempt.
+  injected by the container. NEVER create interfaces for repositories. Only Laravel/Fortify internals are exempt,
+  plus the starter kit's auth and settings code until T-02 (AGENTS.md, Code conventions).
   Tests may use factories and model assertions directly.
   Conventions: conventional commits; one concern per change; work directly on main (no branches, no PRs, no Jira).
 

@@ -60,7 +60,8 @@ The pipeline is guided: the user should never have to remember what comes next.
 
 - **Repositories for all data access:** every model query and write in `app/` goes through a concrete class in `app/Repositories/` (one per model, e.g. `ProductRepository`), injected by the container. Controllers, service providers, actions and validation rules (`unique`/`exists`) never query models directly. Only queries that Laravel or Fortify run internally are exempt. Tests may keep using factories and model assertions.
 - **Never create interfaces for repositories.** Use concrete classes only.
+- **Temporary exemption until T-02:** the starter kit's own auth and settings code (Fortify actions, settings controllers) queries and writes models directly. It stays as shipped under `project-foundation`; T-02 reworks it and adds `App\Repositories\UserRepository`. Code written in any other change follows the rule above.
 
 ## Stack
 
-This is a stack-agnostic template. When it is instantiated for a real project, record the tech stack and conventions in `openspec/config.yaml` (`context:` block) and extend this file.
+Laravel 12 + Inertia 2 + Vue 3 with TypeScript, from the official Laravel Vue starter kit, with Tailwind, Pest 4 and a PHP 8.3 platform pin. The full stack and commands are in `openspec/config.yaml` (`context:` block).

@@ -1,4 +1,4 @@
-# Bootstrap .gitignore. T-01 merges it with the starter kit's own .gitignore.
+﻿# Bootstrap .gitignore. T-01 merges it with the starter kit's own .gitignore.
 
 # Secrets: this repository is public. Never commit environment files.
 .env
@@ -16,3 +16,26 @@ docker/app.env
 .claude/settings.local.json
 .DS_Store
 Thumbs.db
+
+# Starter kit (laravel/vue-starter-kit) ignore rules
+/.phpunit.cache
+/node_modules
+/public/build
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/auth.json
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
