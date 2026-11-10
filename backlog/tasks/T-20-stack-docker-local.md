@@ -159,6 +159,10 @@ Pregunta abierta 1 resuelta: hosting compartido Premium de Hostinger, app en `mu
 - La suposición de MySQL depende del Pendiente de T-04 "Motor y versión de la base de datos" (se anota al crearla en Hostinger).
 - T-04 amplía `docker/smoke.sh` con una opción `--production` (HTTPS, redirección, cookies, `X-App-Version`, sitio principal) en lugar de crear otro script.
 
+**Seguimiento de project-foundation (2026-11-10)**
+
+- La imagen PHP del stack Docker sigue la versión 8.3 fijada en `config.platform.php` (cambio `project-foundation`).
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

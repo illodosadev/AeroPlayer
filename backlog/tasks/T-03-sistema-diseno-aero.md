@@ -327,6 +327,12 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
   - La vista Blade raíz pinta `data-theme` en `<html>`.
   - Si es posible, nombrar los tokens del cielo, que T-16 usa en sus escenarios de color.
 
+**Seguimiento de project-foundation (2026-11-10)**
+
+- **Errores de tipos del kit:** unos 20 (ver T-01). Corregirlos al tocar los componentes que los tienen.
+- **Páginas Inertia en minúsculas:** el kit usa `resources/js/pages`. Los tests lo configuran en `tests/TestCase.php`; mantenerlo al crear páginas nuevas.
+- **MODIFICA el requisito "Self-contained automated test suite"** de `project-foundation`: los tests de navegador necesitan un build real.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

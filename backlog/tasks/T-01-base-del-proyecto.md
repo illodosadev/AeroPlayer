@@ -102,7 +102,7 @@ Scenario: El stack queda documentado para los siguientes cambios
 
 **Reglas propuestas (se pueden revisar en /opsx-propose)**
 
-- **Versiones:** la última versión estable de Laravel y del starter kit en el momento de crear el repo, y la versión de PHP más alta que Hostinger soporte. Mientras no se resuelva la pregunta abierta 1, PHP 8.4 es una apuesta prudente; se revisa en T-04.
+- **Versiones:** la última versión estable de Laravel y del starter kit en el momento de crear el repo, y la versión de PHP más alta que Hostinger soporte. Mientras no se resuelva la pregunta abierta 1, PHP 8.3 queda fijado en `config.platform.php` (decidido en el cambio `project-foundation`, D2). Pasar a 8.4 es subir esa fijación y modificar el requisito "Minimum PHP platform".
 - **Tests:** SQLite en memoria (`DB_CONNECTION=sqlite`, `DB_DATABASE=:memory:`), que es lo que trae el starter kit.
 
 **Restricciones descubiertas**
@@ -144,6 +144,14 @@ Pregunta abierta 1 resuelta: hosting compartido Premium de Hostinger, app en `mu
 - PHP 8.4 era provisional. El sitio `illodosadev.io` tiene PHP 8.3, y el subdominio puede compartirla: la versión final se decide en el Pendiente de T-04 (fijar 8.3 en `config.platform.php` o subir el sitio a 8.4). La versión de Laravel elegida aquí tiene que admitir la que salga.
 - El escenario de 500 en el entorno desplegado no se repite en T-04: lo cubren esta tarea, T-20 y T-26.
 - T-04 crea el workflow de CI (`ci.yml`): tests en cada push y gitleaks.
+
+**Seguimiento de project-foundation (2026-11-10)**
+
+- Implementado en el cambio `project-foundation`. PHP 8.3 fijado en `config.platform.php`, con dependencias resueltas para 8.3 y comprobadas en un contenedor `php:8.3-cli`.
+- **Pest 4 (v4.7.8) con PHPUnit 12.5.** El kit traía PHPUnit 11 y no usaba Pest. Pest 3 no convive con PHPUnit 11.5 y Pest 5 exige PHP 8.4.
+- **Sin comprobación de tipos en esta tarea.** El kit tiene unos 20 errores de tipos en su código; se recogen en T-02 y T-03.
+- **Base de datos inaccesible:** el escenario usa una conexión `unreachable` solo para la sesión, y `database.default` queda en SQLite. El README exige `pdo_mysql`.
+- **Ruta de test de Inertia:** el kit usa `resources/js/pages` en minúsculas; los tests lo configuran explícitamente.
 
 ## Definition of Done
 

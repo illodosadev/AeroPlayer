@@ -374,6 +374,11 @@ Pregunta abierta 1 resuelta: hosting compartido Premium de Hostinger, app en `mu
 
 - El Pendiente "Ejecutar el comando en Hostinger" queda resuelto: `php artisan app:create-owner` se ejecuta por SSH tras el primer despliegue (runbook "Despliegue" de T-04).
 
+**Seguimiento de project-foundation (2026-11-10)**
+
+- **Termina la excepción D8 de T-01:** el código de auth del kit consulta modelos directamente. Hay que añadir `App\Repositories\UserRepository` para lo que quede, y quitar la excepción de AGENTS.md (sección "Code conventions").
+- **Errores de tipos del kit:** unos 20 (`tsconfig.json` y `AppHeader.vue`, donde `auth` es `unknown`). Corregirlos al tocar esos componentes y añadir la comprobación de tipos.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests
