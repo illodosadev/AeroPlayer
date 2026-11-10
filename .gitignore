@@ -39,3 +39,6 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+# Pest browser failure screenshots
+/tests/Browser/Screenshots

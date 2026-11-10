@@ -1,0 +1,31 @@
+/*
+ * The "sky" theme: the default look (design D2). Theme tokens only; components read them and never declare them.
+ * T-18 adds other themes with [data-theme="..."] blocks that redefine these names.
+ */
+:where(:root),
+[data-theme="sky"] {
+    --aero-sky-top: #3f8fd6;
+    --aero-sky-horizon: #cfeaff;
+    --aero-grass: #6fb345;
+    --aero-water: #1d6fb8;
+
+    --aero-text: #0a2740;
+    --aero-text-muted: #2c4a63;
+    --aero-error: #9b1c1c;
+
+    --aero-panel-bg: rgba(255, 255, 255, 0.62);
+    --aero-panel-bg-fallback: rgba(250, 253, 255, 0.92);
+    --aero-panel-border: rgba(255, 255, 255, 0.85);
+    --aero-panel-shadow: 0 6px 18px rgba(4, 40, 80, 0.28);
+
+    --aero-gel-base: #2d7fd0;
+    --aero-gel-highlight: rgba(255, 255, 255, 0.82);
+    --aero-gel-shadow: rgba(7, 46, 92, 0.45);
+    --aero-field-bg: rgba(255, 255, 255, 0.9);
+    --aero-field-border: #7fa8c9;
+
+    --aero-focus-color: #ffd23f;
+
+    --aero-background-fallback: linear-gradient(to bottom, var(--aero-sky-top) 0%, var(--aero-sky-horizon) 62%, var(--aero-grass) 62%, var(--aero-grass) 100%);
+    --aero-background-image: url("../../../aero/backgrounds/sky.svg");
+}

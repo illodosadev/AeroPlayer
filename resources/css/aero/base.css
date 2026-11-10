@@ -1,0 +1,43 @@
+/* Selawik (SIL OFL 1.1, see resources/aero/fonts/OFL-selawik.txt): stands in for Segoe UI where it is missing. */
+@font-face {
+    font-family: "Selawik";
+    src: url("../../aero/fonts/selawik-regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Selawik";
+    src: url("../../aero/fonts/selawik-bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/*
+ * Global Aero rules shared by every component (design D4).
+ */
+
+/* Visible keyboard focus everywhere. */
+:focus-visible {
+    outline: var(--aero-focus-width) solid var(--aero-focus-color);
+    outline-offset: 2px;
+}
+
+/* Reduced motion: no animation, transitions of 0.01 s at most. */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition-duration: 0.01s !important;
+    }
+}
+
+/* Forced fallback for testing and for users who want it: the opaque pane, no blur (design D4). */
+html.aero-no-blur [data-aero="glass-panel"] {
+    background: var(--aero-panel-bg-fallback);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}

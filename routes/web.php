@@ -11,4 +11,8 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware('auth')->name('dashboard');
 
+Route::get('styleguide', function () {
+    return Inertia::render('Styleguide');
+})->middleware('auth')->name('styleguide');
+
 require __DIR__.'/auth.php';

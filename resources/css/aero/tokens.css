@@ -1,0 +1,24 @@
+/*
+ * Fixed Aero tokens: sizes that do not change between themes (design D2).
+ * Themable colours and gradients live in themes/sky.css.
+ */
+:root {
+    --aero-radius-sm: 4px;
+    --aero-radius-md: 8px;
+    --aero-radius-pill: 999px;
+
+    --aero-space-1: 0.25rem;
+    --aero-space-2: 0.5rem;
+    --aero-space-3: 0.75rem;
+    --aero-space-4: 1rem;
+    --aero-space-6: 1.5rem;
+
+    --aero-font-family: "Segoe UI", "Selawik", "Frutiger", "Myriad Pro", system-ui, sans-serif;
+    --aero-font-size-body: 1rem;
+    --aero-font-size-small: 0.875rem;
+    --aero-font-size-title: 1.25rem;
+
+    --aero-blur: 6px;
+    --aero-focus-width: 2px;
+    --aero-touch-min: 44px;
+}
