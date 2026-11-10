@@ -55,6 +55,13 @@ Scenario: No hay ningún dispositivo de Spotify disponible
 - **Cambio en la documentación de Spotify (detectado el 2026-11-09):** la página del Web Playback SDK dice ahora que funciona en navegadores móviles Android e iOS, con limitaciones en iOS. Por eso la prueba de la pregunta abierta 3 debe probar primero el SDK en el móvil real: si funciona, este plan B puede no hacer falta. Los planes Premium solo para móvil (Mini/Lite) no funcionan con el SDK. Fuente: https://developer.spotify.com/documentation/web-playback-sdk
 - Scopes que hacen falta: `user-read-playback-state`, `user-modify-playback-state` y `user-read-currently-playing` (ya están en la lista de T-05).
 
+**Seguimiento del lote `/task-enrich-batch` del 2026-11-09 (T-13, T-14, T-16, T-17, T-18, T-19, T-25, T-26)**
+
+Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote; se aplican al proponer (o enriquecer) esta tarea.
+
+- **Historial (T-19):** falta decidir si cuenta la música que suena en la app oficial de Spotify mientras la web solo la controla con Connect. Hoy no cuenta.
+- **Cola (T-13):** la cola no avanza mientras se muestra "Playing on …" (otro dispositivo).
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

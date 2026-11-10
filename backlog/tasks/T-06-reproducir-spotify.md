@@ -337,6 +337,19 @@ Scenario: Desconectar Spotify con música sonando
 - Controles y desconexión (0,5 puntos): llamadas directas a métodos del SDK.
 - SDK simulado para los tests de navegador y comprobación manual con Premium real (1 punto).
 
+**Seguimiento del lote `/task-enrich-batch` del 2026-11-09 (T-13, T-14, T-16, T-17, T-18, T-19, T-25, T-26)**
+
+Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote; se aplican al proponer (o enriquecer) esta tarea.
+
+- **Estado que expone el composable del reproductor** (lo consumen T-13, T-16, T-17 y T-19), reactivo e independiente del servicio:
+  - la canción actual con `source`, `id`, `uri`, `title`, `artists[]`, `album`, `duration_ms` e `image`, sacados de `track_window.current_track`;
+  - la posición interpolada en ms y la posición nueva **justo después de un seek**, sin esperar otro estado del SDK;
+  - `paused`, `timestamp` y si hay reproducción local (`hasLocalPlayback`).
+- **Seeks de la barra:** T-19a añade al composable una marca de los seeks que vienen de la barra de progreso, para distinguirlos de un reinicio de la canción.
+- **Panel activo:** el layout persistente guarda un único estado de panel (`null` | `'lyrics'` | `'visualizer'`), compartido por T-16 y T-17, que son excluyentes.
+- **Layout persistente:** T-25 lo convierte en `AeroAppLayout` (con la navegación Aero). El reproductor vive en un solo componente de layout y `Spotify.Player` no se vuelve a crear al navegar.
+- **T-13 (cambio 2, cola):** modifica "Siguiente y anterior dentro del contexto" y "No hay pista siguiente": en modo cola, "Next" y "Previous" mueven la cola de la app y "Next" se desactiva si no queda nada pendiente. T-13 añade además `PUT /spotify/player/modes` para desactivar el aleatorio y la repetición propios de Spotify.
+
 ## Definition of Done
 
 - [ ] Criterios automatizables cubiertos por tests; los @manual en el checklist del cambio

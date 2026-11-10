@@ -54,6 +54,13 @@ Scenario: Si un servicio falla, se ve el otro sin mezclar
 - **Orden de la lista mezclada.** Spotify da la fecha de guardado de las canciones guardadas, pero no de las playlists.
 - **Paginación entre servicios:** un cursor opaco con un offset o una continuación por servicio.
 
+**Seguimiento del lote `/task-enrich-batch` del 2026-11-09 (T-13, T-14, T-16, T-17, T-18, T-19, T-25, T-26)**
+
+Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote; se aplican al proponer (o enriquecer) esta tarea.
+
+- **Playlists propias (T-14):** decidir si la misma canción en Spotify y en YouTube Music cuenta como repetida dentro de una playlist propia, y si las playlists propias entran en la lista mezclada de la biblioteca.
+- **Riesgo de política de Spotify:** ver la pregunta abierta 11 del discovery (Developer Policy III.5 sobre integrar contenido de Spotify con el de otro servicio).
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

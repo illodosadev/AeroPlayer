@@ -17,7 +17,7 @@ Conectar la cuenta de YouTube Music Premium del usuario con un método no oficia
 
 ## Context
 
-YouTube Music no tiene API oficial. El usuario acepta librerías no oficiales (por ejemplo, autenticación con cookies) sabiendo que pueden romperse y que van contra los ToS. Las credenciales son personales y deben guardarse de forma segura. Depende de T-02. T-10, T-11 y T-12 dependen de esta.
+YouTube Music no tiene API oficial. El usuario acepta librerías no oficiales (por ejemplo, autenticación con cookies) asumiendo el riesgo de que dejen de funcionar o de que el servicio bloquee el acceso. Las credenciales son personales y deben guardarse de forma segura. Depende de T-02. T-10, T-11 y T-12 dependen de esta.
 
 ## Acceptance criteria
 
@@ -57,6 +57,12 @@ Scenario: Desconectar YouTube Music
 
 - **Bloqueada por las preguntas abiertas 1 y 2:** el método de autenticación (cookies, OAuth del cliente TV, otro) y la librería dependen del spike de YT Music. Si la librería es Python, también depende de que Hostinger permita ejecutarla.
 - Como la integración no es oficial, conviene aislarla para poder cambiarla si se rompe.
+
+**Seguimiento de T-04 (despliegue, 2026-11-09)**
+
+Pregunta abierta 1 resuelta: hosting compartido Premium de Hostinger, app en `music.illodosadev.io` (subdominio de `illodosadev.io`), despliegue con GitHub Actions + SSH lanzado a mano (D14–D16).
+
+- **Python en el servidor:** el plan es compartido. PHP tiene desactivadas las funciones habituales de ejecución de procesos (`exec`, `shell_exec`, entre otras); falta confirmar si queda algún mecanismo utilizable. No hay procesos permanentes ni apps Node.js. Falta comprobar por SSH si existen `python3` y `pip --user`. Ya solo depende de eso y de la pregunta abierta 2.
 
 ## Definition of Done
 

@@ -142,6 +142,23 @@ Scenario: El stack queda documentado
 
 **Estimación: 3 puntos.** Se puede reutilizar casi todo el stack del inventario: Dockerfile, entrypoint, nginx y smoke test (1 punto). Lo nuevo es el modo desarrollo con Vite y el código montado, el target y servicio de tests y la variable de puerto (1,5 puntos). El resto es la documentación y las comprobaciones de los escenarios (0,5 puntos).
 
+**Seguimiento del lote `/task-enrich-batch` del 2026-11-09 (T-13, T-14, T-16, T-17, T-18, T-19, T-25, T-26)**
+
+Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote; se aplican al proponer (o enriquecer) esta tarea.
+
+- **Escenarios independientes de D11** ("/" deja de ser una página):
+  - "Primer arranque…": pedir `http://localhost:8081/login` y comprobar que `data-page` indica el componente de la página de login, no "Welcome".
+  - "Base de datos caída", "Recuperación", "Recarga en caliente" y "APP_PORT": pedir "/login".
+  - Prueba rápida: "/" → 302 a `/login`, `/login` → 200, la hoja de estilos → 200 y una ruta inexistente → 404.
+
+**Seguimiento de T-04 (despliegue, 2026-11-09)**
+
+Pregunta abierta 1 resuelta: hosting compartido Premium de Hostinger, app en `music.illodosadev.io` (subdominio de `illodosadev.io`), despliegue con GitHub Actions + SSH lanzado a mano (D14–D16).
+
+- La cláusula "salvo que el plan resulte ser un VPS" ya no aplica: el plan es compartido y este stack no se usa en producción.
+- La suposición de MySQL depende del Pendiente de T-04 "Motor y versión de la base de datos" (se anota al crearla en Hostinger).
+- T-04 amplía `docker/smoke.sh` con una opción `--production` (HTTPS, redirección, cookies, `X-App-Version`, sitio principal) en lugar de crear otro script.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

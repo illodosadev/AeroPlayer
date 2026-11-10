@@ -63,6 +63,12 @@ Scenario: La integración no oficial falla
 - **Textos de la interfaz:** van en inglés.
 - Falta decidir el límite de elementos y la paginación de bibliotecas grandes.
 
+**Seguimiento del lote `/task-enrich-batch` del 2026-11-09 (T-13, T-14, T-16, T-17, T-18, T-19, T-25, T-26)**
+
+Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote; se aplican al proponer (o enriquecer) esta tarea.
+
+- **T-14:** "Add to playlist" en las filas de canción de la biblioteca de YouTube Music. Si esta tarea llega antes que T-11, añade también `youtube_music` a las fuentes que acepta T-14.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

@@ -325,6 +325,15 @@ Scenario: Un visitante sin sesión que pide el endpoint de discografía
 - **Página de artista (0,75 puntos):** dos secciones con "Load more" y cursor opaco, reutilizando la lista de T-07.
 - **Errores, accesos sin sesión o sin conexión y tests (0,5 puntos):** casi todo pasa por el cliente compartido de T-05.
 
+**Seguimiento del lote `/task-enrich-batch` del 2026-11-09 (T-13, T-14, T-16, T-17, T-18, T-19, T-25, T-26)**
+
+Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote; se aplican al proponer (o enriquecer) esta tarea.
+
+- **Formato común en las filas de pista:** cada fila emite el formato común de T-07 completo, con `album` = título del álbum e `image` = su carátula (las pistas de un álbum de Spotify no traen esos datos). Lo necesita T-14.
+- **"Add to queue" (T-13) y "Add to playlist" (T-14)** en las filas de pista, desactivados u ocultos si la pista no es reproducible.
+- **T-13 (cambio 2):** "Play" y pulsar una pista cargan las pistas del álbum en la cola (`uris`) en lugar de `contextUri`+offset; T-13 modifica esos escenarios.
+- **T-25:** añadir el escenario "la página no contiene elementos con el atributo data-slot".
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

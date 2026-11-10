@@ -53,6 +53,17 @@ Scenario: Canción no reproducible
 - Falta decidir si, cuando una canción falla dentro de una lista, se pasa sola a la siguiente. Es la misma decisión pendiente que en T-23 (errores de Spotify): conviene tomarla una vez para los dos servicios.
 - El texto "This song can't be played." es el mismo que usa T-23 para Spotify (añadido al enriquecer T-06 el 2026-11-09).
 
+**Seguimiento del lote `/task-enrich-batch` del 2026-11-09 (T-13, T-14, T-16, T-17, T-18, T-19, T-25, T-26)**
+
+Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote; se aplican al proponer (o enriquecer) esta tarea.
+
+- **Escenario que llega de T-13 (D5):** "Cola mixta entre servicios": Given una cola con una canción de Spotify seguida de una de YouTube Music; When termina la de Spotify; Then empieza a sonar la de YouTube Music sin que el usuario haga nada, **en menos de 2 s** desde que terminó la anterior (D2, 2026-11-09). Y al revés.
+- **D4 resuelve el Pendiente de saltar canciones que fallan:** "This song can't be played." y se pasa a la siguiente; tras 3 fallos seguidos se para con "Couldn't play 3 songs in a row. Playback stopped." (texto propuesto en T-13).
+- **Cola (T-13):** añadir `youtube_music` a las fuentes que acepta la cola. T-10 depende de T-13, no al revés.
+- **Escenarios que llegan de T-14:** "Reproducir una playlist mixta" y "YouTube Music desconectado" (sus canciones salen "Unavailable" y solo suena Spotify). Definir el equivalente de YouTube a `playback_error`, que emite el evento de fallo de T-13 `{item_id, origin, reason}` para que T-14 marque la canción.
+- **Estado del composable:** exponer la misma forma que T-06 (canción actual con id = id del vídeo, `title`, `artists[]`, `album`, `duration_ms`, posición, `paused`), para que T-16, T-17 y T-19 funcionen sin cambios.
+- **Historial (T-19):** las reproducciones de YouTube Music registran escuchas en `POST /history/listens` con `source: "youtube_music"` y las mismas reglas (30 s de reproducción real, D13). Hay que añadir esa fuente a la lista aceptada.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

@@ -353,6 +353,27 @@ Scenario: Ya existe un usuario y no se confirma el cambio
 
 **Estimación: 5 puntos.** Quitar las features de Fortify, todas las páginas de ajustes, sus referencias en Vue y Wayfinder, la 2FA del modelo y los tests del starter kit, dejando el build en verde (2 puntos). El comando artisan con validación, reintento, el caso de usuario existente y el cierre de las demás sesiones (2 puntos). Los tests de login, bloqueo, "Remember me", logout, props de Inertia y rutas eliminadas (1 punto). Se mantiene como una sola tarea porque cabe en un solo cambio de OpenSpec y las dos mitades se prueban juntas: el login sin registro no se puede probar de punta a punta sin el comando que crea el usuario. Como opción, si el cambio crece en el diseño, se puede partir en dos: primero el comando del propietario y luego quitar las funciones sobrantes.
 
+**Seguimiento del lote `/task-enrich-batch` del 2026-11-09 (T-13, T-14, T-16, T-17, T-18, T-19, T-25, T-26)**
+
+Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote; se aplican al proponer (o enriquecer) esta tarea.
+
+- **D11 (2026-11-09) lo implementa T-02:** "/" sin sesión → 302 a `/login`; con sesión → `config('fortify.home')`. El logout redirige a `/login` (`fortify.redirects.logout`). Se borra `Welcome.vue`. Escenarios a cambiar:
+  - "La página de inicio no ofrece registro" pasa a ser: "/" sin sesión → 302 a "/login".
+  - En "Cerrar sesión", el destino pasa a ser "/login".
+  - "Las páginas de login e inicio no muestran registro…" se queda solo con "/login".
+- **Página principal:** redactar los escenarios con "/dashboard" como "la página principal (`fortify.home`, hoy '/dashboard')". El Pendiente "Página principal tras el login" queda resuelto por **D12 (2026-11-09):** `/library` es la página principal y `/dashboard` se elimina; lo hace T-25.
+- **Historial cifrado (sale de T-25):** `inertia.history.encrypt = true` y `Inertia::clearHistory()` en el logout, con el escenario [test de navegador] "Volver atrás tras cerrar sesión no enseña la página anterior": Given el usuario en una página con datos visibles; When pulsa "Log out" y después "atrás"; Then la URL termina en "/login" y no se ven esos datos (usar `/styleguide` o la página principal de ese momento). Fuente: https://inertiajs.com/docs/v2/security/history-encryption; comprobarlo en Inertia 3.
+- **Qué se quita:** añadir las passkeys del starter kit actual (`@laravel/passkeys`, `ManagePasskeys`, `PasskeyRegister`, `PasskeyVerify` y su feature de Fortify) y la dependencia `vue-input-otp`.
+- **Menú de usuario:** el escenario "Ningún enlace del menú de usuario lleva a un 404" y la regla "Las páginas de ajustes vuelven más adelante" (T-05 vuelve a poner "Settings" en el menú de usuario) valen hasta T-25, que sustituye el menú por la navegación Aero `AeroAppNav` con "Settings" → `/settings/spotify`.
+- **`/settings/appearance` → 404** vale hasta T-18, que recupera esa ruta para el selector de temas. El cambio de T-18 modifica ese requisito (MODIFIED) y quita la fila del dataset.
+- **Logout sin sesión (regla propuesta en T-25, sin confirmar):** un POST a `/logout` sin usuario autenticado redirigiría a `/login` en lugar de dar 419. Si el usuario lo confirma, afecta a la regla de CSRF de esta tarea.
+
+**Seguimiento de T-04 (despliegue, 2026-11-09)**
+
+Pregunta abierta 1 resuelta: hosting compartido Premium de Hostinger, app en `music.illodosadev.io` (subdominio de `illodosadev.io`), despliegue con GitHub Actions + SSH lanzado a mano (D14–D16).
+
+- El Pendiente "Ejecutar el comando en Hostinger" queda resuelto: `php artisan app:create-owner` se ejecuta por SSH tras el primer despliegue (runbook "Despliegue" de T-04).
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

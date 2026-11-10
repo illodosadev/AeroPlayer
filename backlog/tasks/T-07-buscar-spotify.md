@@ -402,6 +402,15 @@ Scenario: Spotify no responde a tiempo
 - **Sin conexión, sin sesión y errores (0,25 puntos):** todos pasan por el cliente compartido de T-05.
 - **Fixtures, tests de Pest y de navegador (0,5 puntos).**
 
+**Seguimiento del lote `/task-enrich-batch` del 2026-11-09 (T-13, T-14, T-16, T-17, T-18, T-19, T-25, T-26)**
+
+Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote; se aplican al proponer (o enriquecer) esta tarea.
+
+- **Filas de canción:** T-13 pone "Add to queue" y T-14 "Add to playlist". Los dos se desactivan u ocultan cuando `playable` es false.
+- **Reproducir un resultado:** con T-13, sustituye la cola por esa sola canción (propuesta pendiente de confirmar en T-13).
+- **Etiqueta de no disponible:** unificar "Not available" (T-07/T-08/T-24) con "Unavailable" (D7 de T-14, también en T-13). Pendiente.
+- **T-25:** la página se construye con componentes Aero; añadir el escenario "la página no contiene elementos con el atributo data-slot".
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

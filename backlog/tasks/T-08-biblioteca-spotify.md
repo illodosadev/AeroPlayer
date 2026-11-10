@@ -494,6 +494,19 @@ Scenario: Al desconectar Spotify no se ven datos de su biblioteca
 - Órdenes de reproducción por contexto, offset y `uris` con tests de navegador de Pest 4, más la comprobación manual: 1 punto.
 - Caché ligada a la conexión, con caducidad y "Refresh": 0,5 puntos.
 
+**Seguimiento del lote `/task-enrich-batch` del 2026-11-09 (T-13, T-14, T-16, T-17, T-18, T-19, T-25, T-26)**
+
+Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote; se aplican al proponer (o enriquecer) esta tarea.
+
+- **D12 (2026-11-09):** `/library` es la página principal tras el login (lo conecta T-25). En el primer login el usuario ve "Connect Spotify to see your library.".
+- **"My playlists" de T-14:** sección arriba de `/library`, visible sea cual sea el estado de Spotify.
+  - En el escenario de acceso revocado, "no ve ninguna playlist" pasa a "no ve ninguna playlist de Spotify".
+  - "Your library is empty." solo se refiere al contenido de los servicios.
+  - El segmento `own` queda reservado en `/library/playlists/{source}/{id}`.
+- **"Add to playlist" (T-14)** en las filas de las playlists propias o colaborativas y de Liked Songs; no en archivos locales ni en filas "Not available".
+- **T-13 (cambio 2):** las playlists propias, Liked Songs y los álbumes cargan la cola de la app y suenan canción a canción (`uris`), en lugar de `contextUri`+offset o una página de `uris`; T-13 modifica esos requisitos. Las playlists que solo se siguen siguen sonando como contexto de Spotify ("modo contexto" de T-13). El servicio de biblioteca y su cursor opaco deben poder reutilizarse para cargar la página siguiente (`POST /queue/continue`).
+- **T-25:** añadir escenarios "no contiene elementos con el atributo data-slot" para `/library`, `/library/liked` y el detalle de playlist.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests, except the `@manual` scenarios, which are checked by hand in a desktop browser with the real Spotify account and recorded in the change

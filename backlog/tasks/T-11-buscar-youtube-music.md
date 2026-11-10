@@ -64,6 +64,12 @@ Scenario: La integración no oficial falla
 - **Textos de la interfaz:** van en inglés, porque la interfaz es en inglés.
 - **Páginas de álbum y artista de YouTube Music:** quedan diferidas y ninguna tarea las tiene todavía. T-24 solo hace las de Spotify.
 
+**Seguimiento del lote `/task-enrich-batch` del 2026-11-09 (T-13, T-14, T-16, T-17, T-18, T-19, T-25, T-26)**
+
+Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote; se aplican al proponer (o enriquecer) esta tarea.
+
+- **T-14:** "Add to playlist" en las filas de canción de YouTube Music; el endpoint de añadir de T-14 acepta `source: "youtube_music"`. Esta tarea se lleva el escenario de T-14 "Añadir canciones de los dos servicios".
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

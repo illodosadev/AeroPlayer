@@ -195,6 +195,13 @@ Scenario: El propietario aprueba los controles del reproductor
 - **Secciones de `/styleguide`, ampliación de la skill y tests de navegador (0,5 puntos).**
 - **Ronda de revisión del propietario y correcciones (0,5 puntos).**
 
+**Seguimiento del lote `/task-enrich-batch` del 2026-11-09 (T-13, T-14, T-16, T-17, T-18, T-19, T-25, T-26)**
+
+Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote; se aplican al proponer (o enriquecer) esta tarea.
+
+- **Botones extra en `AeroPlayerBar`:** dejar sitio (una ranura) para los botones que añaden otras tareas: "Visualizer" (T-16), "Lyrics" (T-17), "Shuffle", "Repeat: off/all/one" y "Queue" (T-13). Los de panel usan `aria-pressed` y tienen área táctil de 44x44 px.
+- **Colores solo de tokens `--aero-*`** en la barra y en la carátula de reserva, sin colores literales, para que sigan los temas de T-18 (también Graphite). Los tokens temables nuevos van en los ficheros de temas si T-18 ya existe (regla de T-18).
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

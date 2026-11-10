@@ -1,9 +1,9 @@
 ---
 id: T-01
 title: Base del proyecto Laravel + Inertia + Vue
-status: enriched
+status: proposed
 discovery: reproductor-musica-privado
-change: ~
+change: project-foundation
 priority: must
 estimate: 2
 language: es
@@ -128,6 +128,22 @@ Scenario: El stack queda documentado para los siguientes cambios
 - Nueva tarea **T-20 — Stack Docker local**, separada de esta.
 
 **Estimación: 2 puntos.** El starter kit trae hecho casi todo el andamiaje de Laravel, Inertia y Vue. El trabajo es instalarlo y fijar versiones (1 punto), y añadir los tres tests de errores sin detalles, `openspec/config.yaml` y el README (1 punto).
+
+**Seguimiento del lote `/task-enrich-batch` del 2026-11-09 (T-13, T-14, T-16, T-17, T-18, T-19, T-25, T-26)**
+
+Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote; se aplican al proponer (o enriquecer) esta tarea.
+
+- **D11 (2026-11-09):** "/" deja de ser una página: sin sesión redirige a `/login` y el componente `Welcome` se borra (lo implementa T-02). El escenario "La página de inicio es un componente Vue servido por Inertia" vale solo hasta T-02.
+- En "Base de datos no accesible", pedir "/login" en lugar de "/", para que el escenario no dependa de D11.
+- Las páginas de error Aero (404, 419, 429, 500, 503) son T-26, que reutiliza la ruta de prueba del 500 y la configuración `db.invalid` de esta tarea.
+
+**Seguimiento de T-04 (despliegue, 2026-11-09)**
+
+Pregunta abierta 1 resuelta: hosting compartido Premium de Hostinger, app en `music.illodosadev.io` (subdominio de `illodosadev.io`), despliegue con GitHub Actions + SSH lanzado a mano (D14–D16).
+
+- PHP 8.4 era provisional. El sitio `illodosadev.io` tiene PHP 8.3, y el subdominio puede compartirla: la versión final se decide en el Pendiente de T-04 (fijar 8.3 en `config.platform.php` o subir el sitio a 8.4). La versión de Laravel elegida aquí tiene que admitir la que salga.
+- El escenario de 500 en el entorno desplegado no se repite en T-04: lo cubren esta tarea, T-20 y T-26.
+- T-04 crea el workflow de CI (`ci.yml`): tests en cada push y gitleaks.
 
 ## Definition of Done
 

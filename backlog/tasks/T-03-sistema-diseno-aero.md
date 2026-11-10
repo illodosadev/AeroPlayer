@@ -311,6 +311,22 @@ Scenario: El propietario aprueba la estética de la base Aero
 - **Configurar Pest 4 browser testing y escribir los tests de navegador (1 punto):** estados, foco, 375 px, movimiento reducido, reserva, clase `dark` y fondo caído.
 - **Ronda de revisión del propietario y correcciones (0,5 puntos).**
 
+**Seguimiento del lote `/task-enrich-batch` del 2026-11-09 (T-13, T-14, T-16, T-17, T-18, T-19, T-25, T-26)**
+
+Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote; se aplican al proponer (o enriquecer) esta tarea.
+
+- En el escenario "La app nunca entra en modo oscuro", cambiar "/dashboard" por "/styleguide" (D12 elimina `/dashboard`).
+- En "Fuera de alcance", sustituir "Reestilar '/'…" por: "'/' deja de ser una página: redirige a /login (D11, T-02) o a /library (D12, T-25). La limpieza final de shadcn-vue y la navegación son de T-25; las páginas de error Aero, de T-26".
+- En "Solo modo claro" y en "Casos límite", cambiar "como el dashboard" por "como la navegación del starter kit, hasta T-25".
+- **Variantes oscuras:** ya decididas (D10, 2026-11-09): T-18 crea el tema "Aero Graphite" con `data-theme`, nunca con `.dark`.
+- **Tokens preparados para T-18** (evita una refactorización):
+  - `tokens.css` guarda solo los tokens fijos (radios, espaciado, tipografía, desenfoque) en `:root`.
+  - Los tokens temables del tema por defecto (colores, degradados, sombras, imagen de fondo y degradado de reserva, como `--aero-background-image` y `--aero-background-fallback`) van en `resources/css/aero/themes/sky.css` bajo `:where(:root), [data-theme="sky"]`. T-03 puede hacerlo desde el principio, o T-18 los mueve.
+  - Los componentes nunca usan colores literales que deban cambiar con el tema.
+  - El test de tokens frente a skill lee todos los ficheros que declaran `--aero-*`, no solo `tokens.css`.
+  - La vista Blade raíz pinta `data-theme` en `<html>`.
+  - Si es posible, nombrar los tokens del cielo, que T-16 usa en sus escenarios de color.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

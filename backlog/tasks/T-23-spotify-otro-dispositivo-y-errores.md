@@ -328,6 +328,13 @@ Scenario: Fallos reales
 - Seis tipos de error del SDK y de Spotify, con sus avisos y estados de los controles (1,5 puntos).
 - Unas 30 filas de Examples en tests de navegador con el SDK simulado de T-06, más la comprobación manual (1 punto): el simulador ya existe, pero cada fila necesita su respuesta simulada en el servidor y su evento del SDK.
 
+**Seguimiento del lote `/task-enrich-batch` del 2026-11-09 (T-13, T-14, T-16, T-17, T-18, T-19, T-25, T-26)**
+
+Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote; se aplican al proponer (o enriquecer) esta tarea.
+
+- **D4 (2026-11-09) resuelve el Pendiente de saltar canciones que fallan dentro de una lista:** lo implementa T-13 ("This song can't be played." y se pasa a la siguiente; se para tras 3 fallos seguidos). Fuera de la cola sigue valiendo que `playback_error` no salta.
+- **Estado `null` del SDK:** T-16 lo trata como `paused` (conserva la pista, igual que la barra) y T-19 deja de contar tiempo de escucha. Si esta tarea cambia ese comportamiento, hay que revisar T-16 y T-19.
+
 ## Definition of Done
 
 - [ ] Criterios automatizables cubiertos por tests; los @manual en el checklist del cambio

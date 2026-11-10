@@ -428,6 +428,23 @@ Se mantiene como una sola tarea porque la conexión y el cliente comparten el mo
 - El cliente compartido (renovación bajo lock con rotación, 401 con un reintento, timeout, cooldown del 429 compartido, errores tipados), 2,5 puntos.
 - La comprobación del propietario, la de `product` y la de scopes, 0,5 puntos.
 
+**Seguimiento del lote `/task-enrich-batch` del 2026-11-09 (T-13, T-14, T-16, T-17, T-18, T-19, T-25, T-26)**
+
+Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote; se aplican al proponer (o enriquecer) esta tarea.
+
+- **`GET /settings`** redirige a `/settings/spotify` (con `auth`).
+- **Navegación de ajustes:** T-05 no crea layout ni subnavegación de ajustes. La subnavegación (Spotify | Appearance) la construye T-18 (o T-09 si llega antes). El enlace principal "Settings" va en la navegación Aero de T-25; hasta T-25 vuelve al menú de usuario del starter kit (regla de T-02). Resolver así el Pendiente "Ubicación de la página".
+- **Construir `/settings/spotify` con componentes Aero** (T-02 borra el layout de ajustes del starter kit) y añadir un escenario "la página no contiene elementos con el atributo data-slot" (T-25).
+- **Mensajes tras redirigir** ("Spotify disconnected.", etc.): decidir si van dentro de la página o como aviso breve compartido. T-25 sustituye los toasts `vue-sonner` por `AeroFlash`.
+- **Prop compartida `spotify.status`** (`not_connected` / `connected` / `reconnect_required`), además o en lugar del booleano `spotify.connected`. La necesita T-14 para elegir entre el aviso de conectar y el de reconectar.
+
+**Seguimiento de T-04 (despliegue, 2026-11-09)**
+
+Pregunta abierta 1 resuelta: hosting compartido Premium de Hostinger, app en `music.illodosadev.io` (subdominio de `illodosadev.io`), despliegue con GitHub Actions + SSH lanzado a mano (D14–D16).
+
+- Añadir el escenario `@manual` "Spotify acepta la redirección de producción": con `https://music.illodosadev.io/spotify/callback` registrada en la app de Spotify y las variables SPOTIFY_* en el `.env` del servidor, al conectar Spotify desde producción vuelve a `https://music.illodosadev.io/settings/spotify` con Spotify conectado. Dependencia blanda de T-04.
+- En producción la caché es `database` (no hay Redis en el plan), que cumple el requisito de caché común para el bloqueo de renovación y la pausa tras un 429.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests
