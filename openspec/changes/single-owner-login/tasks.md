@@ -34,7 +34,11 @@
 
 ## 6. Manual browser checks (design D9)
 
-- [ ] 6.1 With the app built and served on `localhost`, check "Login page shows no sign-up or password reset link", "User menu links lead to existing pages only" and "Going back after logout shows no protected page"; write the date and result of each check under this step
+- [x] 6.1 With the app built and served on `localhost`, check "Login page shows no sign-up or password reset link", "User menu links lead to existing pages only" and "Going back after logout shows no protected page"; write the date and result of each check under this step
+  - 2026-11-10, built app served on `http://localhost:8010` with a throwaway SQLite database, headless Edge 157 driven by Playwright; no console errors:
+    - "Login page shows no sign-up or password reset link": pass. None of "Register", "Sign up" or "Forgot password?" on `/login`.
+    - "User menu links lead to existing pages only": pass. The menu holds only "Log out"; no "Settings" text and no `/settings` link. (The sidebar footer keeps the kit's external "Github Repo" and "Documentation" links; they are not part of the user menu.)
+    - "Going back after logout shows no protected page": pass. After "Log out" and browser back, the URL is `/login` and no dashboard content is shown.
 
 ## 7. Repository rule and documentation
 
