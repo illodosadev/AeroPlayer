@@ -1,9 +1,9 @@
 ---
 id: T-02
 title: Login de un solo usuario
-status: enriched
+status: proposed
 discovery: reproductor-musica-privado
-change: ~
+change: single-owner-login
 priority: must
 estimate: 5
 language: es
