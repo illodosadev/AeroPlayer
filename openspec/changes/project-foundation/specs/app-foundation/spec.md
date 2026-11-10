@@ -42,10 +42,10 @@ The automated test suite SHALL pass without any external database server, networ
 - **THEN** the command exits with code 0
 
 ### Requirement: Minimum PHP platform
-The application SHALL be installable from its lockfile and pass its test suite on PHP 8.3.
+The application SHALL be installable from its lockfile and pass its test suite on PHP 8.4.
 
-#### Scenario: Install and test on PHP 8.3
-- **GIVEN** a PHP 8.3 environment with the extensions the application requires
+#### Scenario: Install and test on PHP 8.4
+- **GIVEN** a PHP 8.4 environment with the extensions the application requires
 - **WHEN** the dependencies are installed from the lockfile and the test suite is run
 - **THEN** the platform check reports no unmet requirement
 - **AND** the test suite exits with code 0
@@ -56,5 +56,5 @@ The repository SHALL document the installed stack for future changes and explain
 #### Scenario: Stack and setup are documented
 - **GIVEN** the repository after this change
 - **WHEN** the project context in "openspec/config.yaml", the "Stack" section of "AGENTS.md" and the README are read
-- **THEN** the context and the Stack section name Laravel, Inertia, Vue 3 with TypeScript, Tailwind, Pest, the "en" locale and the PHP 8.3 platform
+- **THEN** the context and the Stack section name Laravel, Inertia, Vue 3 with TypeScript, Tailwind, Pest, the "en" locale and the PHP 8.4 platform
 - **AND** the README explains how to install dependencies, build the frontend and run the tests

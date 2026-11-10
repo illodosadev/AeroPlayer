@@ -102,7 +102,7 @@ Scenario: El stack queda documentado para los siguientes cambios
 
 **Reglas propuestas (se pueden revisar en /opsx-propose)**
 
-- **Versiones:** la última versión estable de Laravel y del starter kit en el momento de crear el repo, y la versión de PHP más alta que Hostinger soporte. Mientras no se resuelva la pregunta abierta 1, PHP 8.3 queda fijado en `config.platform.php` (decidido en el cambio `project-foundation`, D2). Pasar a 8.4 es subir esa fijación y modificar el requisito "Minimum PHP platform".
+- **Versiones:** la última versión estable de Laravel y del starter kit en el momento de crear el repo, y la versión de PHP más alta que Hostinger soporte. Mientras no se resuelva la pregunta abierta 1, PHP 8.4 queda fijado en `config.platform.php` (decidido en el cambio `project-foundation`, D2, el 2026-11-10). Hostinger solo pasa a 8.4 tras la confirmación explícita del propietario (ver T-04).
 - **Tests:** SQLite en memoria (`DB_CONNECTION=sqlite`, `DB_DATABASE=:memory:`), que es lo que trae el starter kit.
 
 **Restricciones descubiertas**
@@ -147,7 +147,7 @@ Pregunta abierta 1 resuelta: hosting compartido Premium de Hostinger, app en `mu
 
 **Seguimiento de project-foundation (2026-11-10)**
 
-- Implementado en el cambio `project-foundation`. PHP 8.3 fijado en `config.platform.php`, con dependencias resueltas para 8.3 y comprobadas en un contenedor `php:8.3-cli`.
+- Implementado en el cambio `project-foundation`. PHP 8.4 fijado en `config.platform.php`, con dependencias resueltas para 8.4 y comprobadas en un contenedor `php:8.4-cli`.
 - **Pest 4 (v4.7.8) con PHPUnit 12.5.** El kit traía PHPUnit 11 y no usaba Pest. Pest 3 no convive con PHPUnit 11.5 y Pest 5 exige PHP 8.4.
 - **Sin comprobación de tipos en esta tarea.** El kit tiene unos 20 errores de tipos en su código; se recogen en T-02 y T-03.
 - **Base de datos inaccesible:** el escenario usa una conexión `unreachable` solo para la sesión, y `database.default` queda en SQLite. El README exige `pdo_mysql`.

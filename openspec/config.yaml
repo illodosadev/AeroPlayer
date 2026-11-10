@@ -10,7 +10,7 @@ context: |
   Frutiger Aero / 2000s look. Public repository: never commit secrets (.env, tokens, cookies).
   Installed stack (project-foundation, T-01): Laravel 12 (12.71) + Inertia 2 + Vue 3 with TypeScript, from the
   official Laravel Vue starter kit (v1.0.2), Tailwind for layout only, Fortify auth, Ziggy routes, Pest 4 (v4.7.8)
-  on PHPUnit 12.5. PHP platform pinned to 8.3 in composer.json (config.platform). Commands: `npm ci && npm run build`,
+  on PHPUnit 12.5. PHP platform pinned to 8.4 in composer.json (config.platform). Commands: `npm ci && npm run build`,
   `php artisan test`. Own Aero Vue components and Pest 4 browser tests arrive with T-03.
   Local stack: own Docker setup (T-20). Hosting: Hostinger shared plan, music.illodosadev.io (T-04).
   UI text: English only. Backlog and discovery docs: Spanish.

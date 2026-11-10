@@ -64,4 +64,4 @@ The pipeline is guided: the user should never have to remember what comes next.
 
 ## Stack
 
-Laravel 12 + Inertia 2 + Vue 3 with TypeScript, from the official Laravel Vue starter kit, with Tailwind, Pest 4 and a PHP 8.3 platform pin. The full stack and commands are in `openspec/config.yaml` (`context:` block).
+Laravel 12 + Inertia 2 + Vue 3 with TypeScript, from the official Laravel Vue starter kit, with Tailwind, Pest 4 and a PHP 8.4 platform pin. The full stack and commands are in `openspec/config.yaml` (`context:` block).

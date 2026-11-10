@@ -6,8 +6,8 @@
 
 - [x] 1.1 Run `composer create-project laravel/vue-starter-kit <tmp> --no-install --no-scripts` into a temporary folder outside the repo and record the kit and Laravel versions from its `composer.json` (design D1, D2); verify the folder has `composer.json`, `package.json` and no `vendor/`
 - [x] 1.2 Move the kit into the repo root without overwriting template files (`backlog/`, `openspec/`, `templates/`, `.claude/`, `AGENTS.md`, `CLAUDE.md`, `workflow.yaml`), merging `.gitignore` (D1); verify `git status` shows no deleted or modified template file and `.env`/`vendor/` are ignored
-- [x] 1.3 Set `config.platform.php = 8.3.0` and `require.php = ^8.3` in `composer.json`, then run a full `composer update` (D2); verify `composer.lock` is created and `composer show --locked` lists the Laravel major recorded in 1.1 (or the fallback major from D2)
-- [x] 1.4 In a `php:8.3-cli` container with the repo mounted (with `git` and `unzip` installed, and Composer copied from the `composer:2` image), run `composer check-platform-reqs --lock` (D2); verify it reports no unmet requirement
+- [x] 1.3 Set `config.platform.php = 8.4.0` and `require.php = ^8.4` in `composer.json`, then run a full `composer update` (D2); verify `composer.lock` is created and `composer show --locked` lists the Laravel major recorded in 1.1 (or the fallback major from D2)
+- [x] 1.4 In a `php:8.4-cli` container with the repo mounted (with `git` and `unzip` installed, and Composer copied from the `composer:2` image), run `composer check-platform-reqs --lock` (D2); verify it reports no unmet requirement
 - [x] 1.5 Run the kit's post-create steps by hand: copy `.env.example` to `.env`, `php artisan key:generate`, create `database/database.sqlite` and `php artisan migrate`, keeping `APP_LOCALE=en` (D1); verify `php artisan about` lists locale `en` and `.env` is not tracked by git
 
 ## 2. Base application behavior (`app-foundation`)
@@ -24,12 +24,12 @@
 
 ## 4. Documentation and final checks
 
-- [x] 4.1 Update the `context:` block of `openspec/config.yaml` and the "Stack" section of `AGENTS.md` with the installed stack, the versions from 1.1/1.3, the PHP 8.3 platform, the `en` locale and the build/test commands, and add the D8 exemption to AGENTS.md "Code conventions" (D7, D8); verify both name Laravel, Inertia, Vue 3 + TypeScript, Tailwind, Pest, `en` and the PHP 8.3 platform, and that "Code conventions" states the exemption and that it ends with T-02
-- [x] 4.2 Write `README.md` with requirements (PHP 8.3+ with `pdo_sqlite` and `pdo_mysql`, Composer, Node 22+), setup, build and test commands, the D8 exemption note, and pointers to `backlog/` and `openspec/` (D6, D7, D8); verify each documented command runs as written, in that order, on a fresh clone
-- [x] 4.3 In a `php:8.3-cli` container prepared as in 1.4 plus `docker-php-ext-install pdo_mysql`, run `composer install` and `php artisan test` (D2, risk "Local PHP 8.5"); verify the suite exits 0 there, including the unreachable-database test
+- [x] 4.1 Update the `context:` block of `openspec/config.yaml` and the "Stack" section of `AGENTS.md` with the installed stack, the versions from 1.1/1.3, the PHP 8.4 platform, the `en` locale and the build/test commands, and add the D8 exemption to AGENTS.md "Code conventions" (D7, D8); verify both name Laravel, Inertia, Vue 3 + TypeScript, Tailwind, Pest, `en` and the PHP 8.4 platform, and that "Code conventions" states the exemption and that it ends with T-02
+- [x] 4.2 Write `README.md` with requirements (PHP 8.4+ with `pdo_sqlite` and `pdo_mysql`, Composer, Node 22+), setup, build and test commands, the D8 exemption note, and pointers to `backlog/` and `openspec/` (D6, D7, D8); verify each documented command runs as written, in that order, on a fresh clone
+- [x] 4.3 In a `php:8.4-cli` container prepared as in 1.4 plus `docker-php-ext-install pdo_mysql`, run `composer install` and `php artisan test` (D2, risk "Local PHP 8.5"); verify the suite exits 0 there, including the unreachable-database test
 - [x] 4.4 Update the backlog trace in Spanish, matching each task's `language: es` (D2, D8, risk "The backlog still says PHP 8.4…"):
-  - T-01 "Reglas propuestas" and T-04's PHP Pendiente: "T-01 fija PHP 8.3 en `config.platform.php`; pasar a 8.4 es subir esa fijación y MODIFICAR el requisito 'Minimum PHP platform'".
-  - T-20: its PHP image follows 8.3.
+  - T-01 "Reglas propuestas": "T-01 fija PHP 8.4 en `config.platform.php`" (decidido 2026-11-10). T-04's PHP Pendiente queda para la confirmación del cambio en Hostinger, que no se hace en este cambio.
+  - T-20: its PHP image follows 8.4.
   - T-02: "termina la excepción D8 de T-01 a la regla de repositorios: añade `UserRepository` para el código de auth que quede".
   - T-02 y T-03: el kit trae unos 20 errores de tipos (`tsconfig.json` y `AppHeader.vue`). Corregirlos y añadir la comprobación de tipos al tocar cada componente (D6).
 

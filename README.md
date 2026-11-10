@@ -4,7 +4,7 @@ A private, single-user web music player that plays your Spotify Premium and YouT
 
 ## Requirements
 
-- PHP 8.3 or later, with the `pdo_sqlite` and `pdo_mysql` extensions enabled
+- PHP 8.4 or later, with the `pdo_sqlite` and `pdo_mysql` extensions enabled
 - Composer 2
 - Node 22 or later with npm
 

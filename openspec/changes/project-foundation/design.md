@@ -4,7 +4,7 @@
 
 - The repository is not empty: it holds `backlog/`, `openspec/`, `templates/`, `.claude/`, `AGENTS.md`, `CLAUDE.md`, `workflow.yaml` and a `.gitignore`. The Laravel app must live at the **root** next to them, because T-04 (deploy) and T-20 (Docker) assume a root-level Laravel project.
 - Local tools on the owner's machine: PHP 8.5 (CLI), Composer 2.10, Node 24 / npm 11, Docker 27. The Laravel installer (`laravel new`) is not installed.
-- Hostinger (T-04): the `illodosadev.io` site runs PHP 8.3, and the `music` subdomain may share it. The final version is a T-04 Pendiente.
+- Hostinger (T-04): the `illodosadev.io` site runs PHP 8.3 until the owner confirms the move to 8.4 (D2). The `music` subdomain may share it.
 - Repository rule (AGENTS.md): every model query in `app/` goes through a concrete repository class. The starter kit's code doesn't follow it.
 - See `proposal.md` for the motivation, and `specs/app-foundation` and `specs/error-pages` for the required behavior.
 
@@ -12,7 +12,7 @@
 
 **Goals:**
 - A root-level Laravel app from the official Vue starter kit, unchanged except for test tooling, the PHP platform pin, the error tests and the docs.
-- Dependencies that are really resolved for PHP 8.3, verified on PHP 8.3, not only on the local 8.5.
+- Dependencies that are really resolved for PHP 8.4, verified on PHP 8.4, not only on the local 8.5.
 - Error-leak tests that keep holding when later tasks change routes (T-02 removes `Welcome`; D11).
 
 **Non-Goals:**
@@ -28,11 +28,11 @@
 - *Alternative: app in a subfolder (`app/` or `src/`).* Rejected: T-04 and T-20 assume a root-level project, and Laravel tooling (Pest, Vite, Ziggy) expects it.
 - *Alternative: plain `create-project` (with install).* Rejected: it resolves dependencies for the local PHP 8.5 before the pin exists, and a later `composer update --lock` does not re-resolve them.
 
-### D2. Latest stable kit and Laravel major, with dependencies resolved for PHP 8.3
-Before the first install, set `"config": {"platform": {"php": "8.3.0"}}` and `"require": {"php": "^8.3"}` in `composer.json`, then run a **full** `composer update`. Composer then resolves every package for PHP 8.3 even when it runs on 8.5.
-- **Verification on real 8.3:** in a `php:8.3-cli` container, run `composer check-platform-reqs --lock`, `composer install` and `php artisan test`. The official image has no Composer, `git` or `unzip`, so the container gets `git` and `unzip` with `apt-get`, Composer copied from the `composer:2` image (`/usr/bin/composer`), and `pdo_mysql` via `docker-php-ext-install`. Running Composer *from* the `composer:2` image instead would use its newer PHP and defeat the check. Running `check-platform-reqs` locally on 8.5 checks 8.5, not the pin, so it proves nothing.
-- *Alternative: PHP 8.4, as T-01 proposed.* Rejected for now: T-04 found 8.3 on the server, and pinning 8.3 keeps both T-04 options open (staying on 8.3 or upgrading the site). Raising the pin later is a one-line change plus a MODIFIED requirement.
-- If the latest Laravel major requires more than PHP 8.3 at install time, install the latest major that supports 8.3 and record it in the README.
+### D2. Latest stable kit and Laravel major, with dependencies resolved for PHP 8.4
+Set `"config": {"platform": {"php": "8.4.0"}}` and `"require": {"php": "^8.4"}` in `composer.json`, then run a **full** `composer update`. Composer then resolves every package for PHP 8.4 even when it runs on 8.5. (Amended 2026-11-10: first pinned to 8.3, when the Hostinger site was on 8.3; the owner chose 8.4 and the site follows.)
+- **Verification on real 8.4:** in a `php:8.4-cli` container, run `composer check-platform-reqs --lock`, `composer install` and `php artisan test`. The official image has no Composer, `git` or `unzip`, so the container gets `git` and `unzip` with `apt-get`, Composer copied from the `composer:2` image (`/usr/bin/composer`), and `pdo_mysql` via `docker-php-ext-install`. Running Composer *from* the `composer:2` image instead would use its newer PHP and defeat the check. Running `check-platform-reqs` locally on 8.5 checks 8.5, not the pin, so it proves nothing.
+- *Alternative: PHP 8.3, the server's current version.* Rejected by the owner on 2026-11-10: the project moves to 8.4, and the Hostinger site follows after a separate confirmation (T-04).
+- If the latest Laravel major requires more than PHP 8.4 at install time, install the latest major that supports 8.4 and record it in the README.
 
 ### D3. Pest as the test runner
 Use the kit's Pest setup if it ships one. If it ships PHPUnit, add `pestphp/pest` and `pestphp/pest-plugin-laravel` and convert the kit's tests with `pest --init` and Pest Drift, so that `php artisan test` runs Pest.
@@ -41,8 +41,8 @@ Use the kit's Pest setup if it ships one. If it ships PHPUnit, add `pestphp/pest
 
 ### D4. Tests use in-memory SQLite and don't need built assets
 - Keep the kit's `phpunit.xml` settings: `DB_CONNECTION=sqlite`, `DB_DATABASE=:memory:`, array session and cache.
-- Call `$this->withoutVite()` in the base `Tests\TestCase::setUp()`, so Inertia pages render in tests without `public/build/manifest.json`. That makes the suite runnable in the Node-less PHP 8.3 container (D2) and in any order relative to the build.
-- *Alternative: build before testing everywhere.* Rejected: it couples the PHP test run to Node, and the 8.3 verification container would need Node or a mounted build.
+- Call `$this->withoutVite()` in the base `Tests\TestCase::setUp()`, so Inertia pages render in tests without `public/build/manifest.json`. That makes the suite runnable in the Node-less PHP 8.4 container (D2) and in any order relative to the build.
+- *Alternative: build before testing everywhere.* Rejected: it couples the PHP test run to Node, and the 8.4 verification container would need Node or a mounted build.
 - Browser tests (T-03) will need a real build; that is their concern.
 
 ### D5. Error-leak tests
@@ -64,7 +64,7 @@ In `tests/Feature/ErrorPagesTest.php`, with `config(['app.debug' => false])` in 
 - The kit's route helper is **Ziggy** (`tightenco/ziggy`, generated by `php artisan ziggy:generate` in its CI), not Wayfinder.
 
 ### D7. Docs
-- `openspec/config.yaml` `context:`: replace "Planned stack (to be confirmed by T-01)" with the installed versions (Laravel major, Inertia, Vue 3 + TS, Tailwind major, Pest, Fortify), the PHP 8.3 platform, the `en` locale and the test commands.
+- `openspec/config.yaml` `context:`: replace "Planned stack (to be confirmed by T-01)" with the installed versions (Laravel major, Inertia, Vue 3 + TS, Tailwind major, Pest, Fortify), the PHP 8.4 platform, the `en` locale and the test commands.
 - `AGENTS.md`, "Stack" section: replace the "stack-agnostic template" note with a short summary of the same stack and a pointer to `openspec/config.yaml`, as that section asks when the template is instantiated.
 - New `README.md`: what AeroPlayer is (one line), requirements, setup (`composer install`, `.env` from `.env.example`, `php artisan key:generate`, `npm ci`), `npm run build` and `php artisan test`. It also points to `backlog/` and `openspec/` for the workflow.
 
@@ -76,7 +76,7 @@ The kit's auth and settings code queries and writes models directly (for example
 
 ## Risks / Trade-offs
 
-- **[Local PHP 8.5 hides 8.4+ syntax or dependency drift]** → D2's verification on a real `php:8.3-cli` (task 1.4 and the final run in 4.3). T-04's CI then runs on the server's version.
+- **[Local PHP 8.5 hides 8.4+ syntax or dependency drift]** → D2's verification on a real `php:8.4-cli` (task 1.4 and the final run in 4.3). T-04's CI then runs on the server's version.
 - **[The kit's type errors stay until someone fixes them]** No type check runs in this change, so ~20 errors in starter-kit code remain. → Recorded for T-03 (the components it touches) and T-02 (auth props), which must add a type check when they change those files.
 - **[The kit changes between this proposal and the install]** For example its test runner or script names. → D3 and D6 handle both cases, and versions are recorded in `openspec/config.yaml`.
 - **[The kit's default auth is fully open (registration, etc.) and outside the repository rule until T-02]** → Nothing is deployed before T-02 (T-04 depends on it). D8 records the exemption and when it ends.

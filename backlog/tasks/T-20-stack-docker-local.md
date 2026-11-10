@@ -161,7 +161,7 @@ Pregunta abierta 1 resuelta: hosting compartido Premium de Hostinger, app en `mu
 
 **Seguimiento de project-foundation (2026-11-10)**
 
-- La imagen PHP del stack Docker sigue la versión 8.3 fijada en `config.platform.php` (cambio `project-foundation`).
+- La imagen PHP del stack Docker sigue la versión 8.4 fijada en `config.platform.php` (cambio `project-foundation`).
 
 ## Definition of Done
 

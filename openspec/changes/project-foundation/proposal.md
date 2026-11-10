@@ -9,7 +9,7 @@ AeroPlayer has no application code yet: the repository only holds the spec-drive
 ## What Changes
 
 - Install the official Laravel Vue starter kit (Laravel, Inertia, Vue 3 with TypeScript, Tailwind, shadcn-vue, Fortify auth) at the repository root, next to the template folders, with Pest as the test runner.
-- Pin the PHP platform to **8.3** in `composer.json`, so dependencies resolve for the lowest PHP version the Hostinger subdomain may run (T-04 Pendiente).
+- Pin the PHP platform to **8.4** in `composer.json`, so dependencies resolve for the PHP version the project and the Hostinger site will run (decided 2026-11-10).
 - Keep the locale `en`.
 - Keep the starter kit's auth as it is (registration, email verification, password reset, settings, 2FA). Trimming it is T-02.
 - Add Pest tests proving error responses never leak internal details: unknown route (404), uncaught exception (500) and unreachable database (500), all with debug off.
@@ -35,8 +35,8 @@ _None — `openspec/specs/` is empty._
 ## Impact
 
 - **New code:** the whole Laravel application (`app/`, `bootstrap/`, `config/`, `database/`, `public/`, `resources/`, `routes/`, `storage/`, `tests/`, `composer.json`, `package.json`, Vite/TypeScript config).
-- **Dependencies:** PHP 8.3+, Composer, Node 22+; in-memory SQLite for tests.
+- **Dependencies:** PHP 8.4+, Composer, Node 22+; in-memory SQLite for tests.
 - **Repo files:** `.gitignore` merged; `openspec/config.yaml` and AGENTS.md updated; README added.
 - **Repository rule (AGENTS.md):** the starter kit's own auth and settings code queries models directly. It stays unchanged under a temporary, explicit exemption until T-02, which reworks that code and adds `UserRepository`. New code in this change touches no models.
-- **Backlog:** T-01's PHP rule and T-04's PHP Pendiente are updated to "8.3 pin", and T-20's image follows 8.3. Moving to 8.4 later means raising the pin and MODIFYING the "Minimum PHP platform" requirement.
-- **Downstream:** T-02 MODIFIES "Root page renders the Welcome page component" (D11: "/" becomes a redirect), starts from this auth and ends the repository-rule exemption. T-03 MODIFIES "Self-contained automated test suite" (browser tests need a build). T-04's PHP decision stays open (the 8.3 pin keeps both options). T-20 builds its images from this app.
+- **Backlog:** T-01 and T-20 record PHP 8.4. T-04's PHP decision is pending its Hostinger change (see tasks 4.4).
+- **Downstream:** T-02 MODIFIES "Root page renders the Welcome page component" (D11: "/" becomes a redirect), starts from this auth and ends the repository-rule exemption. T-03 MODIFIES "Self-contained automated test suite" (browser tests need a build). The Hostinger site moves to PHP 8.4 only after the owner confirms that change. T-20 builds its images from this app.
