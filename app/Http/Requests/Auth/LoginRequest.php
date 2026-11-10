@@ -20,6 +20,16 @@ class LoginRequest extends FormRequest
     }
 
     /**
+     * Normalise the email so it matches the lowercase email stored for the owner.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'email' => Str::lower(trim((string) $this->input('email'))),
+        ]);
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>

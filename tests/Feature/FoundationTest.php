@@ -1,13 +1,18 @@
 <?php
 
-// Base application behavior (openspec change project-foundation, capability app-foundation).
+// Base application behavior (openspec change project-foundation, capability app-foundation;
+// root redirect from change single-owner-login).
 
-use Inertia\Testing\AssertableInertia as Assert;
+use App\Models\User;
 
-test('the root URL returns the Welcome page', function () {
-    $this->get('/')
-        ->assertStatus(200)
-        ->assertInertia(fn (Assert $page) => $page->component('Welcome'));
+test('a guest opening the root URL is redirected to login', function () {
+    $this->get('/')->assertRedirect('/login');
+});
+
+test('a signed-in owner opening the root URL is redirected to the dashboard', function () {
+    $this->actingAs(User::factory()->create())
+        ->get('/')
+        ->assertRedirect('/dashboard');
 });
 
 test('the configured locale is English', function () {

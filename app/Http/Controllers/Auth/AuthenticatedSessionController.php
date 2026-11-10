@@ -46,6 +46,9 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        // Must run after invalidate(): the session flush would drop this flag.
+        Inertia::clearHistory();
+
+        return redirect(route('login'));
     }
 }

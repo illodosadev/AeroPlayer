@@ -16,6 +16,7 @@ cp .env.example .env
 php artisan key:generate
 touch database/database.sqlite
 php artisan migrate
+php artisan app:create-owner
 npm ci
 ```
 
@@ -38,4 +39,4 @@ The suite runs on in-memory SQLite and does not need a built frontend or a MySQL
 ## Conventions
 
 - Specs and tasks live in `openspec/`, and the backlog lives in `backlog/`. Read `AGENTS.md` before changing anything.
-- Every model query in `app/` goes through a concrete repository in `app/Repositories/`. The starter kit's auth and settings code is an explicit, temporary exception until T-02 adds `UserRepository`.
+- Every model query in `app/` goes through a concrete repository in `app/Repositories/`. The starter kit's auth code goes through `App\Repositories\UserRepository` too, so there is no exception left.
