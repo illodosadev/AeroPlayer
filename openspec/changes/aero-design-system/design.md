@@ -246,7 +246,12 @@ The lint workflow is unchanged.
 
 ## Manual checks
 
-<!-- Filled during /opsx-apply: skill listed in a new Claude Code session; any browser fallback from D11. -->
+- **Skill listed (task 9.1), 2026-11-10:** Claude Code listed "frutiger-aero" in its available skills, with its description, right after `.claude/skills/frutiger-aero/SKILL.md` was written.
+- **Browser fallbacks used (D11):**
+  - Background image failure: the image token is pointed at a missing file with `script()` (no request blocking in the plugin).
+  - "Held down" pressed look of the interactive button: no plugin API; checked by hand in the visual validation below.
+  - Reduced motion needed no fallback: it is emulated through the `visit()` options.
+- **Found during the visual review, fixed:** the glass reflection (`::before`) was painted over the panel text and washed out the headings. The contrast tests did not catch it because they compare computed colours. The panel now isolates its stacking context and keeps the reflection behind the content.
 
 ## Validación visual
 

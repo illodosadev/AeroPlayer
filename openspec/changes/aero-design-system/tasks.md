@@ -48,40 +48,44 @@
 
 ## 4. Aero login
 
-- [ ] 4.1 Rewrite `AuthSimpleLayout.vue` and `Login.vue` with the Aero components and drop the manual `tabindex` values (design D10). Verify:
+- [x] 4.1 Rewrite `AuthSimpleLayout.vue` and `Login.vue` with the Aero components and drop the manual `tabindex` values (design D10). Verify:
   - browser tests "The login looks Aero" (data-aero hooks, no `[data-slot]`) and "The Aero login still signs in";
   - a feature test that `resources/js/pages/auth/Login.vue` does not contain `@/components/ui`;
   - the existing `OwnerAuthTest` and `AuthenticationTest` feature tests still pass.
-- [ ] 4.2 Verify with browser tests "The credentials error is readable" and "A stray dark class does not change Aero" on the Aero login.
+- [x] 4.2 Verify with browser tests "The credentials error is readable" and "A stray dark class does not change Aero" on the Aero login.
 
 ## 5. Accessibility and adaptation
 
-- [ ] 5.1 Verify with browser tests that walk every control on `/login` and `/styleguide` with Tab the scenario "Focus is visible on every control": every enabled control is reached, and the focused outline or box-shadow is at least 2 px and absent unfocused. Fix the components until it passes.
-- [ ] 5.2 Verify the scenario "No animation with reduced motion" on `/login` and `/styleguide` with a browser test, or with the fallback from 1.2 recorded in design "Manual checks".
-- [ ] 5.3 Verify the scenario "Pages fit a 375 px phone" at 375x667 on `/styleguide` and `/login`: `scrollWidth` at most 375, every control visible, every interactive control at least 44x44 px. Fix the layout until it passes.
-- [ ] 5.4 Verify the scenario "The background image is blocked" on `/login` with a browser test, using request blocking or the token fallback from design D11. The test checks the gradient, the contrast with `aero-no-blur`, and a successful sign-in.
+- [x] 5.1 Verify with browser tests that walk every control on `/login` and `/styleguide` with Tab the scenario "Focus is visible on every control": every enabled control is reached, and the focused outline or box-shadow is at least 2 px and absent unfocused. Fix the components until it passes.
+- [x] 5.2 Verify the scenario "No animation with reduced motion" on `/login` and `/styleguide` with a browser test, or with the fallback from 1.2 recorded in design "Manual checks".
+- [x] 5.3 Verify the scenario "Pages fit a 375 px phone" at 375x667 on `/styleguide` and `/login`: `scrollWidth` at most 375, every control visible, every interactive control at least 44x44 px. Fix the layout until it passes.
+- [x] 5.4 Verify the scenario "The background image is blocked" on `/login` with a browser test, using request blocking or the token fallback from design D11. The test checks the gradient, the contrast with `aero-no-blur`, and a successful sign-in.
 
 ## 6. Branding and owner-auth browser checks
 
-- [ ] 6.1 Show "AeroPlayer" in `AppLogo.vue`, remove the kit's external links from `AppSidebar.vue` and `AppHeader.vue`, and set `APP_NAME=AeroPlayer` in `.env.example` (design D15). Verify the browser test "No starter-kit links or name" on `/dashboard`.
-- [ ] 6.2 Add `tests/Browser/OwnerAuthBrowserTest.php` with the three checks T-02 made by hand (design D12). Verify that it passes.
+- [x] 6.1 Show "AeroPlayer" in `AppLogo.vue`, remove the kit's external links from `AppSidebar.vue` and `AppHeader.vue`, and set `APP_NAME=AeroPlayer` in `.env.example` (design D15). Verify the browser test "No starter-kit links or name" on `/dashboard`.
+- [x] 6.2 Add `tests/Browser/OwnerAuthBrowserTest.php` with the three checks T-02 made by hand (design D12). Verify that it passes.
 
 ## 7. Aero skill
 
-- [ ] 7.1 Write `.claude/skills/frutiger-aero/SKILL.md` and `references/{traits,tokens,components,accessibility}.md`, crediting the community skill (MIT) (design D8). Verify feature tests:
+- [x] 7.1 Write `.claude/skills/frutiger-aero/SKILL.md` and `references/{traits,tokens,components,accessibility}.md`, crediting the community skill (MIT) (design D8). Verify feature tests:
   - "The skill file exists with its frontmatter";
   - "The skill covers traits, components and accessibility", checking headings and component paths;
   - "The skill lists exactly the declared tokens", which also fails when a token is added to the CSS only, and when a `.vue` file under `resources/js/components/aero/` declares an `--aero-*` property (design D3, D8).
 
 ## 8. CI and docs
 
-- [ ] 8.1 Update `.github/workflows/tests.yml`: `npm run types` and `npx playwright install --with-deps chromium` before the build and tests (design D14). Verify the workflow run on the pushed commit is green, or, before pushing, that the same commands pass locally.
-- [ ] 8.2 Update `README.md` (Playwright install, `npm run types`, the suites, light mode only) and `openspec/config.yaml` (browser tests, type check, Aero components and skill). Verify that the README commands run as written on a clean checkout.
-- [ ] 8.3 Integration check: verify `npm run types`, `npm run build` and the full `php artisan test` all pass together after groups 1–8.
+- [x] 8.1 Update `.github/workflows/tests.yml`: `npm run types` and `npx playwright install --with-deps chromium` before the build and tests (design D14). Verify the workflow run on the pushed commit is green, or, before pushing, that the same commands pass locally.
+  - 2026-11-10: the same commands pass locally (types, Chromium install, build, all suites with `vendor/bin/pest`). The first run on GitHub, before this step, failed at Tests as expected (no Chromium). The green run is confirmed on the next push.
+- [x] 8.2 Update `README.md` (Playwright install, `npm run types`, the suites, light mode only) and `openspec/config.yaml` (browser tests, type check, Aero components and skill). Verify that the README commands run as written on a clean checkout.
+  - 2026-11-10: in a clean copy of the publishable files (`git ls-files -co --exclude-standard`), the README commands ran as written: composer install, `.env`, key, migrate, `npm ci`, Chromium, `npm run types`, `npm run build`, `--testsuite=Unit,Feature` (74 tests) and `--testsuite=Browser` (36 tests), all exit 0. `app:create-owner` was skipped because it is interactive by design.
+- [x] 8.3 Integration check: verify `npm run types`, `npm run build` and the full `php artisan test` all pass together after groups 1–8.
+  - 2026-11-10: `npm run types` 0, `npm run build` 0, all three suites with `vendor/bin/pest`: 110 tests, 440 assertions, 0 failures (81 s).
 
 ## 9. Manual checks and visual validation
 
-- [ ] 9.1 Open a new Claude Code session in the repo and check that the skill "frutiger-aero" is listed. Record the date and result in design "Manual checks".
+- [x] 9.1 Open a new Claude Code session in the repo and check that the skill "frutiger-aero" is listed. Record the date and result in design "Manual checks".
+  - 2026-11-10: Claude Code listed the skill "frutiger-aero" (with its description) in the session where it was written, as soon as the file existed. Recorded in design "Manual checks".
 - [ ] 9.2 With the app built and served on `localhost`, take screenshots of `/login` and `/styleguide` at 1280 px and 375 px, store them in `openspec/changes/aero-design-system/validation/`, and have the owner review them against the four traits. Record in design "Validación visual" the date, the screenshots, one verdict per trait (all "aprobado") and each requested correction as [x] once done. Verify `npm run types`, `npm run build` and the full test suite still pass after the corrections.
 
 ## Workflow follow-up
