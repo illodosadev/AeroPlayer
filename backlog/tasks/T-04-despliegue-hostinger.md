@@ -360,7 +360,7 @@ Scenario: La app funciona en el móvil fuera de casa
   - fijar la app a PHP 8.3 (`config.platform.php` en `composer.json`; la versión de Laravel elegida en T-01 tiene que admitirla);
   - o subir `illodosadev.io` a 8.4 tras comprobar que sigue funcionando. Lo decide el usuario.
 
-  T-01 fijó PHP 8.4 como provisional; se revisa aquí con ese dato.
+  T-01 fija PHP 8.3 en `config.platform.php` (cambio `project-foundation`). Pasar a 8.4 es subir esa fijación y modificar el requisito "Minimum PHP platform".
 - **Dónde puede apuntar el directorio del subdominio:** si `hosting_websites_add-domain` acepta una carpeta fuera de `public_html` (como `aeroplayer/public`) o hace falta el enlace simbólico por SSH.
 - **Motor y versión de la base de datos** (MySQL o MariaDB): se anota al crearla (`SELECT VERSION()`). T-20 usa MySQL; si es MariaDB, se cambia la imagen local. T-14 pide la collation `utf8mb4_bin`, que existe en los dos.
 - **SSH en el plan:** comprobar en hPanel que está activado, el puerto (Hostinger suele usar el 65002) y que existen `rsync` y `composer` en el servidor. Todo D14 depende de ello; si no hubiera `rsync`, se sube un archivo comprimido por `scp` y se descomprime por SSH.
@@ -374,6 +374,10 @@ Scenario: La app funciona en el móvil fuera de casa
 - **Workflow "CI" con gitleaks: 0,5 puntos.**
 - **Configuración de producción (drivers, cookies seguras, `X-App-Version`, ficheros internos no servidos) y comprobación de la versión de PHP: 0,5 puntos.**
 - **Ampliar las pruebas de humo y verificar los escenarios `[workflow]` y `@manual`: 1,5 puntos.**
+
+**Seguimiento de project-foundation (2026-11-10)**
+
+- **CI duplicado:** el kit ya trae `.github/workflows/tests.yml` y `lint.yml`. `ci.yml` de esta tarea repite parte de ellos: decidir si los sustituye.
 
 ## Definition of Done
 
