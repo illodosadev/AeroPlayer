@@ -1,7 +1,7 @@
 ---
 id: T-01
 title: Base del proyecto Laravel + Inertia + Vue
-status: proposed
+status: done
 discovery: reproductor-musica-privado
 change: project-foundation
 priority: must
