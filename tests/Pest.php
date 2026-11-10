@@ -71,20 +71,21 @@ function signedInOwnerVisit(string $path)
 
 /**
  * JavaScript expression that returns the WCAG contrast ratio between the text and the background
- * colour of the first element matching $selector. Translucent backgrounds are treated as opaque (design D11).
+ * colour of the first element matching $selector, or of $backgroundSelector when given. Translucent backgrounds are
+ * treated as opaque (design D11).
  */
-function aeroContrastRatio(string $selector): string
+function aeroContrastRatio(string $selector, ?string $backgroundSelector = null): string
 {
+    $background = $backgroundSelector ?? $selector;
+
     return "(() => {
         const parse = (c) => c.match(/[\d.]+/g).map(Number);
         const lum = ([r, g, b]) => {
             const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
             return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
         };
-        const el = document.querySelector('{$selector}');
-        const style = getComputedStyle(el);
-        const a = lum(parse(style.color));
-        const b = lum(parse(style.backgroundColor));
+        const a = lum(parse(getComputedStyle(document.querySelector('{$selector}')).color));
+        const b = lum(parse(getComputedStyle(document.querySelector('{$background}')).backgroundColor));
         return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
     })()";
 }

@@ -12,6 +12,8 @@
 <style scoped>
 .aero-glass-panel {
     position: relative;
+    /* Own stacking context, so the reflection can sit behind the content but above the panel background. */
+    isolation: isolate;
     padding: var(--aero-space-6);
     border: 1px solid var(--aero-panel-border);
     border-radius: var(--aero-radius-md);
@@ -24,6 +26,7 @@
 .aero-glass-panel::before {
     content: '';
     position: absolute;
+    z-index: -1;
     inset: 0 0 50% 0;
     border-radius: inherit;
     background: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));

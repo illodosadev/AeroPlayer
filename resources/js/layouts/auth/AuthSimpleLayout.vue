@@ -1,6 +1,8 @@
 <script setup lang="ts">
+// Aero layout for the guest pages: the sky background with a centred glass panel (design D10).
+import AeroBackground from '@/components/aero/AeroBackground.vue';
+import AeroGlassPanel from '@/components/aero/AeroGlassPanel.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
-import { Link } from '@inertiajs/vue3';
 
 defineProps<{
     title?: string;
@@ -9,23 +11,18 @@ defineProps<{
 </script>
 
 <template>
-    <div class="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10">
-        <div class="w-full max-w-sm">
-            <div class="flex flex-col gap-8">
-                <div class="flex flex-col items-center gap-4">
-                    <Link :href="route('home')" class="flex flex-col items-center gap-2 font-medium">
-                        <div class="mb-1 flex h-9 w-9 items-center justify-center rounded-md">
-                            <AppLogoIcon class="size-9 fill-current text-[var(--foreground)] dark:text-white" />
-                        </div>
-                        <span class="sr-only">{{ title }}</span>
-                    </Link>
-                    <div class="space-y-2 text-center">
-                        <h1 class="text-xl font-medium">{{ title }}</h1>
-                        <p class="text-center text-sm text-muted-foreground">{{ description }}</p>
+    <AeroBackground>
+        <div class="flex min-h-svh items-center justify-center p-4 sm:p-6">
+            <div class="w-full max-w-sm">
+                <AeroGlassPanel>
+                    <div class="mb-6 flex flex-col items-center gap-3 text-center">
+                        <AppLogoIcon class="size-10 fill-current text-[var(--aero-gel-base)]" />
+                        <h1 id="auth-title" class="text-xl font-semibold">{{ title }}</h1>
+                        <p class="text-sm text-[var(--aero-text-muted)]">{{ description }}</p>
                     </div>
-                </div>
-                <slot />
+                    <slot />
+                </AeroGlassPanel>
             </div>
         </div>
-    </div>
+    </AeroBackground>
 </template>
