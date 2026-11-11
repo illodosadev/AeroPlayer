@@ -86,7 +86,7 @@
 
 - [x] 9.1 Open a new Claude Code session in the repo and check that the skill "frutiger-aero" is listed. Record the date and result in design "Manual checks".
   - 2026-11-10: Claude Code listed the skill "frutiger-aero" (with its description) in the session where it was written, as soon as the file existed. Recorded in design "Manual checks".
-- [ ] 9.2 With the app built and served on `localhost`, take screenshots of `/login` and `/styleguide` at 1280 px and 375 px, store them in `openspec/changes/aero-design-system/validation/`, and have the owner review them against the four traits. Record in design "Validación visual" the date, the screenshots, one verdict per trait (all "aprobado") and each requested correction as [x] once done. Verify `npm run types`, `npm run build` and the full test suite still pass after the corrections.
+- [x] 9.2 With the app built and served on `localhost`, take screenshots of `/login` and `/styleguide` at 1280 px and 375 px, store them in `openspec/changes/aero-design-system/validation/`, and have the owner review them against the four traits. Record in design "Validación visual" the date, the screenshots, one verdict per trait (all "aprobado") and each requested correction as [x] once done. Verify `npm run types`, `npm run build` and the full test suite still pass after the corrections.
 
 ## Workflow follow-up
 

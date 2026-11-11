@@ -258,4 +258,16 @@ The lint workflow is unchanged.
 
 ## Validación visual
 
-<!-- Filled during /opsx-apply: date, screenshots of /login and /styleguide at 1280 px and 375 px (stored in this change's `validation/` folder so they are archived with it), a verdict per trait (glossy y cristal, naturaleza y cielo, reproductores clásicos, skeuomorfismo) and the owner's corrections as [x] items. -->
+- **Date:** 2026-11-11, reviewed by the owner on the built app served on `localhost` and on the screenshots.
+- **Screenshots** (`validation/`): `login-1280.png`, `login-375.png`, `styleguide-1280.png`, `styleguide-375.png`, taken after the corrections below.
+- **Verdicts:**
+  - Glossy y cristal: aprobado.
+  - Naturaleza y cielo: aprobado.
+  - Reproductores clásicos: aprobado.
+  - Skeuomorfismo: aprobado.
+- **Manual check:** holding "Press me" down on `/styleguide` shows it sunk and darker than on hover (approved by the owner).
+- **Corrections requested:**
+  - [x] Use a font that fits the look better: the owner chose their own copy of FOT-NewRodin Pro EB for all text (design D6).
+- **Follow-ups that do not block this change** (recorded in T-25):
+  - Replace the hand-made SVG background with a real photograph (the owner approves the current look but wants a real image).
+  - Replace the starter kit's Laravel logo on the login.
