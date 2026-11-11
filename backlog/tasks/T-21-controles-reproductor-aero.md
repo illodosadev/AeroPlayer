@@ -3,7 +3,7 @@ id: T-21
 title: Controles del reproductor Aero
 status: enriched
 discovery: reproductor-musica-privado
-change: ~
+change: aero-player-controls
 priority: must
 estimate: 3
 language: es
