@@ -202,6 +202,11 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - **Botones extra en `AeroPlayerBar`:** dejar sitio (una ranura) para los botones que añaden otras tareas: "Visualizer" (T-16), "Lyrics" (T-17), "Shuffle", "Repeat: off/all/one" y "Queue" (T-13). Los de panel usan `aria-pressed` y tienen área táctil de 44x44 px.
 - **Colores solo de tokens `--aero-*`** en la barra y en la carátula de reserva, sin colores literales, para que sigan los temas de T-18 (también Graphite). Los tokens temables nuevos van en los ficheros de temas si T-18 ya existe (regla de T-18).
 
+**Seguimiento de aero-design-system (T-03, 2026-11-11)**
+
+- Ampliar la skill `.claude/skills/frutiger-aero` (componentes y tokens) y `/styleguide` con los controles nuevos; el test de la skill falla si un token del CSS no está en ella.
+- Los iconos van en `resources/aero/icons/` con su fila en `resources/aero/CREDITS.md` (el test de procedencia lo exige).
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

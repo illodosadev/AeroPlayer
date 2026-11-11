@@ -167,6 +167,11 @@ Pregunta abierta 1 resuelta: hosting compartido Premium de Hostinger, app en `mu
 
 - **Contexto seguro:** el historial cifrado de Inertia necesita `crypto.subtle`, que solo funciona en HTTPS o en direcciones loopback (`localhost`, `127.0.0.1`). Abrir la app local en esas direcciones; desde otra máquina de la red por HTTP la navegación falla.
 
+**Seguimiento de aero-design-system (T-03, 2026-11-11)**
+
+- El servicio `test` debe tener la extensión `sockets` de PHP, instalar Playwright y Chromium (`npx playwright install --with-deps chromium`) y compilar el frontend (`npm run build`) antes de la suite Browser.
+- `php artisan test` ejecuta tres suites (Unit, Feature, Browser); Unit y Feature siguen sin necesitar build.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

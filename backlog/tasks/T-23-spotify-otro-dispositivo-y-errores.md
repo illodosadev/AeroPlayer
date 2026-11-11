@@ -335,6 +335,11 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - **D4 (2026-11-09) resuelve el Pendiente de saltar canciones que fallan dentro de una lista:** lo implementa T-13 ("This song can't be played." y se pasa a la siguiente; se para tras 3 fallos seguidos). Fuera de la cola sigue valiendo que `playback_error` no salta.
 - **Estado `null` del SDK:** T-16 lo trata como `paused` (conserva la pista, igual que la barra) y T-19 deja de contar tiempo de escucha. Si esta tarea cambia ese comportamiento, hay que revisar T-16 y T-19.
 
+**Seguimiento de aero-design-system (T-03, 2026-11-11)**
+
+- Pest browser no puede inyectar un script antes de cargar la página desde `visit()` ni bloquear peticiones. Para falsear el SDK de Spotify: leer la URL del SDK de la configuración y, en los tests, apuntarla a una ruta solo de pruebas que sirva un SDK falso.
+- Las pruebas con sesión usan `signedInOwnerVisit()` de `tests/Pest.php` (no hay `actingAs`). Usar selectores explícitos (`#id`, `.clase`, `[atributo]`): una etiqueta suelta como `h1` se busca como texto y espera hasta el timeout.
+
 ## Definition of Done
 
 - [ ] Criterios automatizables cubiertos por tests; los @manual en el checklist del cambio

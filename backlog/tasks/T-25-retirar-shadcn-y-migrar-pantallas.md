@@ -445,6 +445,11 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - **Navegación ampliable:** el escenario que lista los enlaces de `AeroAppNav` ("Library", "Search", "Settings", "Log out") tiene que permitir que otras tareas añadan enlaces: T-19b añade "History" y "Stats".
 - **Colores de `AeroAppNav` y de cada pantalla migrada:** solo de tokens `--aero-*`, para que sigan los temas de T-18 (también Graphite).
 
+**Seguimiento de aero-design-system (T-03, 2026-11-11)**
+
+- Sustituir el logo de Laravel del login (`AppLogoIcon`) por uno de AeroPlayer.
+- Sustituir el fondo SVG hecho a mano (`resources/aero/backgrounds/sky.svg`) por una fotografía real de cielo y naturaleza: WebP o AVIF de menos de 400 KB, con su fila en `CREDITS.md`, y ajustar `--aero-background-fallback` a sus colores. El propietario aprobó el aspecto actual pero quiere una imagen real.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

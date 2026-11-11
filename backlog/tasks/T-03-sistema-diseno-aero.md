@@ -1,7 +1,7 @@
 ---
 id: T-03
 title: Sistema de diseño Frutiger Aero — base y login
-status: enriched
+status: done
 discovery: reproductor-musica-privado
 change: aero-design-system
 priority: must
@@ -341,10 +341,21 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - **Tema:** `useAppearance.ts` y `initializeTheme()` en `app.ts` siguen vivos; quitarlos al fijar el modo claro. `AppearanceTabs.vue` ya está borrado.
 - El pie de la barra lateral del kit conserva los enlaces externos "Github Repo" y "Documentation" (y el nombre "Laravel Starter Kit"); quitarlos o sustituirlos al aplicar el estilo Aero.
 
+**Cerrada con `aero-design-system` (2026-11-11)**
+
+El cambio refinó algunos criterios al ver el código real. La referencia es ahora `openspec/specs/aero-design/spec.md` (y los requisitos "Self-contained automated test suite" y "Frontend type check" de `app-foundation`):
+
+- La preferencia "appearance" del kit estaba en `localStorage`, no en una cookie; el escenario de modo oscuro la cubre así. `/dashboard` sigue existiendo, así que el modo claro se prueba en "/login", "/dashboard" y "/styleguide".
+- Pest browser no tiene `actingAs`: cada prueba con sesión entra por el formulario. El movimiento reducido se emula con las opciones de `visit()`. El estado "pulsado" mantenido y la imagen de fondo bloqueada no tienen API: el primero se comprobó a mano y el segundo se simula apuntando el token de la imagen a un fichero inexistente.
+- Fuente: el propietario eligió su copia de FOT-NewRodin Pro EB para todo el texto. El fichero vive en `public/fonts/` y no se versiona (el repositorio es público); sin él se usan Segoe UI y Selawik.
+- De `.claude/` solo se publica la skill `frutiger-aero`; el resto es privado y no está en el repositorio.
+- En local (Windows), `php artisan test` con las tres suites a la vez se queda parado tras la suite Feature; `vendor/bin/pest` ejecuta las mismas pruebas. La CI (Linux) se confirma en el próximo push.
+- Validación visual aprobada el 2026-11-11 (cuatro rasgos). Quedan para T-25 la foto real de fondo y el logo del login.
+
 ## Definition of Done
 
-- [ ] Acceptance criteria covered by tests
-- [ ] Pest 4 browser testing (Playwright + Chromium) configured and running with `php artisan test`
-- [ ] `@manual` scenarios verified and recorded in the change's `design.md`
-- [ ] Spec deltas archived in openspec/specs/
-- [ ] Work committed on main
+- [x] Acceptance criteria covered by tests
+- [x] Pest 4 browser testing (Playwright + Chromium) configured and running with `php artisan test`
+- [x] `@manual` scenarios verified and recorded in the change's `design.md`
+- [x] Spec deltas archived in openspec/specs/
+- [x] Work committed on main

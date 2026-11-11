@@ -350,6 +350,11 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - **Layout persistente:** T-25 lo convierte en `AeroAppLayout` (con la navegación Aero). El reproductor vive en un solo componente de layout y `Spotify.Player` no se vuelve a crear al navegar.
 - **T-13 (cambio 2, cola):** modifica "Siguiente y anterior dentro del contexto" y "No hay pista siguiente": en modo cola, "Next" y "Previous" mueven la cola de la app y "Next" se desactiva si no queda nada pendiente. T-13 añade además `PUT /spotify/player/modes` para desactivar el aleatorio y la repetición propios de Spotify.
 
+**Seguimiento de aero-design-system (T-03, 2026-11-11)**
+
+- Pest browser no puede inyectar un script antes de cargar la página desde `visit()` ni bloquear peticiones. Para falsear el SDK de Spotify: leer la URL del SDK de la configuración y, en los tests, apuntarla a una ruta solo de pruebas que sirva un SDK falso.
+- Las pruebas con sesión usan `signedInOwnerVisit()` de `tests/Pest.php` (no hay `actingAs`). Usar selectores explícitos (`#id`, `.clase`, `[atributo]`): una etiqueta suelta como `h1` se busca como texto y espera hasta el timeout.
+
 ## Definition of Done
 
 - [ ] Criterios automatizables cubiertos por tests; los @manual en el checklist del cambio
