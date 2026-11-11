@@ -14,7 +14,7 @@
     --aero-space-6: 1.5rem;
 
     /* All text. The first font is a local file that is not versioned (design D6); without it the rest of the stack applies. */
-    --aero-font-family: "AeroPlayer Display", "Segoe UI", "Selawik", "Frutiger", "Myriad Pro", system-ui, sans-serif;
+    --aero-font-family: 'AeroPlayer Display', 'Segoe UI', 'Selawik', 'Frutiger', 'Myriad Pro', system-ui, sans-serif;
     --aero-font-size-body: 1rem;
     --aero-font-size-small: 0.875rem;
     --aero-font-size-title: 1.25rem;
@@ -22,4 +22,9 @@
     --aero-blur: 6px;
     --aero-focus-width: 2px;
     --aero-touch-min: 44px;
+
+    /* Player controls (aero-player-controls, design D6). */
+    --aero-orb-size-lg: 56px;
+    --aero-cover-size-bar: 56px;
+    --aero-slider-track-height: 8px;
 }

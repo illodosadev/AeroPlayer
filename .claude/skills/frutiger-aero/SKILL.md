@@ -35,8 +35,16 @@ Details and do/don't lists: `references/traits.md`.
 | AeroInput | `resources/js/components/aero/AeroInput.vue` | `data-aero="input"` |
 | AeroCheckbox | `resources/js/components/aero/AeroCheckbox.vue` | `data-aero="checkbox"` |
 | AeroBackground | `resources/js/components/aero/AeroBackground.vue` | `data-aero="background"` |
+| AeroSlider | `resources/js/components/aero/AeroSlider.vue` | `data-aero="slider"` |
+| AeroCover | `resources/js/components/aero/AeroCover.vue` | `data-aero="cover"`, fallback `data-aero="cover-fallback"` |
+| AeroIcon | `resources/js/components/aero/AeroIcon.vue` | `data-aero="icon"`, `data-icon="<name>"` |
+| AeroPlayerBar | `resources/js/components/aero/AeroPlayerBar.vue` | `data-aero="player-bar"` (inside an AeroGlassPanel) |
 
 Props, states and examples: `references/components.md`.
+
+## Classic media players
+
+The player controls carry this trait: a glass strip with a cover, a large "Play" orb between smaller "Previous" and "Next" orbs, and inset grooves for "Seek" and "Volume". Build player UI from AeroPlayerBar (`resources/js/components/aero/AeroPlayerBar.vue`) and AeroSlider (`resources/js/components/aero/AeroSlider.vue`) instead of new markup. Their props, events and slots are in [references/components.md](references/components.md).
 
 ## Where the CSS lives
 

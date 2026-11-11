@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2f7fd0"/>
+      <stop offset="0.65" stop-color="#bfe4ff"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fffbe0"/>
+      <stop offset="0.45" stop-color="#ffe680" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ffe680" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8fd65a"/>
+      <stop offset="1" stop-color="#3f8f2a"/>
+    </linearGradient>
+    <radialGradient id="orb" cx="0.4" cy="0.3" r="0.75">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="0.35" stop-color="#9fd8ff" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#1d6fb8" stop-opacity="0.85"/>
+    </radialGradient>
+    <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="300" height="300" fill="url(#sky)"/>
+  <circle cx="225" cy="70" r="60" fill="url(#sun)"/>
+  <g fill="#ffffff" opacity="0.85">
+    <ellipse cx="70" cy="80" rx="42" ry="14"/>
+    <ellipse cx="95" cy="70" rx="26" ry="16"/>
+    <ellipse cx="190" cy="135" rx="34" ry="10"/>
+  </g>
+  <path d="M0 215 C70 170 150 175 300 205 V300 H0 Z" fill="url(#hill)"/>
+  <path d="M0 255 C90 235 200 240 300 250 V300 H0 Z" fill="#1d6fb8" opacity="0.85"/>
+  <circle cx="150" cy="165" r="54" fill="url(#orb)" stroke="#ffffff" stroke-opacity="0.8" stroke-width="2"/>
+  <ellipse cx="150" cy="138" rx="38" ry="22" fill="url(#gloss)"/>
+  <path d="M136 140 v50 l42-25 z" fill="#ffffff" opacity="0.92"/>
+  <rect width="300" height="150" fill="url(#gloss)" opacity="0.5"/>
+</svg>

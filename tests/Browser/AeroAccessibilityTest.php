@@ -112,6 +112,35 @@ test('the styleguide runs no animation with reduced motion', function () {
     expect($page->script(AERO_MOTION_PROBLEMS))->toBe([]);
 });
 
+test('no animation on the player controls with reduced motion', function () {
+    // aero-player-controls, task 5.1: press "Play" and move both sliders, then read the three new sections.
+    $page = aeroOwnerAt('/styleguide', ['reducedMotion' => 'reduce']);
+    $page->click('#player-bar-interactive button[aria-label=Play]');
+    $page->keys('#slider-volume', ['ArrowRight']);
+    $page->keys('#slider-seek', ['ArrowRight']);
+    $page->keys('#player-bar-interactive input[aria-label=Seek]', ['ArrowRight']);
+    $page->keys('#player-bar-interactive input[aria-label=Volume]', ['ArrowLeft']);
+
+    $problems = $page->script('(() => {
+        const problems = [];
+        for (const el of document.querySelectorAll("#sliders *, #cover *, #player-bar *")) {
+            for (const pseudo of [null, "::before", "::after"]) {
+                const s = getComputedStyle(el, pseudo);
+                if (s.animationName.split(",").some((n) => n.trim() !== "none")) {
+                    problems.push(el.className + " " + (pseudo ?? "") + " animation " + s.animationName);
+                }
+                if (s.transitionDuration.split(",").map(parseFloat).some((d) => d > 0.01)) {
+                    problems.push(el.className + " " + (pseudo ?? "") + " transition " + s.transitionDuration);
+                }
+            }
+        }
+        return problems.slice(0, 5);
+    })()');
+
+    expect($page->script('document.querySelectorAll("#player-bar-interactive button[aria-label=Pause]").length'))->toBe(1);
+    expect($problems)->toBe([]);
+});
+
 // --- 5.3 Mobile layout ------------------------------------------------------------
 
 const AERO_MOBILE_PROBLEMS = '(() => {

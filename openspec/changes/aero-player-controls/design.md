@@ -286,6 +286,11 @@ Additive frontend change. No data, routes or configuration. Rollback is revertin
 
 <!-- Filled during /opsx-apply: any automated scenario that falls back to a manual or reduced check (D9), and the slider on the owner's phone browser (tasks 7.1). -->
 
+- **Disabled sliders (D9):** no fallback needed. Playwright's `drag()` runs on a disabled range input, so "A disabled slider ignores input" and "Disabled controls cannot be used" drag the thumb for real and check the unchanged value.
+- **Tab walks in tests:** pressing Tab past the last control crashes headless Chrome ("Target crashed") and hangs the run, so every Tab walk is bounded to the enabled controls.
+- **Layout at the styleguide's nesting (D3):** each sample bar sits inside a section panel, so it is narrower than in the real layout. At 375 px the transport orbs take their own row (song, transport, seek, then volume and extras). At 1280 px bar 2's "Extra" button wraps under the song. Both are left for the owner to judge at the visual validation.
+- **Slider on the owner's phone browser:** pending (7.1).
+
 ## Validación visual
 
 <!-- Filled during /opsx-apply: date, screenshots at 1280 and 375 px of "Sliders", "Cover" and "Player bar", one verdict per trait, and each requested correction. -->

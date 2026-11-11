@@ -7,7 +7,7 @@ function aeroAssetFiles(): array
     $base = resource_path('aero');
     $files = [];
 
-    foreach (['backgrounds', 'icons', 'fonts'] as $folder) {
+    foreach (['backgrounds', 'icons', 'fonts', 'samples'] as $folder) {
         $dir = $base.DIRECTORY_SEPARATOR.$folder;
 
         if (! is_dir($dir)) {

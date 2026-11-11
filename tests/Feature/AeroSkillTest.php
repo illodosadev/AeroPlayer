@@ -1,6 +1,6 @@
 <?php
 
-// The Aero style skill (aero-design-system, task 7.1): spec aero-design, "Aero style skill".
+// The Aero style skill (aero-design-system, task 7.1; aero-player-controls, task 4.5): spec aero-design, "Aero style skill".
 
 function aeroSkillText(): string
 {
@@ -52,11 +52,18 @@ test('the skill covers the four traits, the components with their files and the 
         expect($text)->toMatch('/^#+ '.preg_quote($trait, '/').'$/m');
     }
 
-    foreach (['AeroButton', 'AeroGlassPanel', 'AeroInput', 'AeroCheckbox', 'AeroBackground'] as $component) {
+    foreach (['AeroButton', 'AeroGlassPanel', 'AeroInput', 'AeroCheckbox', 'AeroBackground', 'AeroSlider', 'AeroCover', 'AeroPlayerBar'] as $component) {
         $path = "resources/js/components/aero/{$component}.vue";
         expect($text)->toContain($path);
         expect(base_path($path))->toBeFile();
     }
+
+    // The classic media players section of SKILL.md names the player controls and links to their reference
+    // (aero-player-controls, task 4.5).
+    $skill = str_replace(chr(13), '', file_get_contents(base_path('.claude/skills/frutiger-aero/SKILL.md')));
+    expect(preg_match('/^## Classic media players$\n(.*?)(?=^## |\z)/ms', $skill, $section))->toBe(1);
+    expect($section[1])->toContain('AeroPlayerBar')->toContain('AeroSlider')->toContain('(references/components.md)');
+    expect(base_path('.claude/skills/frutiger-aero/references/components.md'))->toBeFile();
 
     foreach (['focus', 'reduced motion', 'no-blur fallback', '4.5:1', '44x44'] as $rule) {
         expect(strtolower($text))->toContain(strtolower($rule));

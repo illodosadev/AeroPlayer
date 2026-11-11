@@ -21,6 +21,9 @@ Every `--aero-*` custom property the app declares, with its role. Components rea
 | `--aero-blur` | Backdrop blur of the glass (small on purpose). |
 | `--aero-focus-width` | Width of the focus outline (2 px). |
 | `--aero-touch-min` | Minimum touch area side (44 px). |
+| `--aero-orb-size-lg` | Side of the large orb (`AeroButton size="lg"`), used for "Play"/"Pause" in the player bar. |
+| `--aero-cover-size-bar` | Side of the cover in the player bar. |
+| `--aero-slider-track-height` | Height of the slider groove (the input itself stays 44 px tall). |
 
 ## Theme tokens ("sky", `resources/css/aero/themes/sky.css`)
 
@@ -43,5 +46,8 @@ Every `--aero-*` custom property the app declares, with its role. Components rea
 | `--aero-field-bg` | Field and checkbox background. |
 | `--aero-field-border` | Field and checkbox border. |
 | `--aero-focus-color` | Focus outline colour. |
+| `--aero-slider-track` | Empty part of the slider groove (an image: gradient). |
+| `--aero-slider-fill` | Filled part of the slider groove, from `--aero-water` (an image: gradient). |
+| `--aero-slider-thumb` | Gel ball of the slider thumb (an image: radial gradient). |
 | `--aero-background-image` | Background image layer (`url(...)`), painted over the fallback gradient. |
 | `--aero-background-fallback` | Sky gradient shown first and when the image fails. |

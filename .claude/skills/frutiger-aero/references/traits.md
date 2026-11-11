@@ -24,6 +24,8 @@ References: Windows Media Player 11, iTunes 7–9, Zune and Winamp.
 - Transport and progress bars glow softly and sit in a glass strip.
 - Album art has a slight reflection or a framed edge.
 
+The reference for this trait in the app is AeroPlayerBar (`resources/js/components/aero/AeroPlayerBar.vue`), shown on `/styleguide` in the "Player bar" section: WMP 11's large central play orb, inset seek and volume grooves (AeroSlider) and a framed cover with a reflection (AeroCover).
+
 ## Skeuomorphism
 
 - Controls look pressable: highlight on top, shadow below, inner shadow when pressed or when they are fields.

@@ -1,14 +1,16 @@
 <script setup lang="ts">
 // Glossy button in two shapes: a rectangle and a round orb (design D3). The forced "state" prop lets the styleguide
 // show hover and pressed looks side by side; real hover and press use the same rules.
+// size="lg" makes the orb larger, for "Play" in the player bar (aero-player-controls, design D5); the rectangle ignores it.
 withDefaults(
     defineProps<{
         shape?: 'rect' | 'orb';
+        size?: 'md' | 'lg';
         type?: 'button' | 'submit';
         disabled?: boolean;
         state?: 'hover' | 'pressed';
     }>(),
-    { shape: 'rect', type: 'button', disabled: false, state: undefined },
+    { shape: 'rect', size: 'md', type: 'button', disabled: false, state: undefined },
 );
 </script>
 
@@ -16,6 +18,7 @@ withDefaults(
     <button
         data-aero="button"
         :data-shape="shape"
+        :data-size="size"
         :data-state="state"
         :type="type"
         :disabled="disabled"
@@ -47,9 +50,14 @@ withDefaults(
     background-image:
         linear-gradient(to bottom, var(--_top) 0%, rgba(255, 255, 255, 0) 50%),
         linear-gradient(to bottom, color-mix(in srgb, var(--_base) 85%, #fff) 0%, var(--_base) 50%, var(--_low) 100%);
-    box-shadow: 0 2px 4px var(--aero-gel-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    box-shadow:
+        0 2px 4px var(--aero-gel-shadow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
     cursor: pointer;
-    transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.05s ease;
+    transition:
+        background-color 0.15s ease,
+        box-shadow 0.15s ease,
+        transform 0.05s ease;
 }
 
 .aero-button--orb {
@@ -59,12 +67,20 @@ withDefaults(
     border-radius: 50%;
 }
 
+.aero-button--orb[data-size='lg'] {
+    width: var(--aero-orb-size-lg);
+    height: var(--aero-orb-size-lg);
+}
+
 /* Real hover only where the pointer really hovers, so a tap does not leave hover stuck (design D3). */
 @media (hover: hover) {
     .aero-button:not(:disabled):hover {
         --_base: color-mix(in srgb, var(--aero-gel-base) 78%, #fff);
         --_top: rgba(255, 255, 255, 0.95);
-        box-shadow: 0 2px 6px var(--aero-gel-shadow), 0 0 0 3px rgba(255, 255, 255, 0.35), inset 0 1px 0 #fff;
+        box-shadow:
+            0 2px 6px var(--aero-gel-shadow),
+            0 0 0 3px rgba(255, 255, 255, 0.35),
+            inset 0 1px 0 #fff;
     }
 }
 
@@ -72,7 +88,10 @@ withDefaults(
 .aero-button[data-state='hover'] {
     --_base: color-mix(in srgb, var(--aero-gel-base) 78%, #fff);
     --_top: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 2px 6px var(--aero-gel-shadow), 0 0 0 3px rgba(255, 255, 255, 0.35), inset 0 1px 0 #fff;
+    box-shadow:
+        0 2px 6px var(--aero-gel-shadow),
+        0 0 0 3px rgba(255, 255, 255, 0.35),
+        inset 0 1px 0 #fff;
 }
 
 /* Pressed: the button sinks 1 px and darkens. :active clears on release outside, so it does not stick. */

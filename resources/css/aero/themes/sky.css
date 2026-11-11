@@ -3,7 +3,7 @@
  * T-18 adds other themes with [data-theme="..."] blocks that redefine these names.
  */
 :where(:root),
-[data-theme="sky"] {
+[data-theme='sky'] {
     --aero-sky-top: #3f8fd6;
     --aero-sky-horizon: #cfeaff;
     --aero-grass: #6fb345;
@@ -26,6 +26,16 @@
 
     --aero-focus-color: #ffd23f;
 
-    --aero-background-fallback: linear-gradient(to bottom, var(--aero-sky-top) 0%, var(--aero-sky-horizon) 62%, var(--aero-grass) 62%, var(--aero-grass) 100%);
-    --aero-background-image: url("../../../aero/backgrounds/sky.svg");
+    --aero-slider-track: linear-gradient(to bottom, #a9c3d8 0%, #e6f1fa 100%);
+    --aero-slider-fill: linear-gradient(to bottom, color-mix(in srgb, var(--aero-water) 55%, #fff) 0%, var(--aero-water) 100%);
+    --aero-slider-thumb: radial-gradient(circle at 35% 30%, #ffffff 0%, #d4ecff 35%, var(--aero-gel-base) 100%);
+
+    --aero-background-fallback: linear-gradient(
+        to bottom,
+        var(--aero-sky-top) 0%,
+        var(--aero-sky-horizon) 62%,
+        var(--aero-grass) 62%,
+        var(--aero-grass) 100%
+    );
+    --aero-background-image: url('../../../aero/backgrounds/sky.svg');
 }
