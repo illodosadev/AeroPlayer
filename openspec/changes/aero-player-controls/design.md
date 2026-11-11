@@ -289,8 +289,33 @@ Additive frontend change. No data, routes or configuration. Rollback is revertin
 - **Disabled sliders (D9):** no fallback needed. Playwright's `drag()` runs on a disabled range input, so "A disabled slider ignores input" and "Disabled controls cannot be used" drag the thumb for real and check the unchanged value.
 - **Tab walks in tests:** pressing Tab past the last control crashes headless Chrome ("Target crashed") and hangs the run, so every Tab walk is bounded to the enabled controls.
 - **Layout at the styleguide's nesting (D3):** each sample bar sits inside a section panel, so it is narrower than in the real layout. At 375 px the transport orbs take their own row (song, transport, seek, then volume and extras). At 1280 px bar 2's "Extra" button wraps under the song. Both are left for the owner to judge at the visual validation.
-- **Slider on the owner's phone browser:** pending (7.1).
+- **Slider on the owner's phone browser:** checked by hand by the owner on 2026-11-11: OK (7.1).
+- **Layout at the styleguide's nesting:** accepted by the owner on 2026-11-11.
 
 ## Validación visual
 
 <!-- Filled during /opsx-apply: date, screenshots at 1280 and 375 px of "Sliders", "Cover" and "Player bar", one verdict per trait, and each requested correction. -->
+
+**Correcciones pedidas por el propietario**
+
+- [x] 2026-11-11: el icono de nota musical (`resources/aero/icons/note.svg`) no estaba centrado y las cabezas no casaban con las plicas. Redibujado: cabezas unidas al borde derecho de cada plica, barra inclinada y el dibujo centrado en el lienzo de 24x24. Capturas de `validation/` rehechas.
+- [x] 2026-11-11: en "No image" la nota seguía viéndose a la derecha: la barra y las plicas cargan el peso en ese lado. Desplazada 1,25 unidades a la izquierda para centrarla por peso visual (a 0,5 px del centro de la carátula). Capturas rehechas.
+
+**Fecha:** 2026-11-11.
+
+**Capturas** (en `validation/`), a 1280 y 375 px:
+
+- "Sliders": `sliders-1280.png`, `sliders-375.png`;
+- "Cover": `cover-1280.png`, `cover-375.png`;
+- "Player bar": `player-bar-1280.png`, `player-bar-375.png`.
+
+**Veredicto por rasgo**
+
+| Rasgo | Veredicto |
+|-------|-----------|
+| Glossy / cristal | aprobado |
+| Naturaleza y cielo | aprobado |
+| Reproductores clásicos | aprobado |
+| Skeuomorfismo | aprobado |
+
+El propietario aprueba también los iconos hechos a mano, la carátula de muestra, el slider en el navegador de su móvil y cómo se recoloca la barra a 375 y 1280 px.

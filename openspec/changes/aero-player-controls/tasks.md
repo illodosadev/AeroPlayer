@@ -87,7 +87,7 @@
 
 ## 7. Visual validation
 
-- [ ] 7.1 With the app built and served on `localhost`, take screenshots of the "Sliders", "Cover" and "Player bar" sections of `/styleguide` at 1280 px and 375 px. Store them in `openspec/changes/aero-player-controls/validation/`. Have the owner review them against the four traits, including the hand-made icons and the sample cover (design D4, D7). Also check the slider by hand on the owner's phone browser. Record in design "Validación visual":
+- [x] 7.1 With the app built and served on `localhost`, take screenshots of the "Sliders", "Cover" and "Player bar" sections of `/styleguide` at 1280 px and 375 px. Store them in `openspec/changes/aero-player-controls/validation/`. Have the owner review them against the four traits, including the hand-made icons and the sample cover (design D4, D7). Also check the slider by hand on the owner's phone browser. Record in design "Validación visual":
   - the date;
   - the screenshots;
   - one verdict per trait, all "aprobado";
