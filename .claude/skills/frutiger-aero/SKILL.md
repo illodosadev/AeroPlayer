@@ -42,7 +42,8 @@ Props, states and examples: `references/components.md`.
 
 - `resources/css/aero/tokens.css`: fixed tokens (sizes, type, blur, focus, touch size) on `:root`.
 - `resources/css/aero/themes/sky.css`: the default "sky" theme under `:where(:root), [data-theme="sky"]`. `<html>` carries `data-theme="sky"`.
-- `resources/css/aero/base.css`: the Selawik font, the global focus outline, the reduced-motion rule and the forced no-blur fallback.
+- `resources/css/aero/base.css`: the display and Selawik fonts, the global focus outline, the reduced-motion rule and the forced no-blur fallback.
+- The display font file (`public/fonts/aero-display.woff2`) is a local copy that is not versioned; without it, the text uses the rest of the font stack. Never add it to git.
 - Component look goes in each component's `<style scoped>`. Tailwind is for layout only (flex, grid, spacing, breakpoints).
 - Components only **read** `--aero-*` tokens. A local variable inside a component uses another prefix, such as `--_base`.
 - A new theme (T-18) is a new file that redefines the theme tokens under `[data-theme="<name>"]`. Never use the `.dark` class: the app is light only.

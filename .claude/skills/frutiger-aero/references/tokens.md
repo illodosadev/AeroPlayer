@@ -14,7 +14,7 @@ Every `--aero-*` custom property the app declares, with its role. Components rea
 | `--aero-space-3` | 0.75rem spacing step. |
 | `--aero-space-4` | 1rem spacing step. |
 | `--aero-space-6` | 1.5rem spacing step (panel padding). |
-| `--aero-font-family` | Segoe UI, then Selawik, Frutiger, Myriad Pro and system fonts. |
+| `--aero-font-family` | All text: the local display font (FOT-NewRodin Pro EB), then Segoe UI, Selawik, Frutiger, Myriad Pro and system fonts. |
 | `--aero-font-size-body` | Body text size. |
 | `--aero-font-size-small` | Labels, hints and error messages. |
 | `--aero-font-size-title` | Panel titles. |

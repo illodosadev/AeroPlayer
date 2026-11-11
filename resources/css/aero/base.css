@@ -19,6 +19,18 @@
  * Global Aero rules shared by every component (design D4).
  */
 
+/*
+ * Display font for titles and buttons: a local file served from public/fonts and not versioned
+ * (design D6). Where it is missing the browser moves on to the body stack.
+ */
+@font-face {
+    font-family: "AeroPlayer Display";
+    src: url("/fonts/aero-display.woff2") format("woff2");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* Visible keyboard focus everywhere. */
 :focus-visible {
     outline: var(--aero-focus-width) solid var(--aero-focus-color);

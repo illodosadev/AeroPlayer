@@ -9,7 +9,7 @@ function aeroSkillText(): string
 
     foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS)) as $file) {
         if ($file->isFile() && $file->getExtension() === 'md') {
-            $text .= file_get_contents($file->getPathname())."\n";
+            $text .= str_replace(chr(13), '', file_get_contents($file->getPathname()))."\n";
         }
     }
 
@@ -35,7 +35,8 @@ function aeroDeclaredTokens(string $dir, string $extension): array
 }
 
 test('the skill file exists with a name and a description about the interface', function () {
-    $skill = file_get_contents(base_path('.claude/skills/frutiger-aero/SKILL.md'));
+    // Windows checkouts may have CRLF line endings; compare on LF.
+    $skill = str_replace(chr(13), '', file_get_contents(base_path('.claude/skills/frutiger-aero/SKILL.md')));
 
     expect($skill)->toMatch('/^---\R/');
     preg_match('/^---\R(.*?)\R---/s', $skill, $frontmatter);

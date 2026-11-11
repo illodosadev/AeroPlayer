@@ -113,6 +113,8 @@ Files in `resources/js/components/aero/`. Each root element carries `data-aero="
 
 *Alternatives rejected:* Frutiger, which is commercial. A Google-hosted look-alike, which means an external request and is less close than Selawik.
 
+**Display font for all text (decided by the owner in the visual validation, 2026-11-11).** `--aero-font-family` starts with the owner's own copy of FOT-NewRodin Pro EB, reduced to the Latin characters (about 42 KB), served from `public/fonts/aero-display.woff2`. Only the EB weight exists, so all text is extra bold; the owner chose that look. The file is excluded from git, because the repository is public, and is copied to the server separately. Where it is missing (CI, tests, other clones) the browser falls back to Segoe UI, Selawik and the rest of the stack.
+
 ### D7. Background asset and provenance
 
 - **First background:** a hand-made SVG, `resources/aero/backgrounds/sky.svg`. It has a sky gradient, soft clouds, a green hill and a water line, and stays well under the 400 KB guide.
@@ -239,6 +241,7 @@ The lint workflow is unchanged.
 - **T-20:** the `test` service must install Playwright and Chromium and build the frontend before the browser suite.
 - **T-06 and T-23:** the spike's finding on script swapping (D11).
 - **T-21:** extend the skill and the styleguide with its components, and create `resources/aero/icons/` with credits.
+- **T-04:** the deployment must copy `public/fonts/aero-display.woff2` (the display font, not in git) to the server; without it the site falls back to the rest of the font stack.
 
 ## Open Questions
 
