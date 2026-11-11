@@ -1,7 +1,7 @@
 ---
 id: T-21
 title: Controles del reproductor Aero
-status: enriched
+status: done
 discovery: reproductor-musica-privado
 change: aero-player-controls
 priority: must
@@ -207,9 +207,19 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - Ampliar la skill `.claude/skills/frutiger-aero` (componentes y tokens) y `/styleguide` con los controles nuevos; el test de la skill falla si un token del CSS no está en ella.
 - Los iconos van en `resources/aero/icons/` con su fila en `resources/aero/CREDITS.md` (el test de procedencia lo exige).
 
+**Cerrada con `aero-player-controls` (2026-11-11)**
+
+El cambio refinó algunos criterios al ver el código real. La referencia es ahora `openspec/specs/aero-design/spec.md`:
+
+- El plugin de Pest solo hace clic en el centro de un elemento, así que el escenario de puntero arrastra el tirador más allá del final de la pista y comprueba que el valor se queda en el máximo.
+- La barra solo emite eventos: `playing`, `position` y `volume` los lleva el padre. Por T-06 y T-23 se añadieron controles desactivables uno a uno, una zona de aviso en dos ranuras (`notice` dentro de `role="status"`, `notice-actions` fuera) y la ranura `extra`.
+- Iconos (`resources/aero/icons/`) y carátula de muestra (`resources/aero/samples/`) hechos a mano, con su fila de procedencia. La nota musical se corrigió dos veces a petición del propietario (centrado por peso visual).
+- La regla global de movimiento reducido no alcanza los pseudo-elementos del `<input type="range">`; un test del código fuente impide ponerles transiciones.
+- Validación visual aprobada el 2026-11-11: los cuatro rasgos, los iconos, la carátula, el slider en el móvil del propietario y el reparto de filas de la barra.
+
 ## Definition of Done
 
-- [ ] Acceptance criteria covered by tests
-- [ ] `@manual` scenarios verified and recorded in the change's `design.md`
-- [ ] Spec deltas archived in openspec/specs/
-- [ ] Work committed on main
+- [x] Acceptance criteria covered by tests
+- [x] `@manual` scenarios verified and recorded in the change's `design.md`
+- [x] Spec deltas archived in openspec/specs/
+- [x] Work committed on main

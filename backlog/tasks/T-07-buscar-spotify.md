@@ -411,6 +411,11 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - **Etiqueta de no disponible:** unificar "Not available" (T-07/T-08/T-24) con "Unavailable" (D7 de T-14, también en T-13). Pendiente.
 - **T-25:** la página se construye con componentes Aero; añadir el escenario "la página no contiene elementos con el atributo data-slot".
 
+**Seguimiento de aero-player-controls (T-21, 2026-11-11)**
+
+- Las carátulas usan `AeroCover` (`resources/js/components/aero/AeroCover.vue`) con `:src="null"` cuando la pista no tiene imagen. Si la imagen no carga, se ve la carátula genérica sola, sin icono roto y con el mismo tamaño.
+- `alt` no puede estar vacío cuando hay imagen (por ejemplo "<título> cover"). El tamaño se pasa con `:size` en px.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

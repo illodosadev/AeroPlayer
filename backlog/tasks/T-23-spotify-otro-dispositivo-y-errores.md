@@ -340,6 +340,11 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - Pest browser no puede inyectar un script antes de cargar la página desde `visit()` ni bloquear peticiones. Para falsear el SDK de Spotify: leer la URL del SDK de la configuración y, en los tests, apuntarla a una ruta solo de pruebas que sirva un SDK falso.
 - Las pruebas con sesión usan `signedInOwnerVisit()` de `tests/Pest.php` (no hay `actingAs`). Usar selectores explícitos (`#id`, `.clase`, `[atributo]`): una etiqueta suelta como `h1` se busca como texto y espera hasta el timeout.
 
+**Seguimiento de aero-player-controls (T-21, 2026-11-11)**
+
+- La zona de aviso de `AeroPlayerBar` tiene dos ranuras: `notice` (solo el mensaje, dentro de una región `role="status"` con `aria-live="polite"` que siempre está en el DOM) y `notice-actions` (el botón "Play here" y el enlace "Reconnect Spotify", fuera de esa región). Los enlaces de `notice-actions` ya tienen área táctil de 44x44 px.
+- T-23 pone los textos y decide cuándo aparecen. Los controles se desactivan uno a uno con `previousDisabled`, `playDisabled`, `nextDisabled` y `seekDisabled`.
+
 ## Definition of Done
 
 - [ ] Criterios automatizables cubiertos por tests; los @manual en el checklist del cambio

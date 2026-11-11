@@ -444,6 +444,11 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - **Cola (T-13):** entre dos canciones de la cola puede llegar un estado en pausa en la posición 0 durante menos de 2 s, así que el visualizador pasa un momento a `paused`; se acepta. "Repeat one" mantiene el mismo id, así que la escena no se reinicia.
 - **Pendiente:** tras recargar, la barra muestra la canción actual de la cola sin ningún estado del SDK. Con la regla actual eso es `idle` ("Nothing playing"); falta confirmar si debería ser `paused`.
 
+**Seguimiento de aero-player-controls (T-21, 2026-11-11)**
+
+- Los botones van en la ranura `extra` de `AeroPlayerBar`, como `AeroButton` con `aria-pressed` (modo o panel) o `aria-expanded`. Heredan el foco visible y el área táctil de 44x44 px. `/styleguide` tiene un ejemplo ("Extra").
+- Los iconos nuevos van en `resources/aero/icons/` (24x24, `fill="currentColor"`), con su fila en `resources/aero/CREDITS.md` y su nombre en el tipo `AeroIconName` de `AeroIcon.vue`.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

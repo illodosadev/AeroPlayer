@@ -507,6 +507,11 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - **T-13 (cambio 2):** las playlists propias, Liked Songs y los álbumes cargan la cola de la app y suenan canción a canción (`uris`), en lugar de `contextUri`+offset o una página de `uris`; T-13 modifica esos requisitos. Las playlists que solo se siguen siguen sonando como contexto de Spotify ("modo contexto" de T-13). El servicio de biblioteca y su cursor opaco deben poder reutilizarse para cargar la página siguiente (`POST /queue/continue`).
 - **T-25:** añadir escenarios "no contiene elementos con el atributo data-slot" para `/library`, `/library/liked` y el detalle de playlist.
 
+**Seguimiento de aero-player-controls (T-21, 2026-11-11)**
+
+- Las carátulas usan `AeroCover` (`resources/js/components/aero/AeroCover.vue`) con `:src="null"` cuando la pista no tiene imagen. Si la imagen no carga, se ve la carátula genérica sola, sin icono roto y con el mismo tamaño.
+- `alt` no puede estar vacío cuando hay imagen (por ejemplo "<título> cover"). El tamaño se pasa con `:size` en px.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests, except the `@manual` scenarios, which are checked by hand in a desktop browser with the real Spotify account and recorded in the change

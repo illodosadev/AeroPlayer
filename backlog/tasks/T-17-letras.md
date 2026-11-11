@@ -644,6 +644,11 @@ Se mantiene como una sola tarea porque el contrato de `/lyrics` y el panel se pr
   Es la parte más delicada de frontend.
 - **Fixtures, tests de Pest y de navegador y comprobación manual (0,5 puntos).**
 
+**Seguimiento de aero-player-controls (T-21, 2026-11-11)**
+
+- Los botones van en la ranura `extra` de `AeroPlayerBar`, como `AeroButton` con `aria-pressed` (modo o panel) o `aria-expanded`. Heredan el foco visible y el área táctil de 44x44 px. `/styleguide` tiene un ejemplo ("Extra").
+- Los iconos nuevos van en `resources/aero/icons/` (24x24, `fill="currentColor"`), con su fila en `resources/aero/CREDITS.md` y su nombre en el tipo `AeroIconName` de `AeroIcon.vue`.
+
 ## Definition of Done
 
 - [ ] Criterios automatizables cubiertos por tests; el escenario @manual, en el checklist del cambio

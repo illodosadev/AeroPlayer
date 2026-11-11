@@ -355,6 +355,14 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - Pest browser no puede inyectar un script antes de cargar la página desde `visit()` ni bloquear peticiones. Para falsear el SDK de Spotify: leer la URL del SDK de la configuración y, en los tests, apuntarla a una ruta solo de pruebas que sirva un SDK falso.
 - Las pruebas con sesión usan `signedInOwnerVisit()` de `tests/Pest.php` (no hay `actingAs`). Usar selectores explícitos (`#id`, `.clase`, `[atributo]`): una etiqueta suelta como `h1` se busca como texto y espera hasta el timeout.
 
+**Seguimiento de aero-player-controls (T-21, 2026-11-11)**
+
+- La barra es `AeroPlayerBar` (`resources/js/components/aero/AeroPlayerBar.vue`) y solo emite eventos: el estado lo lleva el padre. Props: `title`, `artist`, `coverSrc`, `playing`, `position` y `duration` en segundos, `volume` (0–100) y `previousDisabled`, `playDisabled`, `nextDisabled`, `seekDisabled`. Eventos: `v-model:position`, `v-model:volume`, `toggle-play`, `previous` y `next`.
+- `formatTime` (`resources/js/lib/formatTime.ts`) da `m:ss`, y `h:mm:ss` a partir de una hora. El seek ya expone `aria-valuetext` "<transcurrido> of <total>".
+- Siguen en T-06 el layout persistente que monta la barra y el efecto real del volumen (también en iOS).
+- En `/styleguide` la barra va dentro de un panel y es más estrecha que en el layout real. Al montarla, revisar el reparto de filas a 375 px.
+- Tests: un recorrido con Tab que pasa del último control cuelga Chrome sin cabeza ("Target crashed"). Acotar los recorridos a los controles habilitados.
+
 ## Definition of Done
 
 - [ ] Criterios automatizables cubiertos por tests; los @manual en el checklist del cambio

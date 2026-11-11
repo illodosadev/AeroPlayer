@@ -892,6 +892,11 @@ Pregunta abierta 1 resuelta: hosting compartido Premium de Hostinger, app en `mu
 
 - **Websockets:** el plan compartido no permite procesos permanentes, así que no hay websockets. El sondeo cada 30 s es la solución final, no provisional; la parte de la pregunta abierta 1 de su Pendiente queda resuelta.
 
+**Seguimiento de aero-player-controls (T-21, 2026-11-11)**
+
+- Los botones van en la ranura `extra` de `AeroPlayerBar`, como `AeroButton` con `aria-pressed` (modo o panel) o `aria-expanded`. Heredan el foco visible y el área táctil de 44x44 px. `/styleguide` tiene un ejemplo ("Extra").
+- Los iconos nuevos van en `resources/aero/icons/` (24x24, `fill="currentColor"`), con su fila en `resources/aero/CREDITS.md` y su nombre en el tipo `AeroIconName` de `AeroIcon.vue`.
+
 ## Definition of Done
 
 - [ ] Criterios automatizables cubiertos por tests; los @manual en el checklist del cambio
