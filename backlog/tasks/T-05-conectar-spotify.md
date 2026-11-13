@@ -3,7 +3,7 @@ id: T-05
 title: Conectar la cuenta de Spotify
 status: enriched
 discovery: reproductor-musica-privado
-change: ~
+change: spotify-connection
 priority: must
 estimate: 6
 language: es
