@@ -54,4 +54,45 @@ class SpotifyConnectionRepository
     {
         SpotifyConnection::query()->where('user_id', $userId)->delete();
     }
+
+    /**
+     * Store a refreshed access token and its expiry on the connection with this identifier, and the refresh token
+     * when Spotify rotated it (spotify-api-client, design D4 and D6). The model is saved, not mass-updated, so the
+     * encrypted casts apply. A connection replaced meanwhile has another identifier and is left alone.
+     */
+    public function storeRefreshedTokens(
+        string $connectionId,
+        #[\SensitiveParameter] string $accessToken,
+        #[\SensitiveParameter] ?string $refreshToken,
+        int $expiresIn,
+    ): void {
+        $connection = SpotifyConnection::query()->where('connection_id', $connectionId)->first();
+
+        if ($connection === null) {
+            return;
+        }
+
+        $connection->access_token = $accessToken;
+        $connection->access_token_expires_at = now()->addSeconds($expiresIn);
+
+        if ($refreshToken !== null) {
+            $connection->refresh_token = $refreshToken;
+        }
+
+        $connection->save();
+    }
+
+    /**
+     * Mark the connection with this identifier as needing a reconnect and delete its tokens (spotify-api-client,
+     * design D6). The settings page then asks the owner to reconnect.
+     */
+    public function markReconnectRequired(string $connectionId): void
+    {
+        SpotifyConnection::query()->where('connection_id', $connectionId)->update([
+            'status' => SpotifyConnectionStatus::ReconnectRequired->value,
+            'access_token' => null,
+            'refresh_token' => null,
+            'access_token_expires_at' => null,
+        ]);
+    }
 }

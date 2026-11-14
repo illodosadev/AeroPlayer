@@ -43,6 +43,10 @@ AeroPlayer plays music through the owner's own Spotify app. Register it once:
 
 Spotify's refresh tokens last 6 months from the moment you authorize, so the settings page shows "Reconnect before <date>": connect again before then. Disconnecting deletes the stored tokens; to remove AeroPlayer's access on Spotify's side too, use [spotify.com/account/apps](https://www.spotify.com/account/apps/).
 
+The Spotify client keeps two things in the cache: the lock that stops parallel requests from refreshing the token twice, and the pause every request respects after Spotify's rate limit (429). The cache store must therefore be shared by every PHP process: keep `CACHE_STORE=database` (or Redis), never `array` outside the tests.
+
+The tokens are encrypted with `APP_KEY`. To rotate the key without losing them, put the old key in `APP_PREVIOUS_KEYS`. If the key is lost, the tokens can no longer be read: the settings page then asks you to reconnect Spotify.
+
 Manual check with the real Spotify app, after changing the connection code:
 
 - connect, and check that the page shows "Spotify connected", your name and "Reconnect before <date>";

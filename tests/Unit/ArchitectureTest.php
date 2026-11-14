@@ -186,6 +186,7 @@ arch('entry points reach data only through the buses')
         'App\Repositories',
         'App\Models',
         'App\Spotify\SpotifyOAuth',
+        'App\Spotify\SpotifyClient',
         'Illuminate\Support\Facades\DB',
         'Illuminate\Support\Facades\Auth',
         'Illuminate\Support\Facades\RateLimiter',

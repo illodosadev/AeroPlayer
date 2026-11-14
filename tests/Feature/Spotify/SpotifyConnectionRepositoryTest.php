@@ -101,3 +101,65 @@ test('deleting the owner account deletes its connection', function () {
 
     expect(SpotifyConnection::count())->toBe(0);
 });
+
+// spotify-api-client, task 1.2 (design D6): storing refreshed tokens and marking the connection for reconnecting.
+
+test('storing refreshed tokens saves the access token and its expiry, encrypted', function () {
+    $this->freezeSecond();
+    $connection = SpotifyConnection::factory()->create();
+
+    app(SpotifyConnectionRepository::class)->storeRefreshedTokens($connection->connection_id, 'BQ-new-789', 'AQ-rotated-999', 3600);
+
+    $stored = $connection->fresh();
+    $raw = (array) DB::table('spotify_connections')->first();
+
+    expect($stored->access_token)->toBe('BQ-new-789')
+        ->and($stored->refresh_token)->toBe('AQ-rotated-999')
+        ->and($stored->access_token_expires_at->equalTo(now()->addSeconds(3600)))->toBeTrue()
+        ->and(implode(' ', array_map('strval', $raw)))->not->toContain('BQ-new-789')->not->toContain('AQ-rotated-999');
+});
+
+test('storing refreshed tokens without a new refresh token keeps the old one', function () {
+    $connection = SpotifyConnection::factory()->create();
+
+    app(SpotifyConnectionRepository::class)->storeRefreshedTokens($connection->connection_id, 'BQ-new-789', null, 3600);
+
+    expect($connection->fresh()->refresh_token)->toBe('AQ-refresh-456')
+        ->and($connection->fresh()->access_token)->toBe('BQ-new-789');
+});
+
+test('marking for reconnecting deletes the tokens and the expiry', function () {
+    $connection = SpotifyConnection::factory()->create();
+
+    app(SpotifyConnectionRepository::class)->markReconnectRequired($connection->connection_id);
+
+    $stored = $connection->fresh();
+
+    expect($stored->status)->toBe(SpotifyConnectionStatus::ReconnectRequired)
+        ->and($stored->access_token)->toBeNull()
+        ->and($stored->refresh_token)->toBeNull()
+        ->and($stored->access_token_expires_at)->toBeNull();
+});
+
+test('both methods leave a connection with another identifier alone', function () {
+    $connection = SpotifyConnection::factory()->create();
+    $repository = app(SpotifyConnectionRepository::class);
+
+    $repository->storeRefreshedTokens('another-connection', 'BQ-new-789', 'AQ-rotated-999', 3600);
+    $repository->markReconnectRequired('another-connection');
+
+    $stored = $connection->fresh();
+
+    expect($stored->status)->toBe(SpotifyConnectionStatus::Connected)
+        ->and($stored->access_token)->toBe('BQ-access-123')
+        ->and($stored->refresh_token)->toBe('AQ-refresh-456');
+});
+
+test('the token parameters of storeRefreshedTokens are sensitive', function () {
+    $sensitive = fn (string $name) => (new ReflectionParameter([SpotifyConnectionRepository::class, 'storeRefreshedTokens'], $name))
+        ->getAttributes(SensitiveParameter::class) !== [];
+
+    expect($sensitive('accessToken'))->toBeTrue()
+        ->and($sensitive('refreshToken'))->toBeTrue()
+        ->and($sensitive('connectionId'))->toBeFalse();
+});

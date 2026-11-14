@@ -128,6 +128,22 @@ class SpotifyOAuth
         );
     }
 
+    /**
+     * Ask Spotify for a new access token (spotify-api-client, design D4). The answer is returned as it is, for the
+     * client to interpret; a ConnectionException bubbles up. It never calls ->throw(), whose exception would embed
+     * part of the token response.
+     */
+    public function requestRefresh(#[\SensitiveParameter] string $refreshToken): Response
+    {
+        return Http::asForm()
+            ->withBasicAuth($this->clientId(), $this->clientSecret())
+            ->timeout($this->timeout())
+            ->post(self::TOKEN_URL, [
+                'grant_type' => 'refresh_token',
+                'refresh_token' => $refreshToken,
+            ]);
+    }
+
     private function unavailable(Response $response): bool
     {
         return $response->serverError() || $response->status() === 429;
