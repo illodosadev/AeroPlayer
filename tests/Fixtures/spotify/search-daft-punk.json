@@ -1,0 +1,254 @@
+{
+  "tracks": {
+    "href": "https://api.spotify.com/v1/search?offset=0&limit=10&query=Daft%20Punk&type=track&market=from_token",
+    "limit": 10,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total": 3,
+    "items": [
+      {
+        "album": {
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": { "spotify": "https://open.spotify.com/artist/4tZwfgrHOc3mvqYlEYSvVi" },
+              "href": "https://api.spotify.com/v1/artists/4tZwfgrHOc3mvqYlEYSvVi",
+              "id": "4tZwfgrHOc3mvqYlEYSvVi",
+              "name": "Daft Punk",
+              "type": "artist",
+              "uri": "spotify:artist:4tZwfgrHOc3mvqYlEYSvVi"
+            }
+          ],
+          "external_urls": { "spotify": "https://open.spotify.com/album/2noRn2Aes5aoNVsU6iWThc" },
+          "href": "https://api.spotify.com/v1/albums/2noRn2Aes5aoNVsU6iWThc",
+          "id": "2noRn2Aes5aoNVsU6iWThc",
+          "images": [
+            { "height": 640, "url": "https://i.scdn.co/image/ab67616d0000b273b33d46dfa2635a47eebf63b2", "width": 640 },
+            { "height": 300, "url": "https://i.scdn.co/image/ab67616d00001e02b33d46dfa2635a47eebf63b2", "width": 300 },
+            { "height": 64, "url": "https://i.scdn.co/image/ab67616d00004851b33d46dfa2635a47eebf63b2", "width": 64 }
+          ],
+          "name": "Discovery",
+          "release_date": "2001-03-12",
+          "release_date_precision": "day",
+          "total_tracks": 14,
+          "type": "album",
+          "uri": "spotify:album:2noRn2Aes5aoNVsU6iWThc"
+        },
+        "artists": [
+          {
+            "external_urls": { "spotify": "https://open.spotify.com/artist/4tZwfgrHOc3mvqYlEYSvVi" },
+            "href": "https://api.spotify.com/v1/artists/4tZwfgrHOc3mvqYlEYSvVi",
+            "id": "4tZwfgrHOc3mvqYlEYSvVi",
+            "name": "Daft Punk",
+            "type": "artist",
+            "uri": "spotify:artist:4tZwfgrHOc3mvqYlEYSvVi"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 320000,
+        "explicit": false,
+        "external_ids": { "isrc": "GBDUW0000053" },
+        "external_urls": { "spotify": "https://open.spotify.com/track/0DiWol3AO6WpXZgp0goxAV" },
+        "href": "https://api.spotify.com/v1/tracks/0DiWol3AO6WpXZgp0goxAV",
+        "id": "0DiWol3AO6WpXZgp0goxAV",
+        "is_local": false,
+        "is_playable": true,
+        "name": "One More Time",
+        "popularity": 80,
+        "track_number": 1,
+        "type": "track",
+        "uri": "spotify:track:0DiWol3AO6WpXZgp0goxAV"
+      },
+      {
+        "album": {
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": { "spotify": "https://open.spotify.com/artist/4tZwfgrHOc3mvqYlEYSvVi" },
+              "href": "https://api.spotify.com/v1/artists/4tZwfgrHOc3mvqYlEYSvVi",
+              "id": "4tZwfgrHOc3mvqYlEYSvVi",
+              "name": "Daft Punk",
+              "type": "artist",
+              "uri": "spotify:artist:4tZwfgrHOc3mvqYlEYSvVi"
+            }
+          ],
+          "external_urls": { "spotify": "https://open.spotify.com/album/2noRn2Aes5aoNVsU6iWThc" },
+          "href": "https://api.spotify.com/v1/albums/2noRn2Aes5aoNVsU6iWThc",
+          "id": "2noRn2Aes5aoNVsU6iWThc",
+          "images": [
+            { "height": 640, "url": "https://i.scdn.co/image/ab67616d0000b273b33d46dfa2635a47eebf63b2", "width": 640 }
+          ],
+          "name": "Discovery",
+          "release_date": "2001-03-12",
+          "release_date_precision": "day",
+          "total_tracks": 14,
+          "type": "album",
+          "uri": "spotify:album:2noRn2Aes5aoNVsU6iWThc"
+        },
+        "artists": [
+          {
+            "external_urls": { "spotify": "https://open.spotify.com/artist/4tZwfgrHOc3mvqYlEYSvVi" },
+            "href": "https://api.spotify.com/v1/artists/4tZwfgrHOc3mvqYlEYSvVi",
+            "id": "4tZwfgrHOc3mvqYlEYSvVi",
+            "name": "Daft Punk",
+            "type": "artist",
+            "uri": "spotify:artist:4tZwfgrHOc3mvqYlEYSvVi"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 224693,
+        "explicit": false,
+        "external_ids": { "isrc": "GBDUW0000059" },
+        "external_urls": { "spotify": "https://open.spotify.com/track/5W3cjX2J3tjhG8zb6u0qHn" },
+        "href": "https://api.spotify.com/v1/tracks/5W3cjX2J3tjhG8zb6u0qHn",
+        "id": "5W3cjX2J3tjhG8zb6u0qHn",
+        "is_local": false,
+        "is_playable": false,
+        "name": "Harder, Better, Faster, Stronger",
+        "popularity": 78,
+        "track_number": 4,
+        "type": "track",
+        "uri": "spotify:track:5W3cjX2J3tjhG8zb6u0qHn"
+      },
+      {
+        "album": {
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": { "spotify": "https://open.spotify.com/artist/4tZwfgrHOc3mvqYlEYSvVi" },
+              "href": "https://api.spotify.com/v1/artists/4tZwfgrHOc3mvqYlEYSvVi",
+              "id": "4tZwfgrHOc3mvqYlEYSvVi",
+              "name": "Daft Punk",
+              "type": "artist",
+              "uri": "spotify:artist:4tZwfgrHOc3mvqYlEYSvVi"
+            }
+          ],
+          "external_urls": { "spotify": "https://open.spotify.com/album/5uRdvUR7xCnHmUW8n64n9y" },
+          "href": "https://api.spotify.com/v1/albums/5uRdvUR7xCnHmUW8n64n9y",
+          "id": "5uRdvUR7xCnHmUW8n64n9y",
+          "images": [
+            { "height": 640, "url": "https://i.scdn.co/image/ab67616d0000b2738ac778cc7d88779f74d33311", "width": 640 }
+          ],
+          "name": "Homework",
+          "release_date": "1997",
+          "release_date_precision": "year",
+          "total_tracks": 16,
+          "type": "album",
+          "uri": "spotify:album:5uRdvUR7xCnHmUW8n64n9y"
+        },
+        "artists": [
+          {
+            "external_urls": { "spotify": "https://open.spotify.com/artist/4tZwfgrHOc3mvqYlEYSvVi" },
+            "href": "https://api.spotify.com/v1/artists/4tZwfgrHOc3mvqYlEYSvVi",
+            "id": "4tZwfgrHOc3mvqYlEYSvVi",
+            "name": "Daft Punk",
+            "type": "artist",
+            "uri": "spotify:artist:4tZwfgrHOc3mvqYlEYSvVi"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 428360,
+        "explicit": false,
+        "external_ids": { "isrc": "GBDUW9600007" },
+        "external_urls": { "spotify": "https://open.spotify.com/track/1pKYYY0dkg23sQQXi0Q5zN" },
+        "href": "https://api.spotify.com/v1/tracks/1pKYYY0dkg23sQQXi0Q5zN",
+        "id": "1pKYYY0dkg23sQQXi0Q5zN",
+        "is_local": false,
+        "name": "Around the World",
+        "popularity": 75,
+        "track_number": 7,
+        "type": "track",
+        "uri": "spotify:track:1pKYYY0dkg23sQQXi0Q5zN"
+      }
+    ]
+  },
+  "albums": {
+    "href": "https://api.spotify.com/v1/search?offset=0&limit=10&query=Daft%20Punk&type=album&market=from_token",
+    "limit": 10,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total": 2,
+    "items": [
+      {
+        "album_type": "album",
+        "artists": [
+          {
+            "external_urls": { "spotify": "https://open.spotify.com/artist/4tZwfgrHOc3mvqYlEYSvVi" },
+            "href": "https://api.spotify.com/v1/artists/4tZwfgrHOc3mvqYlEYSvVi",
+            "id": "4tZwfgrHOc3mvqYlEYSvVi",
+            "name": "Daft Punk",
+            "type": "artist",
+            "uri": "spotify:artist:4tZwfgrHOc3mvqYlEYSvVi"
+          }
+        ],
+        "external_urls": { "spotify": "https://open.spotify.com/album/2noRn2Aes5aoNVsU6iWThc" },
+        "href": "https://api.spotify.com/v1/albums/2noRn2Aes5aoNVsU6iWThc",
+        "id": "2noRn2Aes5aoNVsU6iWThc",
+        "images": [
+          { "height": 640, "url": "https://i.scdn.co/image/ab67616d0000b273b33d46dfa2635a47eebf63b2", "width": 640 },
+          { "height": 300, "url": "https://i.scdn.co/image/ab67616d00001e02b33d46dfa2635a47eebf63b2", "width": 300 }
+        ],
+        "is_playable": true,
+        "name": "Discovery",
+        "release_date": "2001-03-12",
+        "release_date_precision": "day",
+        "total_tracks": 14,
+        "type": "album",
+        "uri": "spotify:album:2noRn2Aes5aoNVsU6iWThc"
+      },
+      {
+        "album_type": "album",
+        "artists": [
+          {
+            "external_urls": { "spotify": "https://open.spotify.com/artist/4tZwfgrHOc3mvqYlEYSvVi" },
+            "href": "https://api.spotify.com/v1/artists/4tZwfgrHOc3mvqYlEYSvVi",
+            "id": "4tZwfgrHOc3mvqYlEYSvVi",
+            "name": "Daft Punk",
+            "type": "artist",
+            "uri": "spotify:artist:4tZwfgrHOc3mvqYlEYSvVi"
+          }
+        ],
+        "external_urls": { "spotify": "https://open.spotify.com/album/5uRdvUR7xCnHmUW8n64n9y" },
+        "href": "https://api.spotify.com/v1/albums/5uRdvUR7xCnHmUW8n64n9y",
+        "id": "5uRdvUR7xCnHmUW8n64n9y",
+        "images": [
+          { "height": 640, "url": "https://i.scdn.co/image/ab67616d0000b2738ac778cc7d88779f74d33311", "width": 640 }
+        ],
+        "is_playable": true,
+        "name": "Homework",
+        "release_date": "1997",
+        "release_date_precision": "year",
+        "total_tracks": 16,
+        "type": "album",
+        "uri": "spotify:album:5uRdvUR7xCnHmUW8n64n9y"
+      }
+    ]
+  },
+  "artists": {
+    "href": "https://api.spotify.com/v1/search?offset=0&limit=10&query=Daft%20Punk&type=artist&market=from_token",
+    "limit": 10,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total": 1,
+    "items": [
+      {
+        "external_urls": { "spotify": "https://open.spotify.com/artist/4tZwfgrHOc3mvqYlEYSvVi" },
+        "followers": { "href": null, "total": 9500000 },
+        "genres": ["electro", "filter house", "french house"],
+        "href": "https://api.spotify.com/v1/artists/4tZwfgrHOc3mvqYlEYSvVi",
+        "id": "4tZwfgrHOc3mvqYlEYSvVi",
+        "images": [
+          { "height": 640, "url": "https://i.scdn.co/image/ab6761610000e5eba7bfd7835b5c1eee0c95fa6e", "width": 640 },
+          { "height": 320, "url": "https://i.scdn.co/image/ab67616100005174a7bfd7835b5c1eee0c95fa6e", "width": 320 }
+        ],
+        "name": "Daft Punk",
+        "popularity": 76,
+        "type": "artist",
+        "uri": "spotify:artist:4tZwfgrHOc3mvqYlEYSvVi"
+      }
+    ]
+  }
+}

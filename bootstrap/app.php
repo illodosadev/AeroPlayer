@@ -26,9 +26,10 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         // The browser player's endpoints answer JSON even before their controller runs (spotify-playback-api,
-        // design D6): a missing session is a 401, an expired one fails the CSRF check first and is a 419.
+        // design D6): a missing session is a 401, an expired one fails the CSRF check first and is a 419. The search
+        // results endpoint answers the same JSON 401 (spotify-search-api, design D4).
         $exceptions->render(function (AuthenticationException $exception, Request $request) {
-            if ($request->expectsJson() && $request->is('spotify/token', 'spotify/player/*')) {
+            if ($request->expectsJson() && $request->is('spotify/token', 'spotify/player/*', 'search/results')) {
                 return response()->json(['error' => 'unauthenticated'], 401, ['Cache-Control' => 'no-store, private']);
             }
         });

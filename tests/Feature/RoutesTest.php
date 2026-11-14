@@ -37,6 +37,7 @@ test('the web route table keeps its methods, URIs, names and middleware', functi
         ['GET|HEAD', 'login', 'login', ['web', 'guest']],
         ['POST', 'login', null, ['web', 'guest']],
         ['POST', 'logout', 'logout', ['web', 'auth']],
+        ['GET|HEAD', 'search/results', 'search.results', ['web', 'auth']],
         ['GET|HEAD|POST|PUT|PATCH|DELETE|OPTIONS', 'settings', 'settings', ['web', 'auth']],
         ['GET|HEAD', 'settings/spotify', 'spotify.settings', ['web', 'auth']],
         ['GET|HEAD', 'spotify/callback', 'spotify.callback', ['web', 'auth']],

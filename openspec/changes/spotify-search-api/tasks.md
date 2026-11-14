@@ -4,7 +4,7 @@ Every test fakes Spotify with `Http::preventStrayRequests()` and `Http::fake()` 
 
 ## 1. The search context
 
-- [ ] 1.1 Add the `Search` context:
+- [x] 1.1 Add the `Search` context:
   - `SearchSection`;
   - the items `SongResult`, `AlbumResult` and `ArtistResult`;
   - `SectionPage` and `SearchResults`;
@@ -17,15 +17,15 @@ Every test fakes Spotify with `Http::preventStrayRequests()` and `Http::fake()` 
   - the album year from `release_date`;
   - `null` items are skipped;
   - the exact keys of each item.
-- [ ] 1.2 Add the query `SearchMusic` and its handler (design D1, D4). Verify that the reflection test in `tests/Unit/ArchitectureTest.php` accepts it.
+- [x] 1.2 Add the query `SearchMusic` and its handler (design D1, D4). Verify that the reflection test in `tests/Unit/ArchitectureTest.php` accepts it.
 
 ## 2. Cursor and endpoint
 
-- [ ] 2.1 Add `App\Http\Search\SearchCursor` (design D3). Verify in `tests/Feature/Search/SearchCursorTest.php` that a cursor:
+- [x] 2.1 Add `App\Http\Search\SearchCursor` (design D3). Verify in `tests/Feature/Search/SearchCursorTest.php` that a cursor:
   - round-trips;
   - is opaque, so the offset does not appear in it;
   - is rejected when it is altered, comes from another section or query, or carries an offset above 1000.
-- [ ] 2.2 Add `SearchResultsRequest`, `Search/ShowSearchResultsController`, the route `GET search/results` named `search.results`, its row in `tests/Feature/RoutesTest.php`, and `search/results` in the JSON 401 of `bootstrap/app.php` (design D4). Verify in `tests/Feature/Search/SearchResultsTest.php`:
+- [x] 2.2 Add `SearchResultsRequest`, `Search/ShowSearchResultsController`, the route `GET search/results` named `search.results`, its row in `tests/Feature/RoutesTest.php`, and `search/results` in the JSON 401 of `bootstrap/app.php` (design D4). Verify in `tests/Feature/Search/SearchResultsTest.php`:
   - "Searching Spotify";
   - "Surrounding spaces do not count";
   - "Special characters reach Spotify unchanged";
