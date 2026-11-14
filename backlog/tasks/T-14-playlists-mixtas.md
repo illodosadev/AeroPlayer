@@ -660,6 +660,10 @@ Scenario: La carátula guardada ya no carga
 
 - **"Add to playlist" en la búsqueda:** va en la fila de canción de `resources/js/pages/Search.vue`, desactivado cuando `playable` es false.
 
+**Seguimiento de spotify-library-overview (T-08, 2026-11-14)**
+
+- **"My playlists":** va como sección encima de la lista de Spotify en `resources/js/pages/Library.vue`, visible sea cual sea el estado de Spotify (hoy un error de Spotify oculta todo el contenido de la página).
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

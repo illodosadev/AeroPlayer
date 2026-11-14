@@ -3,7 +3,7 @@ id: T-08
 title: Biblioteca de Spotify
 status: enriched
 discovery: reproductor-musica-privado
-change: spotify-library-overview
+change: spotify-library-tracks
 priority: must
 estimate: 5
 language: es
@@ -544,6 +544,23 @@ El cliente compartido de la Web API ya existe: `App\Spotify\SpotifyClient` (spec
 
 - **Fila de canción:** está dentro de `resources/js/pages/Search.vue`. Cuando la biblioteca necesite la misma fila, extraerla a un componente compartido.
 - **Paginación en el cliente:** `useMusicSearch` (`resources/js/composables/useMusicSearch.ts`) bloquea "Load more" mientras carga, descarta los ids ya mostrados y deja de mostrar el botón cuando `next_cursor` es null. Reutilizar ese enfoque.
+
+**Parte 1 hecha con `spotify-library-overview` (2026-11-14)**
+
+T-08 se partió en dos cambios por pantalla. El primero está archivado; la referencia es `openspec/specs/music-library/spec.md`.
+
+- **Spike (2026-11-14, cuenta real):** una playlist que solo se sigue suena como contexto y avanza con "Next", y tres canciones guardadas pasadas como `uris` empiezan en la segunda y avanzan a la tercera.
+- **Hecho:**
+  - `GET /library` (página Aero `Library`), con el enlace "Library" en la barra lateral del dashboard;
+  - la query `GetLibrary` lee todas las playlists (50 por petición, hasta 1000) y el total de canciones guardadas (`/me/tracks?limit=1`), solo para los scopes concedidos;
+  - el formato de playlist (`PlaylistResult`, `SpotifyCatalogMapper::playlists()`);
+  - una caché de 10 minutos por `connection_id` (`LibraryCache`); "Refresh" es `POST /library/refresh`, una command `RefreshLibrary` que la borra;
+  - todos los estados con estado 200: sin conexión, acceso revocado, permiso que falta, biblioteca vacía, sin playlists, Spotify ocupado y fallo con "Try again".
+- **Decisiones del cambio:**
+  - la lógica vive en el handler de la query, no en una clase `SpotifyLibrary`;
+  - los textos de vacío solo se aplican cuando se leyeron las dos partes, así que un permiso que falta nunca parece una biblioteca vacía;
+  - escribir la caché dentro de la query se trata como infraestructura, como la renovación del token en `GetSpotifyPlaybackToken`.
+- **Queda para el segundo cambio, `spotify-library-tracks`:** el detalle de playlist, Liked Songs, "Load more" y reproducir. El propietario eligió no cachear las páginas de canciones.
 
 ## Definition of Done
 

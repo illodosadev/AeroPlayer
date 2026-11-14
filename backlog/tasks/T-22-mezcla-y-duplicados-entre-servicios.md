@@ -65,6 +65,10 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 
 - **Dónde va:** la mezcla y la eliminación de duplicados se hacen dentro de `SearchMusicHandler`, una vez que T-11 añada YouTube Music como segunda fuente. Los resultados ya llevan `source` para distinguir el servicio.
 
+**Seguimiento de spotify-library-overview (T-08, 2026-11-14)**
+
+- **Biblioteca:** la mezcla de playlists de los dos servicios va en `GetLibraryHandler`, que hoy devuelve las playlists de Spotify en su orden. Cada playlist ya lleva `source`.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

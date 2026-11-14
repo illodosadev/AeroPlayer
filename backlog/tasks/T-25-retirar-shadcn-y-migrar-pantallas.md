@@ -466,6 +466,10 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 
 - **Página de búsqueda:** `/search` ya es Aero y no tiene elementos con `data-slot`. Su único punto de entrada del kit es el enlace "Search" de `AppSidebar.vue`, que se migra con la barra lateral.
 
+**Seguimiento de spotify-library-overview (T-08, 2026-11-14)**
+
+- **Página principal:** `/library` ya existe (ruta `library`), es Aero y no tiene elementos con `data-slot`. Falta que el login redirija ahí (D12).
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

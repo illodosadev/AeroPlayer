@@ -69,6 +69,10 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 
 - **T-14:** "Add to playlist" en las filas de canción de la biblioteca de YouTube Music. Si esta tarea llega antes que T-11, añade también `youtube_music` a las fuentes que acepta T-14.
 
+**Seguimiento de spotify-library-overview (T-08, 2026-11-14)**
+
+- **Dónde va:** YouTube Music se añade dentro de `GetLibraryHandler` (`app/Application/Library/Queries`) y en la misma lista de `resources/js/pages/Library.vue`, con su propio `source` y la etiqueta del servicio en el mapa `SOURCE_LABELS`.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests
