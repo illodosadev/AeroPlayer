@@ -470,6 +470,15 @@ T-05 se partió en dos cambios. El primero, `spotify-connection`, está archivad
 - El escenario `@manual` "Spotify acepta la redirección de producción" pasa a T-04.
 - Comprobado a mano en local con la app real de Spotify el 2026-11-14. En Windows, el PHP local necesitó un paquete de certificados raíz (`curl.cainfo` y `openssl.cafile`) para hablar con Spotify por HTTPS. Sin él, la página muestra "Spotify is not responding right now."
 
+**Seguimiento de adopt-cqrs (2026-11-14)**
+
+El proyecto usa CQRS (AGENTS.md, Code conventions), y `spotify-api-client` lo sigue desde el principio:
+
+- **Dónde va el cliente:** el cliente compartido es infraestructura en `app/Spotify`, igual que `SpotifyOAuth`. Lo usan los handlers de `app/Application/Spotify`, nunca los controladores ni el middleware.
+- **Renovación del token:** ocurre dentro de los handlers. La conexión se lee con `SpotifyConnectionRepository`, que ahora solo se inyecta en handlers, y sus métodos de escritura reciben el id del usuario.
+- **Errores tipados:** los fallos de un Command son excepciones que extienden `App\Application\UseCaseFailed`, en `app/Application/Spotify/Exceptions`. El punto de entrada las convierte en el mensaje de la página.
+- **Comprobación automática:** `tests/Unit/ArchitectureTest.php` falla si un punto de entrada usa el cliente, un repositorio o un modelo.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests
