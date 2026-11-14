@@ -364,6 +364,12 @@ El cliente compartido de la Web API ya existe: `App\Spotify\SpotifyClient` (spec
 - **Sesión caducada:** las rutas nuevas bajo `spotify/player/*` heredan de `bootstrap/app.php` el 401 `unauthenticated` y el 419 `session_expired` en JSON.
 - **Rutas nuevas:** cada una es un controlador invocable en `app/Http/Controllers/Spotify` y se añade a la tabla de `tests/Feature/RoutesTest.php`.
 
+**Seguimiento de spotify-web-player (T-06, 2026-11-14)**
+
+- **Dónde va su trabajo:** en `resources/js/composables/useSpotifyPlayer.ts`. Hoy `not_ready` solo pone `deviceId` a null. `account_error`, `playback_error` y `initialization_error` no tienen listener. Un estado `null` (la reproducción pasó a otro dispositivo) se ignora y la barra conserva el último estado.
+- **Respuestas de `GET /spotify/token` que no son 401 ni 419** (409, 429, 502): el composable no llama al callback del SDK. Mostrar el aviso es trabajo de esta tarea.
+- **Avisos en la barra:** el slot `notice` de `PlayerLayout` ya muestra "Connect Spotify to play your music." y "Press play to start listening". Sus avisos se añaden ahí.
+
 ## Definition of Done
 
 - [ ] Criterios automatizables cubiertos por tests; los @manual en el checklist del cambio

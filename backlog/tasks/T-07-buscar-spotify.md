@@ -429,6 +429,12 @@ El cliente compartido de la Web API ya existe: `App\Spotify\SpotifyClient` (spec
 - **Tests:** `Http::preventStrayRequests()` y `Http::fake()` sobre `https://api.spotify.com/v1/*`. Ejemplos en `tests/Feature/Spotify/SpotifyClientTest.php`.
 - **Búsqueda:** `get('/search', ['q' => …, 'type' => …])`. En development mode Spotify devuelve como mucho 10 resultados por tipo (ver T-05, "Restricciones descubiertas").
 
+**Seguimiento de spotify-web-player (T-06, 2026-11-14)**
+
+- **Empezar a reproducir:** desde el manejador de un clic, con `useSpotifyPlayer().play({contextUri | uris, offset})` (`resources/js/composables/useSpotifyPlayer.ts`). La función llama antes a `activateElement()` y rechaza la promesa con `PlayerRequestError(status, code)` si el endpoint falla, con los códigos de `spotify-playback`. Hace falta exactamente uno de `contextUri` o `uris`.
+- **Página nueva:** recibe sola el layout persistente `PlayerLayout`, porque `app.ts` se lo da a toda página fuera de `auth/`, y con él la barra y el reproductor.
+- **Reproducir una canción suelta de la búsqueda:** `play({uris: ['spotify:track:…']})`, porque una pista no es un `context_uri` válido.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

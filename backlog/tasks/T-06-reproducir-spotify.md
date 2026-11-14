@@ -1,7 +1,7 @@
 ---
 id: T-06
 title: Reproducir canciones de Spotify en el navegador
-status: enriched
+status: done
 discovery: reproductor-musica-privado
 change: spotify-web-player
 priority: must
@@ -423,6 +423,22 @@ T-06 se partió en dos cambios. El primero está archivado; la referencia es `op
   - cada petición envía `Accept: application/json`, porque sin ella Laravel redirige en vez de responder 401 o 422;
   - `PUT` lleva la cabecera `X-XSRF-TOKEN` con el valor de la cookie `XSRF-TOKEN`;
   - ante un 401 o un 419 se lleva al propietario a iniciar sesión.
+
+**Cerrada con `spotify-web-player` (2026-11-14)**
+
+Las dos partes están archivadas. La referencia es ahora `openspec/specs/spotify-playback/spec.md`, con 16 requisitos.
+
+- **Parte 1, `spotify-playback-api`:** `GET /spotify/token` y `PUT /spotify/player/play`, con sus errores en JSON.
+- **Parte 2, `spotify-web-player`:**
+  - el layout persistente `PlayerLayout` en todas las páginas con sesión;
+  - `useSpotifyPlayer`, que se encarga del SDK, el dispositivo con el nombre de `APP_NAME`, el estado de la barra con el progreso interpolado, los controles, el volumen en `localStorage` y `play()`;
+  - la desconexión al cerrar sesión o al desconectar Spotify, y la redirección a `/login` ante un 401 o un 419.
+- **Comprobado a mano el 2026-11-14 con Premium real en Chrome de escritorio:**
+  - el dispositivo aparece en la app de Spotify;
+  - un álbum real suena en la pestaña y la barra coincide;
+  - pausa, play, volumen, seek y Next funcionan.
+- **Decisión tras la comprobación:** "Previous" es el clásico. Pasados 3 segundos reinicia la canción; si no, va a la anterior. El `previousTrack()` del SDK siempre va a la anterior, sin mirar la posición.
+- **Tests:** usan un SDK simulado (`tests/Browser/fixtures/fake-spotify-sdk.js`). `phpunit.xml` deja vacía `SPOTIFY_SDK_URL`, así que ningún test carga el SDK real.
 
 ## Definition of Done
 

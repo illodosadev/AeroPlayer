@@ -529,6 +529,12 @@ El cliente compartido de la Web API ya existe: `App\Spotify\SpotifyClient` (spec
 - **Tests:** `Http::preventStrayRequests()` y `Http::fake()` sobre `https://api.spotify.com/v1/*`. Ejemplos en `tests/Feature/Spotify/SpotifyClientTest.php`.
 - **Caché de la biblioteca:** la clave usa `spotify_connections.connection_id` (nota de `spotify-connection`). Ese identificador cambia al reconectar, así que la caché antigua deja de servirse sola.
 
+**Seguimiento de spotify-web-player (T-06, 2026-11-14)**
+
+- **Empezar a reproducir:** desde el manejador de un clic, con `useSpotifyPlayer().play({contextUri | uris, offset})` (`resources/js/composables/useSpotifyPlayer.ts`). La función llama antes a `activateElement()` y rechaza la promesa con `PlayerRequestError(status, code)` si el endpoint falla, con los códigos de `spotify-playback`. Hace falta exactamente uno de `contextUri` o `uris`.
+- **Página nueva:** recibe sola el layout persistente `PlayerLayout`, porque `app.ts` se lo da a toda página fuera de `auth/`, y con él la barra y el reproductor.
+- **Canciones guardadas ("me gusta"):** no tienen contexto en Spotify, así que se reproducen con `play({uris: [...], offset})`.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests, except the `@manual` scenarios, which are checked by hand in a desktop browser with the real Spotify account and recorded in the change

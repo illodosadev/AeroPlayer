@@ -527,6 +527,11 @@ Scenario: Borrar el historial sin sesión
 - **Página de estadísticas: periodos con zona horaria, agregados por canción y por artista, empates y límite (1 punto).**
 - **Tests (0,5 puntos):** datasets de Pest con `travelTo` y tests de navegador para la zona horaria, el diálogo y "Load more"; reutilizan la configuración de T-19a.
 
+**Seguimiento de spotify-web-player (T-06, 2026-11-14)**
+
+- **Estado del reproductor:** `useSpotifyPlayer().state`, de solo lectura y único por pestaña. Contiene `track` (`uri`, `title`, `artists[]`, `album`, `image`, `durationMs`), `paused`, `positionMs`, `timestamp`, `hasNext`, `autoplayBlocked`, `volume` (0–100), `deviceId` y `lastSeekAt`, la marca de los seeks de la barra. `positionMs` (computed) es la posición interpolada.
+- Para distinguir un seek de un reinicio de la canción: `lastSeekAt` se actualiza en cada seek de la barra. "Previous" pasados 3 segundos también es un seek a 0.
+
 ## Definition of Done
 
 - [ ] Criterios automatizables cubiertos por tests; los @manual en el checklist del cambio

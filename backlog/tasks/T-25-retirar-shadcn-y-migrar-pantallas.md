@@ -456,6 +456,12 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - El elemento "Settings" del menú de usuario lleva a `/settings/spotify` hasta que la navegación Aero tenga su enlace "Settings".
 - Los mensajes de la página van dentro de ella, en una región `role="status"`, no como toast.
 
+**Seguimiento de spotify-web-player (T-06, 2026-11-14)**
+
+- **`PlayerLayout`** (`resources/js/layouts/PlayerLayout.vue`) es el layout persistente que esta tarea convierte en `AeroAppLayout`. `app.ts` lo asigna a toda página fuera de `auth/`.
+- **Regla temporal:** una regla CSS acotada acorta el sidebar fijo del kit (`div.fixed:has(> [data-sidebar='sidebar'])`) hasta encima de la barra, usando `--app-player-height`. Se retira al quitar el shell del kit.
+- **Tests de navegador:** `SpotifySettingsTest` cuenta solo los paneles de `#spotify-settings`, porque la barra es otro panel de cristal.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

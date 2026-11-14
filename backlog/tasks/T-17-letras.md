@@ -649,6 +649,11 @@ Se mantiene como una sola tarea porque el contrato de `/lyrics` y el panel se pr
 - Los botones van en la ranura `extra` de `AeroPlayerBar`, como `AeroButton` con `aria-pressed` (modo o panel) o `aria-expanded`. Heredan el foco visible y el área táctil de 44x44 px. `/styleguide` tiene un ejemplo ("Extra").
 - Los iconos nuevos van en `resources/aero/icons/` (24x24, `fill="currentColor"`), con su fila en `resources/aero/CREDITS.md` y su nombre en el tipo `AeroIconName` de `AeroIcon.vue`.
 
+**Seguimiento de spotify-web-player (T-06, 2026-11-14)**
+
+- **Estado del reproductor:** `useSpotifyPlayer().state`, de solo lectura y único por pestaña. Contiene `track` (`uri`, `title`, `artists[]`, `album`, `image`, `durationMs`), `paused`, `positionMs`, `timestamp`, `hasNext`, `autoplayBlocked`, `volume` (0–100), `deviceId` y `lastSeekAt`, la marca de los seeks de la barra. `positionMs` (computed) es la posición interpolada.
+- Las letras se sincronizan con `positionMs` (interpolado) y con `lastSeekAt` para los saltos.
+
 ## Definition of Done
 
 - [ ] Criterios automatizables cubiertos por tests; el escenario @manual, en el checklist del cambio
