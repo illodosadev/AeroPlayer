@@ -41,7 +41,7 @@ Every test fakes Spotify with `Http::preventStrayRequests()` and `Http::fake()` 
 
 ## 3. Integration
 
-- [ ] 3.1 Run Pint on the changed PHP files. Then verify that `openspec validate spotify-search-api --strict`, `npm run build` and the full `vendor/bin/pest` run pass together.
+- [x] 3.1 Run Pint on the changed PHP files. Then verify that `openspec validate spotify-search-api --strict`, `npm run build` and the full `vendor/bin/pest` run pass together.
 
 ## Workflow follow-up
 
