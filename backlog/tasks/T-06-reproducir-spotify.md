@@ -363,6 +363,12 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - En `/styleguide` la barra va dentro de un panel y es más estrecha que en el layout real. Al montarla, revisar el reparto de filas a 375 px.
 - Tests: un recorrido con Tab que pasa del último control cuelga Chrome sin cabeza ("Target crashed"). Acotar los recorridos a los controles habilitados.
 
+**Seguimiento de spotify-connection (T-05, 2026-11-14)**
+
+- **Props compartidas:** `spotify.status` (`not_connected`, `connected` o `reconnect_required`) y `spotify.connected`. El tipo `SpotifyStatus` está en `resources/js/types/index.ts`.
+- **Token para el reproductor:** `GET /spotify/token` es el único endpoint que el requisito "Spotify tokens stay off the pages" deja enviar el access token al reproductor del navegador. Lo crea esta tarea, con el cliente de `spotify-api-client`. El refresh token nunca sale del servidor, y ninguna página ni prop compartida lleva tokens.
+- **Lectura de la conexión:** con `SpotifyConnectionRepository::current()`. Los tokens están cifrados en `spotify_connections` y ocultos (`$hidden`) en el modelo.
+
 ## Definition of Done
 
 - [ ] Criterios automatizables cubiertos por tests; los @manual en el checklist del cambio

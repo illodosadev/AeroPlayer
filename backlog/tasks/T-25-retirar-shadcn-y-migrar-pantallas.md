@@ -450,6 +450,12 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - Sustituir el logo de Laravel del login (`AppLogoIcon`) por uno de AeroPlayer.
 - Sustituir el fondo SVG hecho a mano (`resources/aero/backgrounds/sky.svg`) por una fotografía real de cielo y naturaleza: WebP o AVIF de menos de 400 KB, con su fila en `CREDITS.md`, y ajustar `--aero-background-fallback` a sus colores. El propietario aprobó el aspecto actual pero quiere una imagen real.
 
+**Seguimiento de spotify-connection (T-05, 2026-11-14)**
+
+- `/settings` redirige a `/settings/spotify`. La página ya es Aero, sin `data-slot`, y tiene un enlace "Back" a `/dashboard`.
+- El elemento "Settings" del menú de usuario lleva a `/settings/spotify` hasta que la navegación Aero tenga su enlace "Settings".
+- Los mensajes de la página van dentro de ella, en una región `role="status"`, no como toast.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

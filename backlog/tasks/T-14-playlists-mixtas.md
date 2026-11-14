@@ -652,6 +652,10 @@ Scenario: La carátula guardada ya no carga
   - Endpoint de marcar, llamada desde el cliente solo con `playback_error` y recuperar al volver a añadir: 0,5 puntos.
   - Tests con el SDK simulado y la cola de T-13 (siete fallos que no marcan, otro dispositivo) y la comprobación manual: 0,75 puntos.
 
+**Seguimiento de spotify-connection (T-05, 2026-11-14)**
+
+- Las props compartidas son `spotify.status` (`not_connected`, `connected` o `reconnect_required`) y `spotify.connected`. Sirven para elegir entre el aviso de conectar y el de reconectar.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

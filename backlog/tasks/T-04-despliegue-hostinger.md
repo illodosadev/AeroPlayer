@@ -245,6 +245,13 @@ Scenario: La app funciona en el móvil fuera de casa
   Given el móvil del usuario con datos móviles, sin Wi-Fi
   When abre "https://music.illodosadev.io" e inicia sesión
   Then ve la página principal sin avisos de certificado
+
+@manual
+Scenario: Spotify acepta la redirección de producción
+  Given "https://music.illodosadev.io/spotify/callback" registrada en la app de Spotify y las variables SPOTIFY_* en el ".env" del servidor
+  When el propietario pulsa "Connect Spotify" en "https://music.illodosadev.io/settings/spotify" y acepta en Spotify
+  Then vuelve a "https://music.illodosadev.io/settings/spotify" y la página muestra "Spotify connected"
+  # Viene de T-05 (spotify-connection, 2026-11-14). Dependencia blanda: necesita T-05 desplegada.
 ```
 
 ## Notes & edge cases
@@ -378,6 +385,12 @@ Scenario: La app funciona en el móvil fuera de casa
 **Seguimiento de project-foundation (2026-11-10)**
 
 - **CI duplicado:** el kit ya trae `.github/workflows/tests.yml` y `lint.yml`. `ci.yml` de esta tarea repite parte de ellos: decidir si los sustituye.
+
+**Seguimiento de spotify-connection (T-05, 2026-11-14)**
+
+- Se ha añadido el escenario `@manual` "Spotify acepta la redirección de producción" (viene de T-05).
+- Las variables de Spotify del `.env` del servidor son las cuatro de `.env.example`: `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_OWNER_ID` y `SPOTIFY_REDIRECT_URI`.
+- Hay que mantener `SESSION_SAME_SITE=lax`, que es el valor por defecto. Con `strict`, la cookie de sesión no vuelve con la redirección de Spotify y la conexión falla.
 
 ## Definition of Done
 

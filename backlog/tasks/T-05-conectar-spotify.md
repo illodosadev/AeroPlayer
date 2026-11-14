@@ -3,7 +3,7 @@ id: T-05
 title: Conectar la cuenta de Spotify
 status: enriched
 discovery: reproductor-musica-privado
-change: spotify-connection
+change: ~
 priority: must
 estimate: 6
 language: es
@@ -444,6 +444,31 @@ Pregunta abierta 1 resuelta: hosting compartido Premium de Hostinger, app en `mu
 
 - Añadir el escenario `@manual` "Spotify acepta la redirección de producción": con `https://music.illodosadev.io/spotify/callback` registrada en la app de Spotify y las variables SPOTIFY_* en el `.env` del servidor, al conectar Spotify desde producción vuelve a `https://music.illodosadev.io/settings/spotify` con Spotify conectado. Dependencia blanda de T-04.
 - En producción la caché es `database` (no hay Redis en el plan), que cumple el requisito de caché común para el bloqueo de renovación y la pausa tras un 429.
+
+**Parte 1 hecha con `spotify-connection` (2026-11-14)**
+
+T-05 se partió en dos cambios. El primero, `spotify-connection`, está archivado. La referencia es ahora `openspec/specs/spotify-connection/spec.md`, y `openspec/specs/owner-auth/spec.md` para `/settings`.
+
+- **Hecho:**
+  - el flujo OAuth con un state de un solo uso;
+  - el callback y sus errores: cancelar, state incorrecto, code rechazado, sin sesión, otra cuenta, sin Premium, 403 y Spotify sin responder;
+  - una sola conexión, con los tokens cifrados;
+  - la página `/settings/spotify` con la fecha de reconexión (6 meses) y el aviso de scopes que faltan;
+  - la desconexión;
+  - las props compartidas `spotify.status` y `spotify.connected`;
+  - el elemento "Settings" del menú de usuario.
+- **Resuelto del lote del 2026-11-09:**
+  - `/settings` redirige a `/settings/spotify`;
+  - la página es Aero, sin `data-slot`;
+  - los mensajes van dentro de la página, en una región `role="status"`;
+  - se comparte `spotify.status`.
+- **Queda para el segundo cambio, `spotify-api-client`:**
+  - el cliente compartido: renovación bajo lock con rotación, 401 con un reintento, timeout, pausa compartida tras un 429 y errores tipados;
+  - la rotación de `APP_KEY`.
+
+  Al proponerlo, poner aquí `change: spotify-api-client`. T-05 se cierra con ese cambio.
+- El escenario `@manual` "Spotify acepta la redirección de producción" pasa a T-04.
+- Comprobado a mano en local con la app real de Spotify el 2026-11-14. En Windows, el PHP local necesitó un paquete de certificados raíz (`curl.cainfo` y `openssl.cafile`) para hablar con Spotify por HTTPS. Sin él, la página muestra "Spotify is not responding right now."
 
 ## Definition of Done
 

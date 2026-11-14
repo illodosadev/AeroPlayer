@@ -512,6 +512,10 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - Las carátulas usan `AeroCover` (`resources/js/components/aero/AeroCover.vue`) con `:src="null"` cuando la pista no tiene imagen. Si la imagen no carga, se ve la carátula genérica sola, sin icono roto y con el mismo tamaño.
 - `alt` no puede estar vacío cuando hay imagen (por ejemplo "<título> cover"). El tamaño se pasa con `:size` en px.
 
+**Seguimiento de spotify-connection (T-05, 2026-11-14)**
+
+- El identificador de la conexión es `spotify_connections.connection_id`, un uuid nuevo en cada conexión. Se lee con `SpotifyConnectionRepository::current()`.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests, except the `@manual` scenarios, which are checked by hand in a desktop browser with the real Spotify account and recorded in the change

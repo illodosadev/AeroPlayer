@@ -461,6 +461,11 @@ Se mantiene como una sola tarea porque el mecanismo, el selector y los temas se 
 - **Tests de feature y de navegador (contraste y fondo por tema, cola, 419, descargas, dos pestañas, móvil, mecanismo), test de tokens frente a skill ampliado y sección "Themes" de la skill (2 puntos).**
 - **Ronda de revisión del propietario y correcciones (0,5 puntos).**
 
+**Seguimiento de spotify-connection (T-05, 2026-11-14)**
+
+- `/settings` redirige a `/settings/spotify`.
+- La página de Spotify es Aero y tiene un enlace "Back" a `/dashboard`. El menú de usuario tiene un elemento "Settings". Las dos cosas se quedan así hasta que existan la subnavegación de ajustes (Spotify | Appearance) de esta tarea y la navegación Aero de T-25.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests
