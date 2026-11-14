@@ -462,6 +462,10 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - **Regla temporal:** una regla CSS acotada acorta el sidebar fijo del kit (`div.fixed:has(> [data-sidebar='sidebar'])`) hasta encima de la barra, usando `--app-player-height`. Se retira al quitar el shell del kit.
 - **Tests de navegador:** `SpotifySettingsTest` cuenta solo los paneles de `#spotify-settings`, porque la barra es otro panel de cristal.
 
+**Seguimiento de spotify-search-page (T-07, 2026-11-14)**
+
+- **Página de búsqueda:** `/search` ya es Aero y no tiene elementos con `data-slot`. Su único punto de entrada del kit es el enlace "Search" de `AppSidebar.vue`, que se migra con la barra lateral.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

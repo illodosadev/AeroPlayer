@@ -350,6 +350,10 @@ El cliente compartido de la Web API ya existe: `App\Spotify\SpotifyClient` (spec
 
 - **Enlaces desde la búsqueda:** los álbumes y artistas de `GET /search/results` ya llevan `id` y `uri` de Spotify, suficientes para enlazar a sus páginas.
 
+**Seguimiento de spotify-search-page (T-07, 2026-11-14)**
+
+- **Enlaces desde la búsqueda:** las filas de álbum y de artista de `resources/js/pages/Search.vue` son elementos de lista sin enlace. Convertirlas en enlaces a sus páginas.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

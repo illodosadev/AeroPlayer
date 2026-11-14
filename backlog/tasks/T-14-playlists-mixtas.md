@@ -656,6 +656,10 @@ Scenario: La carátula guardada ya no carga
 
 - Las props compartidas son `spotify.status` (`not_connected`, `connected` o `reconnect_required`) y `spotify.connected`. Sirven para elegir entre el aviso de conectar y el de reconectar.
 
+**Seguimiento de spotify-search-page (T-07, 2026-11-14)**
+
+- **"Add to playlist" en la búsqueda:** va en la fila de canción de `resources/js/pages/Search.vue`, desactivado cuando `playable` es false.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

@@ -540,6 +540,11 @@ El cliente compartido de la Web API ya existe: `App\Spotify\SpotifyClient` (spec
 - **Formato de las canciones:** reutilizar `SongResult` (`app/Application/Search/Results`) para las pistas de la biblioteca y añadir `position`, `local` y `added_at` como claves extra.
 - **Paginación:** reutilizar `App\Http\Search\SearchCursor`, un cursor opaco cifrado y ligado a la sección y a la consulta, en lugar de exponer el `offset` o el `next` de Spotify.
 
+**Seguimiento de spotify-search-page (T-07, 2026-11-14)**
+
+- **Fila de canción:** está dentro de `resources/js/pages/Search.vue`. Cuando la biblioteca necesite la misma fila, extraerla a un componente compartido.
+- **Paginación en el cliente:** `useMusicSearch` (`resources/js/composables/useMusicSearch.ts`) bloquea "Load more" mientras carga, descarta los ids ya mostrados y deja de mostrar el botón cuando `next_cursor` es null. Reutilizar ese enfoque.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests, except the `@manual` scenarios, which are checked by hand in a desktop browser with the real Spotify account and recorded in the change

@@ -902,6 +902,10 @@ Pregunta abierta 1 resuelta: hosting compartido Premium de Hostinger, app en `mu
 - **Estado del reproductor:** `useSpotifyPlayer().state`, de solo lectura y único por pestaña. Contiene `track` (`uri`, `title`, `artists[]`, `album`, `image`, `durationMs`), `paused`, `positionMs`, `timestamp`, `hasNext`, `autoplayBlocked`, `volume` (0–100), `deviceId` y `lastSeekAt`, la marca de los seeks de la barra. `positionMs` (computed) es la posición interpolada.
 - **Next y Previous:** `next()` solo actúa si `hasNext`. `previous()` reinicia la canción pasados 3 segundos y, si no, llama a `previousTrack()`. El modo cola de esta tarea los sustituye por la cola de la app (los escenarios "Next and previous within the context" y "Previous restarts a track after 3 seconds" de `spotify-playback`).
 
+**Seguimiento de spotify-search-page (T-07, 2026-11-14)**
+
+- **"Add to queue" en la búsqueda:** va en la fila de canción de `resources/js/pages/Search.vue`, desactivado cuando `playable` es false. Hoy pulsar la fila reproduce solo esa canción con `play({uris: [uri]})`.
+
 ## Definition of Done
 
 - [ ] Criterios automatizables cubiertos por tests; los @manual en el checklist del cambio

@@ -1,7 +1,7 @@
 ---
 id: T-07
 title: Buscar y reproducir en Spotify
-status: enriched
+status: done
 discovery: reproductor-musica-privado
 change: spotify-search-page
 priority: must
@@ -454,6 +454,23 @@ T-07 se partió en dos cambios. El primero está archivado; la referencia es `op
 
   La página muestra el mismo mensaje de "no disponible" para 429 y 502.
 - **Queda para el segundo cambio, `spotify-search-page`:** la página `/search`, el debounce, "Load more" y reproducir un resultado. La página se abre desde un enlace "Search" en la barra lateral, como eligió el propietario. Al proponerlo, poner aquí `change: spotify-search-page`.
+
+**Cerrada con `spotify-search-page` (2026-11-14)**
+
+Las dos partes están archivadas. La referencia es ahora `openspec/specs/music-search/spec.md`, con 15 requisitos.
+
+- **Parte 1, `spotify-search-api`:** `GET /search/results`, el formato común, el cursor opaco y los errores en JSON.
+- **Parte 2, `spotify-search-page`:**
+  - la página Aero `/search` (`ShowSearchController`, `resources/js/pages/Search.vue`), con el enlace "Search" en la barra lateral del dashboard;
+  - `useMusicSearch` (`resources/js/composables/useMusicSearch.ts`), que se encarga del debounce de 300 ms, Enter, la cancelación con `AbortController`, descartar respuestas antiguas, "Load more" sin doble petición ni repetidos y la respuesta a cada error;
+  - las filas de canción reproducen solo esa canción con `play({uris: [uri]})`; las no reproducibles salen desactivadas con "Not available";
+  - `AeroInput` acepta `maxlength`.
+- **Decisiones del cambio:**
+  - la página lee el `spotify.status` compartido en lugar de una prop de error propia;
+  - la página no usa el layout del kit (con `data-slot`), sino el mismo esquema Aero que los ajustes de Spotify, con un enlace "Back";
+  - un fallo al reproducir muestra un único mensaje genérico, "Playback couldn't start. Try again in a moment."
+- **Tests:** feature para la ruta y 28 tests de navegador con Spotify falseado en el servidor y el SDK simulado.
+- **Pendiente:** comprobar a mano con la cuenta real de Spotify que la búsqueda, "Load more" y reproducir una canción funcionan.
 
 ## Definition of Done
 
