@@ -62,7 +62,7 @@ Every browser test fakes Spotify on the server with `Http::preventStrayRequests(
 
 ## 4. Integration
 
-- [ ] 4.1 Run Pint on the changed PHP files. Then verify that `openspec validate spotify-search-page --strict`, `npm run types`, `npm run build` and the full `vendor/bin/pest` run pass together, with no `composer dev` running.
+- [x] 4.1 Run Pint on the changed PHP files. Then verify that `openspec validate spotify-search-page --strict`, `npm run types`, `npm run build` and the full `vendor/bin/pest` run pass together, with no `composer dev` running.
 
 ## Workflow follow-up
 
