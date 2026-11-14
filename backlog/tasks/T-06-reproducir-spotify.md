@@ -3,7 +3,7 @@ id: T-06
 title: Reproducir canciones de Spotify en el navegador
 status: enriched
 discovery: reproductor-musica-privado
-change: spotify-playback-api
+change: ~
 priority: must
 estimate: 5
 language: es
@@ -394,6 +394,35 @@ El cliente compartido de la Web API ya existe: `App\Spotify\SpotifyClient` (spec
 - **Otras respuestas** (2xx, 403, 404…) llegan tal cual como `Illuminate\Http\Client\Response`. Un 403 por Premium caducado lo interpreta cada tarea.
 - **Tests:** `Http::preventStrayRequests()` y `Http::fake()` sobre `https://api.spotify.com/v1/*`. Ejemplos en `tests/Feature/Spotify/SpotifyClientTest.php`.
 - **Token del reproductor:** el handler de `GetSpotifyPlaybackToken` llama a `SpotifyClient::accessToken()`, que renueva bajo el mismo lock. `ShowSpotifyPlaybackTokenController` devuelve ese token. No hay que copiar la renovación.
+
+**Parte 1 hecha con `spotify-playback-api` (2026-11-14)**
+
+T-06 se partió en dos cambios. El primero está archivado; la referencia es `openspec/specs/spotify-playback/spec.md`.
+
+- **Hecho:**
+  - `GET /spotify/token` devuelve `{access_token, expires_in}` con `no-store`, a través de `SpotifyClient::accessToken()`;
+  - `PUT /spotify/player/play` recibe `{device_id, context_uri?, uris?, offset?}`, con `offset` `{position: 0}` por defecto;
+  - las dos rutas responden siempre en JSON.
+- **Códigos de error** (trait `RespondsWithSpotifyErrors`):
+  - 401 `unauthenticated`;
+  - 419 `session_expired` en `PUT`, cuando la sesión caducó y falla el CSRF;
+  - 409 `spotify_not_connected` y `spotify_reconnect_required`;
+  - 403 `premium_required`;
+  - 404 `device_not_found`;
+  - 422 `playback_rejected` (o el 422 de validación);
+  - 429 `rate_limited` con `retry_after`;
+  - 502 `spotify_unavailable`.
+- **Decisiones del diseño:**
+  - la renovación del token se queda dentro de la Query `GetSpotifyPlaybackToken`, porque es infraestructura del cliente;
+  - `playback_rejected` cubre cualquier otro rechazo de Spotify, como una URI mala o un 403 que no sea `PREMIUM_REQUIRED`.
+- **Queda para el segundo cambio, `spotify-web-player`:** el SDK, el dispositivo, la barra, los controles, el progreso, `autoplay_failed`, la desconexión y el SDK simulado para los tests de navegador. Al proponerlo, poner aquí `change: spotify-web-player`.
+- **Decisiones tomadas con el usuario el 2026-11-14:**
+  - la barra y el SDK van en un layout persistente en todas las páginas con sesión (dashboard, styleguide y ajustes de Spotify);
+  - el volumen se recuerda en `localStorage` y empieza en 50 % si no hay nada guardado.
+- **Para el frontend:**
+  - cada petición envía `Accept: application/json`, porque sin ella Laravel redirige en vez de responder 401 o 422;
+  - `PUT` lleva la cabecera `X-XSRF-TOKEN` con el valor de la cookie `XSRF-TOKEN`;
+  - ante un 401 o un 419 se lleva al propietario a iniciar sesión.
 
 ## Definition of Done
 

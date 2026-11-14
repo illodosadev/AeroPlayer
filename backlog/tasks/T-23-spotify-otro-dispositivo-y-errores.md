@@ -357,6 +357,13 @@ El cliente compartido de la Web API ya existe: `App\Spotify\SpotifyClient` (spec
 - **Otras respuestas** (2xx, 403, 404…) llegan tal cual como `Illuminate\Http\Client\Response`. Un 403 por Premium caducado lo interpreta cada tarea.
 - **Tests:** `Http::preventStrayRequests()` y `Http::fake()` sobre `https://api.spotify.com/v1/*`. Ejemplos en `tests/Feature/Spotify/SpotifyClientTest.php`.
 
+**Seguimiento de spotify-playback-api (T-06, 2026-11-14)**
+
+- **Reutilizar las respuestas de error:** sus endpoints usan el trait `App\Http\Controllers\Spotify\Concerns\RespondsWithSpotifyErrors`, que convierte cada `SpotifyApiFailed` en su código JSON con `no-store`.
+- **Errores que ya existen:** además de los cuatro del cliente, están `SpotifyPremiumRequired` (403 `premium_required`), `SpotifyDeviceNotFound` (404 `device_not_found`) y `SpotifyPlaybackRejected` (422 `playback_rejected`), en `app/Application/Spotify/Exceptions`. El handler de cada Command los lanza a partir de la respuesta de Spotify.
+- **Sesión caducada:** las rutas nuevas bajo `spotify/player/*` heredan de `bootstrap/app.php` el 401 `unauthenticated` y el 419 `session_expired` en JSON.
+- **Rutas nuevas:** cada una es un controlador invocable en `app/Http/Controllers/Spotify` y se añade a la tabla de `tests/Feature/RoutesTest.php`.
+
 ## Definition of Done
 
 - [ ] Criterios automatizables cubiertos por tests; los @manual en el checklist del cambio
