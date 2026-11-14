@@ -1,30 +1,29 @@
 <?php
 
-use App\Http\Controllers\SpotifyConnectionController;
-use App\Http\Controllers\SpotifySettingsController;
+use App\Http\Controllers\RedirectHomeController;
+use App\Http\Controllers\ShowDashboardController;
+use App\Http\Controllers\ShowStyleguideController;
+use App\Http\Controllers\Spotify\DisconnectSpotifyController;
+use App\Http\Controllers\Spotify\FinishSpotifyConnectionController;
+use App\Http\Controllers\Spotify\ShowSpotifySettingsController;
+use App\Http\Controllers\Spotify\StartSpotifyConnectionController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    return redirect(auth()->check() ? route('dashboard') : route('login'));
-})->name('home');
+// One invokable controller per route (single-action-controllers, design D4).
+Route::get('/', RedirectHomeController::class)->name('home');
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware('auth')->name('dashboard');
+Route::get('dashboard', ShowDashboardController::class)->middleware('auth')->name('dashboard');
 
-Route::get('styleguide', function () {
-    return Inertia::render('Styleguide');
-})->middleware('auth')->name('styleguide');
+Route::get('styleguide', ShowStyleguideController::class)->middleware('auth')->name('styleguide');
 
 // Spotify connection and settings (spotify-connection, design D7).
 Route::middleware('auth')->group(function () {
-    Route::get('spotify/connect', [SpotifyConnectionController::class, 'redirect'])->name('spotify.connect');
-    Route::get('spotify/callback', [SpotifyConnectionController::class, 'callback'])->name('spotify.callback');
-    Route::delete('spotify/connection', [SpotifyConnectionController::class, 'destroy'])->name('spotify.disconnect');
+    Route::get('spotify/connect', StartSpotifyConnectionController::class)->name('spotify.connect');
+    Route::get('spotify/callback', FinishSpotifyConnectionController::class)->name('spotify.callback');
+    Route::delete('spotify/connection', DisconnectSpotifyController::class)->name('spotify.disconnect');
 
     Route::redirect('settings', '/settings/spotify')->name('settings');
-    Route::get('settings/spotify', [SpotifySettingsController::class, 'show'])->name('spotify.settings');
+    Route::get('settings/spotify', ShowSpotifySettingsController::class)->name('spotify.settings');
 });
 
 require __DIR__.'/auth.php';

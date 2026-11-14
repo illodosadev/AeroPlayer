@@ -64,6 +64,11 @@ The pipeline is guided: the user should never have to remember what comes next.
   - A query handler returns a `Results/` object, an enum, a scalar or null, never an Eloquent model.
   - Entry points only validate input, handle HTTP or console concerns (session, prompts, redirects) and dispatch. They never reach data another way, and that includes the helpers `auth()`, `app()` and `request()`.
   - `tests/Unit/ArchitectureTest.php` enforces the rule.
+- **Single-action controllers:** one controller per route, with `__invoke` as its only public action, plus an optional constructor.
+  - Controllers are grouped by context like `app/Application` (`app/Http/Controllers/Auth`, `app/Http/Controllers/Spotify`), with app-wide pages at the root. Each is named after its action: `Show…Controller` for a page, a verb for anything else (`LogOutController`).
+  - The route files register controllers by class and hold no closures. The only exception is the declarative `Route::redirect`.
+  - Code shared by controllers goes in protected trait methods under `Concerns/`. Constants are allowed.
+  - `tests/Unit/ArchitectureTest.php` and `tests/Feature/RoutesTest.php` enforce the rule.
 - **Repositories for all data access:** every model query and write in `app/` goes through a concrete class in `app/Repositories/` (one per model, e.g. `ProductRepository`).
   - Repositories are injected only into handlers. Query handlers call only reading methods.
   - Entry points, service providers and validation rules never query models directly.

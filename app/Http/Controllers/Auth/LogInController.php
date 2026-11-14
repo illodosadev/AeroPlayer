@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Application\Auth\Commands\LogInOwner;
-use App\Application\Auth\Commands\LogOutOwner;
 use App\Application\Auth\Exceptions\InvalidCredentials;
 use App\Application\Auth\Exceptions\TooManyLoginAttempts;
 use App\Bus\CommandBus;
@@ -11,33 +10,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
-use Inertia\Inertia;
-use Inertia\Response;
 
-class AuthenticatedSessionController extends Controller
+/**
+ * Handle an incoming authentication request: LogInOwner, then a new session id.
+ */
+class LogInController extends Controller
 {
     public function __construct(private readonly CommandBus $commands) {}
 
     /**
-     * Show the login page.
-     */
-    public function create(Request $request): Response
-    {
-        return Inertia::render('auth/Login', [
-            'canResetPassword' => Route::has('password.request'),
-            'status' => $request->session()->get('status'),
-        ]);
-    }
-
-    /**
-     * Handle an incoming authentication request.
-     *
      * @throws ValidationException
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function __invoke(LoginRequest $request): RedirectResponse
     {
         try {
             $this->commands->dispatch(new LogInOwner(
@@ -64,21 +49,5 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         return redirect()->intended(route('dashboard', absolute: false));
-    }
-
-    /**
-     * Destroy an authenticated session.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $this->commands->dispatch(new LogOutOwner);
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        // Must run after invalidate(): the session flush would drop this flag.
-        Inertia::clearHistory();
-
-        return redirect(route('login'));
     }
 }

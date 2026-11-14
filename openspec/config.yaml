@@ -23,6 +23,9 @@ context: |
   or a Query (returns a Results/ object, an enum, a scalar or null, never a model), with its Handler in
   app/Application/<Context>/{Commands,Queries}. Controllers, middleware, form requests and console commands only validate,
   handle HTTP or console concerns and dispatch through App\Bus\CommandBus or App\Bus\QueryBus (tests/Unit/ArchitectureTest.php).
+  Single-action controllers: one invokable controller per route (only __invoke is public), grouped by context in
+  app/Http/Controllers/<Context> and named after the action (Show…Controller for a page); route files hold no closures,
+  only the declarative Route::redirect (tests/Unit/ArchitectureTest.php, tests/Feature/RoutesTest.php).
   Tests may use factories and model assertions directly.
   Conventions: conventional commits; one concern per change; work directly on main (no branches, no PRs, no Jira).
 

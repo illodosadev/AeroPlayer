@@ -190,3 +190,21 @@ arch('entry points reach data only through the buses')
         'Illuminate\Support\Facades\Auth',
         'Illuminate\Support\Facades\RateLimiter',
     ]);
+
+// One controller, one action (single-action-controllers, design D5). Constants such as a session key are allowed;
+// the shared helpers live in protected trait methods under Concerns.
+// Each arch() carries its own ignoring(): it applies only to the expectation it follows.
+const CONTROLLER_RULE_EXEMPT = [
+    'App\Http\Controllers\Controller',
+    'App\Http\Controllers\Spotify\Concerns',
+];
+
+arch('controllers are invokable')
+    ->expect('App\Http\Controllers')
+    ->toBeInvokable()
+    ->ignoring(CONTROLLER_RULE_EXEMPT);
+
+arch('controllers have no public action besides __invoke')
+    ->expect('App\Http\Controllers')
+    ->not->toHavePublicMethodsBesides(['__construct', '__invoke'])
+    ->ignoring(CONTROLLER_RULE_EXEMPT);
