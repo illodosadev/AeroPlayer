@@ -3,7 +3,7 @@ id: T-07
 title: Buscar y reproducir en Spotify
 status: enriched
 discovery: reproductor-musica-privado
-change: ~
+change: spotify-search-page
 priority: must
 estimate: 3.5
 language: es
