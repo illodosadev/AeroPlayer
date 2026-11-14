@@ -376,6 +376,12 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - **Errores tipados:** los fallos son excepciones que extienden `App\Application\UseCaseFailed`. El controlador las convierte en la respuesta JSON de error.
 - **Reglas completas:** están en AGENTS.md (Code conventions) y las vigila `tests/Unit/ArchitectureTest.php`.
 
+**Seguimiento de single-action-controllers (2026-11-14)**
+
+- `GET /spotify/token` es `Spotify/ShowSpotifyPlaybackTokenController`, un controlador invocable que pide `GetSpotifyPlaybackToken` y devuelve el JSON.
+- La página que monte el reproductor también tiene su propio controlador `Show…Controller`; las rutas no llevan closures.
+- Cada ruta nueva se añade a la tabla de `tests/Feature/RoutesTest.php`.
+
 ## Definition of Done
 
 - [ ] Criterios automatizables cubiertos por tests; los @manual en el checklist del cambio

@@ -466,6 +466,11 @@ Se mantiene como una sola tarea porque el mecanismo, el selector y los temas se 
 - `/settings` redirige a `/settings/spotify`.
 - La página de Spotify es Aero y tiene un enlace "Back" a `/dashboard`. El menú de usuario tiene un elemento "Settings". Las dos cosas se quedan así hasta que existan la subnavegación de ajustes (Spotify | Appearance) de esta tarea y la navegación Aero de T-25.
 
+**Seguimiento de single-action-controllers (2026-11-14)**
+
+- `/settings/appearance` tiene su propio controlador invocable en el contexto de su funcionalidad, por ejemplo `app/Http/Controllers/Appearance/ShowAppearanceSettingsController`, igual que la página de Spotify vive en `Spotify/`. Guardar el tema elegido es otro controlador con su Command (CQRS).
+- Cada ruta nueva se añade a la tabla de `tests/Feature/RoutesTest.php`.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

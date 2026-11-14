@@ -479,6 +479,12 @@ El proyecto usa CQRS (AGENTS.md, Code conventions), y `spotify-api-client` lo si
 - **Errores tipados:** los fallos de un Command son excepciones que extienden `App\Application\UseCaseFailed`, en `app/Application/Spotify/Exceptions`. El punto de entrada las convierte en el mensaje de la página.
 - **Comprobación automática:** `tests/Unit/ArchitectureTest.php` falla si un punto de entrada usa el cliente, un repositorio o un modelo.
 
+**Seguimiento de single-action-controllers (2026-11-14)**
+
+- Cada ruta nueva de `spotify-api-client` es un controlador invocable (solo `__invoke`) en `app/Http/Controllers/Spotify`, con nombre de acción. Los controladores de la conexión ya siguen esta forma: `StartSpotifyConnectionController`, `FinishSpotifyConnectionController`, `DisconnectSpotifyController` y `ShowSpotifySettingsController`.
+- El código compartido entre controladores va en métodos protegidos de un trait en `Concerns/`, como `RedirectsToSpotifySettings`.
+- Una ruta nueva debe añadirse a la tabla de `tests/Feature/RoutesTest.php`, que falla si cambia o falta alguna ruta del grupo `web`.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests
