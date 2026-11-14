@@ -198,6 +198,7 @@ arch('entry points reach data only through the buses')
 const CONTROLLER_RULE_EXEMPT = [
     'App\Http\Controllers\Controller',
     'App\Http\Controllers\Spotify\Concerns',
+    'App\Http\Controllers\Library\Concerns',
 ];
 
 arch('controllers are invokable')

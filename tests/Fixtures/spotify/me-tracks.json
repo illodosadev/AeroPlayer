@@ -1,0 +1,244 @@
+{
+  "href": "https://api.spotify.com/v1/me/tracks?offset=0&limit=50&market=from_token",
+  "items": [
+    {
+      "added_at": "2026-11-10T09:00:00Z",
+      "track": {
+        "album": {
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/4tZwfgrHOc3mvqYlEYSvVi"
+              },
+              "href": "https://api.spotify.com/v1/artists/4tZwfgrHOc3mvqYlEYSvVi",
+              "id": "4tZwfgrHOc3mvqYlEYSvVi",
+              "name": "Daft Punk",
+              "type": "artist",
+              "uri": "spotify:artist:4tZwfgrHOc3mvqYlEYSvVi"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/2noRn2Aes5aoNVsU6iWThc"
+          },
+          "href": "https://api.spotify.com/v1/albums/2noRn2Aes5aoNVsU6iWThc",
+          "id": "2noRn2Aes5aoNVsU6iWThc",
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273b33d46dfa2635a47eebf63b2",
+              "width": 640
+            },
+            {
+              "height": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02b33d46dfa2635a47eebf63b2",
+              "width": 300
+            },
+            {
+              "height": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851b33d46dfa2635a47eebf63b2",
+              "width": 64
+            }
+          ],
+          "name": "Discovery",
+          "release_date": "2001-03-12",
+          "release_date_precision": "day",
+          "total_tracks": 14,
+          "type": "album",
+          "uri": "spotify:album:2noRn2Aes5aoNVsU6iWThc"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4tZwfgrHOc3mvqYlEYSvVi"
+            },
+            "href": "https://api.spotify.com/v1/artists/4tZwfgrHOc3mvqYlEYSvVi",
+            "id": "4tZwfgrHOc3mvqYlEYSvVi",
+            "name": "Daft Punk",
+            "type": "artist",
+            "uri": "spotify:artist:4tZwfgrHOc3mvqYlEYSvVi"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 210000,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "GBDUW0000053"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/3n3Ppam7vgaVa1iaRUc9Lp"
+        },
+        "href": "https://api.spotify.com/v1/tracks/3n3Ppam7vgaVa1iaRUc9Lp",
+        "id": "3n3Ppam7vgaVa1iaRUc9Lp",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Song X",
+        "popularity": 80,
+        "track_number": 1,
+        "type": "track",
+        "uri": "spotify:track:3n3Ppam7vgaVa1iaRUc9Lp"
+      }
+    },
+    {
+      "added_at": "2026-11-05T09:00:00Z",
+      "track": {
+        "album": {
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/4tZwfgrHOc3mvqYlEYSvVi"
+              },
+              "href": "https://api.spotify.com/v1/artists/4tZwfgrHOc3mvqYlEYSvVi",
+              "id": "4tZwfgrHOc3mvqYlEYSvVi",
+              "name": "Daft Punk",
+              "type": "artist",
+              "uri": "spotify:artist:4tZwfgrHOc3mvqYlEYSvVi"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/2noRn2Aes5aoNVsU6iWThc"
+          },
+          "href": "https://api.spotify.com/v1/albums/2noRn2Aes5aoNVsU6iWThc",
+          "id": "2noRn2Aes5aoNVsU6iWThc",
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273b33d46dfa2635a47eebf63b2",
+              "width": 640
+            },
+            {
+              "height": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02b33d46dfa2635a47eebf63b2",
+              "width": 300
+            },
+            {
+              "height": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851b33d46dfa2635a47eebf63b2",
+              "width": 64
+            }
+          ],
+          "name": "Discovery",
+          "release_date": "2001-03-12",
+          "release_date_precision": "day",
+          "total_tracks": 14,
+          "type": "album",
+          "uri": "spotify:album:2noRn2Aes5aoNVsU6iWThc"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4tZwfgrHOc3mvqYlEYSvVi"
+            },
+            "href": "https://api.spotify.com/v1/artists/4tZwfgrHOc3mvqYlEYSvVi",
+            "id": "4tZwfgrHOc3mvqYlEYSvVi",
+            "name": "Daft Punk",
+            "type": "artist",
+            "uri": "spotify:artist:4tZwfgrHOc3mvqYlEYSvVi"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 210000,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "GBDUW0000053"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b"
+        },
+        "href": "https://api.spotify.com/v1/tracks/0VjIjW4GlUZAMYd2vXMi3b",
+        "id": "0VjIjW4GlUZAMYd2vXMi3b",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Song Y",
+        "popularity": 80,
+        "track_number": 1,
+        "type": "track",
+        "uri": "spotify:track:0VjIjW4GlUZAMYd2vXMi3b"
+      }
+    },
+    {
+      "added_at": "2026-10-28T09:00:00Z",
+      "track": {
+        "album": {
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/4tZwfgrHOc3mvqYlEYSvVi"
+              },
+              "href": "https://api.spotify.com/v1/artists/4tZwfgrHOc3mvqYlEYSvVi",
+              "id": "4tZwfgrHOc3mvqYlEYSvVi",
+              "name": "Daft Punk",
+              "type": "artist",
+              "uri": "spotify:artist:4tZwfgrHOc3mvqYlEYSvVi"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/2noRn2Aes5aoNVsU6iWThc"
+          },
+          "href": "https://api.spotify.com/v1/albums/2noRn2Aes5aoNVsU6iWThc",
+          "id": "2noRn2Aes5aoNVsU6iWThc",
+          "images": [
+            {
+              "height": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273b33d46dfa2635a47eebf63b2",
+              "width": 640
+            },
+            {
+              "height": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02b33d46dfa2635a47eebf63b2",
+              "width": 300
+            },
+            {
+              "height": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851b33d46dfa2635a47eebf63b2",
+              "width": 64
+            }
+          ],
+          "name": "Discovery",
+          "release_date": "2001-03-12",
+          "release_date_precision": "day",
+          "total_tracks": 14,
+          "type": "album",
+          "uri": "spotify:album:2noRn2Aes5aoNVsU6iWThc"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4tZwfgrHOc3mvqYlEYSvVi"
+            },
+            "href": "https://api.spotify.com/v1/artists/4tZwfgrHOc3mvqYlEYSvVi",
+            "id": "4tZwfgrHOc3mvqYlEYSvVi",
+            "name": "Daft Punk",
+            "type": "artist",
+            "uri": "spotify:artist:4tZwfgrHOc3mvqYlEYSvVi"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 210000,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "GBDUW0000053"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/6habFhsOp2NvshLv26DqMb"
+        },
+        "href": "https://api.spotify.com/v1/tracks/6habFhsOp2NvshLv26DqMb",
+        "id": "6habFhsOp2NvshLv26DqMb",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Song Z",
+        "popularity": 80,
+        "track_number": 1,
+        "type": "track",
+        "uri": "spotify:track:6habFhsOp2NvshLv26DqMb"
+      }
+    }
+  ],
+  "limit": 50,
+  "next": null,
+  "offset": 0,
+  "previous": null,
+  "total": 3
+}

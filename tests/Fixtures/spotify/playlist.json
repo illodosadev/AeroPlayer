@@ -1,0 +1,25 @@
+{
+  "collaborative": false,
+  "id": "3cEYpjA9oz9GiPac4AsH4n",
+  "images": [
+    {
+      "height": 640,
+      "url": "https://mosaic.scdn.co/640/ab67616d0000b2733b5e11ca1b063583df9492db",
+      "width": 640
+    },
+    {
+      "height": 300,
+      "url": "https://mosaic.scdn.co/300/ab67616d0000b2733b5e11ca1b063583df9492db",
+      "width": 300
+    }
+  ],
+  "name": "Road Trip",
+  "owner": {
+    "display_name": "Alice Owner",
+    "id": "owner-123"
+  },
+  "items": {
+    "total": 7
+  },
+  "uri": "spotify:playlist:3cEYpjA9oz9GiPac4AsH4n"
+}

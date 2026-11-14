@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\Library\RefreshLibraryController;
 use App\Http\Controllers\Library\ShowLibraryController;
+use App\Http\Controllers\Library\ShowLikedSongsController;
+use App\Http\Controllers\Library\ShowLikedSongsPageController;
+use App\Http\Controllers\Library\ShowPlaylistController;
+use App\Http\Controllers\Library\ShowPlaylistSongsPageController;
 use App\Http\Controllers\RedirectHomeController;
 use App\Http\Controllers\Search\ShowSearchController;
 use App\Http\Controllers\Search\ShowSearchResultsController;
@@ -42,6 +46,16 @@ Route::middleware('auth')->group(function () {
     // The library overview and its "Refresh" (spotify-library-overview, design D3 and D4).
     Route::get('library', ShowLibraryController::class)->name('library');
     Route::post('library/refresh', RefreshLibraryController::class)->name('library.refresh');
+
+    // A playlist's songs and the saved songs, with "Load more" in JSON (spotify-library-tracks, design D4).
+    Route::get('library/liked', ShowLikedSongsController::class)->name('library.liked');
+    Route::get('library/liked/songs', ShowLikedSongsPageController::class)->name('library.liked.songs');
+    Route::get('library/playlists/spotify/{id}', ShowPlaylistController::class)
+        ->where('id', '[A-Za-z0-9]{1,64}')
+        ->name('library.playlist');
+    Route::get('library/playlists/spotify/{id}/songs', ShowPlaylistSongsPageController::class)
+        ->where('id', '[A-Za-z0-9]{1,64}')
+        ->name('library.playlist.songs');
 
     Route::get('search/results', ShowSearchResultsController::class)->name('search.results');
 });

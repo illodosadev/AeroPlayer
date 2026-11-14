@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Library;
 
 use App\Application\Library\Queries\GetLibrary;
 use App\Application\Library\Results\PlaylistResult;
-use App\Application\Spotify\Exceptions\SpotifyApiFailed;
-use App\Application\Spotify\Exceptions\SpotifyNotConnected;
-use App\Application\Spotify\Exceptions\SpotifyRateLimited;
-use App\Application\Spotify\Exceptions\SpotifyReconnectRequired;
+use App\Application\UseCaseFailed;
 use App\Bus\QueryBus;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Library\Concerns\MapsLibraryErrors;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -19,19 +17,21 @@ use Inertia\Response;
  */
 class ShowLibraryController extends Controller
 {
+    use MapsLibraryErrors;
+
     public function __construct(private readonly QueryBus $queries) {}
 
     public function __invoke(): Response
     {
         try {
             $library = $this->queries->ask(new GetLibrary);
-        } catch (SpotifyApiFailed $failure) {
+        } catch (UseCaseFailed $failure) {
             return Inertia::render('Library', [
                 'playlists' => null,
                 'playlistsAllowed' => false,
                 'likedTotal' => null,
                 'likedAllowed' => false,
-                'error' => $this->errorCode($failure),
+                'error' => $this->libraryError($failure),
             ]);
         }
 
@@ -44,15 +44,5 @@ class ShowLibraryController extends Controller
             'likedAllowed' => $library->likedAllowed,
             'error' => null,
         ]);
-    }
-
-    private function errorCode(SpotifyApiFailed $failure): string
-    {
-        return match (true) {
-            $failure instanceof SpotifyNotConnected => 'spotify_not_connected',
-            $failure instanceof SpotifyReconnectRequired => 'spotify_reconnect_required',
-            $failure instanceof SpotifyRateLimited => 'rate_limited',
-            default => 'spotify_unavailable',
-        };
     }
 }

@@ -25,6 +25,14 @@ final readonly class SongResult
     ) {}
 
     /**
+     * The same song, marked as not playable, such as a local file in a playlist (spotify-library-tracks, design D2).
+     */
+    public function notPlayable(): self
+    {
+        return new self($this->source, $this->id, $this->uri, $this->title, $this->artists, $this->album, $this->durationMs, $this->image, false);
+    }
+
+    /**
      * @return array{source: string, id: string, uri: string, title: string, artists: list<string>, album: string|null, duration_ms: int, image: string|null, playable: bool}
      */
     public function toArray(): array

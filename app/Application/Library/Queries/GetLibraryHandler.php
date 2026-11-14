@@ -2,14 +2,12 @@
 
 namespace App\Application\Library\Queries;
 
+use App\Application\Library\Concerns\ReadsUsableConnection;
 use App\Application\Library\LibraryCache;
 use App\Application\Library\Results\LibraryOverview;
 use App\Application\Library\Results\PlaylistResult;
 use App\Application\Spotify\Exceptions\SpotifyApiFailed;
-use App\Application\Spotify\Exceptions\SpotifyNotConnected;
-use App\Application\Spotify\Exceptions\SpotifyReconnectRequired;
 use App\Application\Spotify\Exceptions\SpotifyUnavailable;
-use App\Enums\SpotifyConnectionStatus;
 use App\Repositories\SpotifyConnectionRepository;
 use App\Spotify\SpotifyCatalogMapper;
 use App\Spotify\SpotifyClient;
@@ -18,6 +16,8 @@ use Illuminate\Support\Facades\Cache;
 
 final readonly class GetLibraryHandler
 {
+    use ReadsUsableConnection;
+
     /**
      * Playlists per request: the most Spotify allows.
      */
@@ -42,11 +42,7 @@ final readonly class GetLibraryHandler
     public function handle(GetLibrary $query): LibraryOverview
     {
         // 1. A missing or revoked connection fails before the cache, so it never shows kept data.
-        $connection = $this->connections->current() ?? throw new SpotifyNotConnected;
-
-        if ($connection->status === SpotifyConnectionStatus::ReconnectRequired) {
-            throw new SpotifyReconnectRequired;
-        }
+        $connection = $this->usableConnection($this->connections);
 
         // 2. The permissions decide which parts are read.
         $playlistsAllowed = SpotifyScopes::grants($connection->scopes, 'playlist-read-private');

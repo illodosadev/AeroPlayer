@@ -2,7 +2,9 @@
 
 namespace App\Spotify;
 
+use App\Application\Library\Results\LikedSongResult;
 use App\Application\Library\Results\PlaylistResult;
+use App\Application\Library\Results\PlaylistSongResult;
 use App\Application\Search\Results\AlbumResult;
 use App\Application\Search\Results\ArtistResult;
 use App\Application\Search\Results\SongResult;
@@ -94,6 +96,57 @@ final class SpotifyCatalogMapper
                 total: is_int($total) ? $total : null,
             );
         }, $this->objects($items));
+    }
+
+    /**
+     * A playlist's entries (spotify-library-tracks, design D2). Each entry's position is Spotify's index, counted
+     * before anything is skipped; entries without a song (deleted songs) and podcast episodes are skipped. A local
+     * file cannot play here.
+     *
+     * @param  array<mixed>  $entries  Spotify's playlist item objects
+     * @param  int  $offset  the index of the first entry in the playlist
+     * @return list<PlaylistSongResult>
+     */
+    public function playlistSongs(array $entries, int $offset): array
+    {
+        $songs = [];
+
+        foreach (array_values($entries) as $index => $entry) {
+            $item = is_array($entry) ? ($entry['item'] ?? $entry['track'] ?? null) : null;
+
+            if (! is_array($item) || ($item['type'] ?? 'track') !== 'track') {
+                continue;
+            }
+
+            $local = ($entry['is_local'] ?? false) === true;
+            $song = $this->songs([$item])[0];
+
+            $songs[] = new PlaylistSongResult($local ? $song->notPlayable() : $song, $offset + $index, $local);
+        }
+
+        return $songs;
+    }
+
+    /**
+     * The saved songs (spotify-library-tracks, design D2), with when each was saved. Entries without a song are
+     * skipped.
+     *
+     * @param  array<mixed>  $entries  Spotify's saved track objects
+     * @return list<LikedSongResult>
+     */
+    public function likedSongs(array $entries): array
+    {
+        $songs = [];
+
+        foreach ($this->objects($entries) as $entry) {
+            if (! is_array($entry['track'] ?? null)) {
+                continue;
+            }
+
+            $songs[] = new LikedSongResult($this->songs([$entry['track']])[0], $this->string($entry, 'added_at'));
+        }
+
+        return $songs;
     }
 
     /**

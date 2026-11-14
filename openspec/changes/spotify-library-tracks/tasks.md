@@ -9,16 +9,16 @@ Every test fakes Spotify with `Http::preventStrayRequests()` and `Http::fake()`.
 
 ## 2. Library data
 
-- [ ] 2.1 Add `PlaylistSongResult`, `LikedSongResult`, `SongPage`, `SpotifyCatalogMapper::playlistSongs()` and `likedSongs()`, and the fixtures (design D2, D6). Verify in `tests/Unit/Library/SpotifySongMapperTest.php`:
+- [x] 2.1 Add `PlaylistSongResult`, `LikedSongResult`, `SongPage`, `SpotifyCatalogMapper::playlistSongs()` and `likedSongs()`, and the fixtures (design D2, D6). Verify in `tests/Unit/Library/SpotifySongMapperTest.php`:
   - positions with skipped entries and an offset;
   - local files, episodes and null items;
   - `added_at`;
   - the exact keys.
-- [ ] 2.2 Add `SpotifyLibraryReader` (client and mapper only, no repository), `PlaylistUnavailable` and the queries `GetPlaylist`, `GetPlaylistSongs` and `GetLikedSongs`, whose handlers inject the repository and run the connection and scope checks (design D1). Verify that `tests/Unit/ArchitectureTest.php` accepts them.
+- [x] 2.2 Add `SpotifyLibraryReader` (client and mapper only, no repository), `PlaylistUnavailable` and the queries `GetPlaylist`, `GetPlaylistSongs` and `GetLikedSongs`, whose handlers inject the repository and run the connection and scope checks (design D1). Verify that `tests/Unit/ArchitectureTest.php` accepts them.
 
 ## 3. Routes
 
-- [ ] 3.1 Add the four routes and controllers, `LibrarySongsPageRequest`, the `MapsLibraryErrors` trait (also used by `ShowLibraryController`) with `App\Http\Controllers\Library\Concerns` added to `CONTROLLER_RULE_EXEMPT` in `tests/Unit/ArchitectureTest.php`, the JSON 401 paths in `bootstrap/app.php`, the `RoutesTest` rows, and placeholder pages (design D4). Verify in `tests/Feature/Library/PlaylistPageTest.php`:
+- [x] 3.1 Add the four routes and controllers, `LibrarySongsPageRequest`, the `MapsLibraryErrors` trait (also used by `ShowLibraryController`) with `App\Http\Controllers\Library\Concerns` added to `CONTROLLER_RULE_EXEMPT` in `tests/Unit/ArchitectureTest.php`, the JSON 401 paths in `bootstrap/app.php`, the `RoutesTest` rows, and placeholder pages (design D4). Verify in `tests/Feature/Library/PlaylistPageTest.php`:
   - "A visitor without a session";
   - "Seeing the songs of an own playlist", on the props and requests;
   - "A playlist with many songs", on the props and the JSON page;
@@ -29,7 +29,7 @@ Every test fakes Spotify with `Http::preventStrayRequests()` and `Http::fake()`.
   - "An empty playlist", on the props;
   - "A playlist that is no longer available", both rows;
   - "A page cannot be loaded", the playlist rows.
-- [ ] 3.2 Verify in `tests/Feature/Library/LikedSongsPageTest.php`:
+- [x] 3.2 Verify in `tests/Feature/Library/LikedSongsPageTest.php`:
   - "Seeing the saved songs", on the props and requests;
   - "Thousands of saved songs", on the props and the JSON page;
   - "No saved songs";
@@ -40,7 +40,7 @@ Every test fakes Spotify with `Http::preventStrayRequests()` and `Http::fake()`.
 
 ## 4. Pages
 
-- [ ] 4.1 Add `usePagedSongs`, build `library/Playlist.vue` and `library/Liked.vue`, and link the rows of `Library.vue` (design D5). Verify in `tests/Browser/PlaylistPageTest.php` and `tests/Browser/LikedSongsPageTest.php`:
+- [x] 4.1 Add `usePagedSongs`, build `library/Playlist.vue` and `library/Liked.vue`, and link the rows of `Library.vue` (design D5). Verify in `tests/Browser/PlaylistPageTest.php` and `tests/Browser/LikedSongsPageTest.php`:
   - "Opening a playlist from the library";
   - "Opening Liked Songs from the library";
   - "The pages are usable with the keyboard and on a phone";
@@ -50,7 +50,7 @@ Every test fakes Spotify with `Http::preventStrayRequests()` and `Http::fake()`.
   - "Loading more fails";
   - "Opening a followed playlist", "An empty playlist" and "A playlist that is no longer available", on screen;
   - "No saved songs" and "The saved-songs permission is missing on Liked Songs", on screen.
-- [ ] 4.2 Wire playing (design D5) and verify with the fake SDK:
+- [x] 4.2 Wire playing (design D5) and verify with the fake SDK:
   - "Playing a playlist from the start";
   - "Playing a playlist from a song";
   - "The position counts hidden entries";

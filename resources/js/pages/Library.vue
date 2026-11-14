@@ -121,9 +121,9 @@ function tryAgain(): void {
                 <p v-else-if="empty" data-part="library-message">Your library is empty.</p>
 
                 <div v-else class="flex flex-col gap-6">
-                    <!-- The Liked Songs entry; a link to its page comes with spotify-library-tracks. -->
+                    <!-- The Liked Songs entry opens its page (spotify-library-tracks, design D5). -->
                     <section aria-labelledby="library-liked-title" data-section="liked">
-                        <div class="library-row" data-part="liked-entry">
+                        <Link href="/library/liked" class="library-row library-row--link" data-part="liked-entry">
                             <AeroCover :src="null" alt="Liked Songs" :size="48" />
                             <span class="library-row__text">
                                 <span id="library-liked-title" class="library-row__title">Liked Songs</span>
@@ -135,7 +135,7 @@ function tryAgain(): void {
                             <span class="library-row__meta">
                                 <span class="library-row__source" data-part="source">{{ sourceLabel('spotify') }}</span>
                             </span>
-                        </div>
+                        </Link>
                     </section>
 
                     <section aria-labelledby="library-playlists-title" data-section="playlists">
@@ -152,22 +152,24 @@ function tryAgain(): void {
                         <p v-else-if="noPlaylists" data-part="library-message">No playlists yet.</p>
 
                         <ul v-else class="library-section__list">
-                            <li
-                                v-for="playlist in playlists ?? []"
-                                :key="playlist.id"
-                                class="library-row"
-                                data-part="playlist-row"
-                                :data-id="playlist.id"
-                            >
-                                <AeroCover :src="playlist.image" :alt="`${playlist.title} cover`" :size="48" />
-                                <span class="library-row__text">
-                                    <span class="library-row__title" data-part="title">{{ playlist.title }}</span>
-                                    <span v-if="detail(playlist)" class="library-row__detail" data-part="detail">{{ detail(playlist) }}</span>
-                                </span>
-                                <span class="library-row__meta">
-                                    <span v-if="playlist.collaborative" class="library-row__mark" data-part="collaborative">Collaborative</span>
-                                    <span class="library-row__source" data-part="source">{{ sourceLabel(playlist.source) }}</span>
-                                </span>
+                            <li v-for="playlist in playlists ?? []" :key="playlist.id">
+                                <!-- Each playlist opens its page (spotify-library-tracks, design D5). -->
+                                <Link
+                                    :href="`/library/playlists/${playlist.source}/${playlist.id}`"
+                                    class="library-row library-row--link"
+                                    data-part="playlist-row"
+                                    :data-id="playlist.id"
+                                >
+                                    <AeroCover :src="playlist.image" :alt="`${playlist.title} cover`" :size="48" />
+                                    <span class="library-row__text">
+                                        <span class="library-row__title" data-part="title">{{ playlist.title }}</span>
+                                        <span v-if="detail(playlist)" class="library-row__detail" data-part="detail">{{ detail(playlist) }}</span>
+                                    </span>
+                                    <span class="library-row__meta">
+                                        <span v-if="playlist.collaborative" class="library-row__mark" data-part="collaborative">Collaborative</span>
+                                        <span class="library-row__source" data-part="source">{{ sourceLabel(playlist.source) }}</span>
+                                    </span>
+                                </Link>
                             </li>
                         </ul>
                     </section>
@@ -217,6 +219,15 @@ function tryAgain(): void {
     color: var(--aero-text);
     font-family: var(--aero-font-family);
     font-size: var(--aero-font-size-body);
+}
+
+.library-row--link {
+    text-decoration: none;
+}
+
+.library-row--link:hover {
+    border-color: var(--aero-panel-border);
+    background: var(--aero-field-bg);
 }
 
 .library-row__text {
