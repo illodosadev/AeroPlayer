@@ -4,23 +4,18 @@ namespace App\Http\Search;
 
 use App\Application\Search\Queries\SearchMusic;
 use App\Application\Search\SearchSection;
-use Illuminate\Contracts\Encryption\DecryptException;
-use Illuminate\Support\Facades\Crypt;
+use App\Http\Paging\OpaqueCursor;
 
 /**
- * The opaque paging cursor of the search endpoint (spotify-search-api, design D3). It encrypts the section, a hash of
- * the query and the offset with the app key, so the browser can neither read nor alter it, and a cursor only works
- * for the section and query it was made for.
+ * The opaque paging cursor of the search endpoint (spotify-search-api, design D3). Its scope is the section and a hash
+ * of the query, so a cursor only works for the section and query it was made for; the encryption is the shared
+ * OpaqueCursor (spotify-library-tracks, design D3).
  */
 final class SearchCursor
 {
     public static function encode(SearchSection $section, string $query, int $offset): string
     {
-        return Crypt::encryptString(json_encode([
-            's' => $section->value,
-            'q' => hash('sha256', $query),
-            'o' => $offset,
-        ], JSON_THROW_ON_ERROR));
+        return OpaqueCursor::encode(self::scope($section, $query), $offset);
     }
 
     /**
@@ -29,22 +24,11 @@ final class SearchCursor
      */
     public static function decode(string $cursor, SearchSection $section, string $query): ?int
     {
-        try {
-            $payload = json_decode(Crypt::decryptString($cursor), true);
-        } catch (DecryptException) {
-            return null;
-        }
+        return OpaqueCursor::decode($cursor, self::scope($section, $query), SearchMusic::MAX_OFFSET);
+    }
 
-        if (! is_array($payload)
-            || ($payload['s'] ?? null) !== $section->value
-            || ! is_string($payload['q'] ?? null)
-            || ! hash_equals(hash('sha256', $query), $payload['q'])
-            || ! is_int($payload['o'] ?? null)
-            || $payload['o'] < 0
-            || $payload['o'] > SearchMusic::MAX_OFFSET) {
-            return null;
-        }
-
-        return $payload['o'];
+    private static function scope(SearchSection $section, string $query): string
+    {
+        return 'search:'.$section->value.':'.hash('sha256', $query);
     }
 }

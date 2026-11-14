@@ -4,8 +4,8 @@ Every test fakes Spotify with `Http::preventStrayRequests()` and `Http::fake()`.
 
 ## 1. Shared pieces
 
-- [ ] 1.1 Add `App\Http\Paging\OpaqueCursor` and make `SearchCursor` delegate to it (design D3). Verify that `tests/Feature/Search/SearchCursorTest.php` and `SearchResultsTest.php` pass unchanged, and add `tests/Feature/Library/LibraryCursorTest.php` for the library scopes and the 100000 maximum.
-- [ ] 1.2 Extract `resources/js/components/SongRow.vue` from `Search.vue` and use it there (design D5). Verify that `tests/Browser/SearchPageTest.php` passes unchanged.
+- [x] 1.1 Add `App\Http\Paging\OpaqueCursor` and make `SearchCursor` delegate to it (design D3). Verify that `tests/Feature/Search/SearchCursorTest.php` and `SearchResultsTest.php` pass unchanged, and add `tests/Feature/Library/LibraryCursorTest.php` for the library scopes and the 100000 maximum.
+- [x] 1.2 Extract `resources/js/components/SongRow.vue` from `Search.vue` and use it there (design D5). Verify that `tests/Browser/SearchPageTest.php` passes unchanged.
 
 ## 2. Library data
 

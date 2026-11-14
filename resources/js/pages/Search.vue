@@ -6,9 +6,9 @@ import AeroButton from '@/components/aero/AeroButton.vue';
 import AeroCover from '@/components/aero/AeroCover.vue';
 import AeroGlassPanel from '@/components/aero/AeroGlassPanel.vue';
 import AeroInput from '@/components/aero/AeroInput.vue';
+import SongRow from '@/components/SongRow.vue';
 import { useMusicSearch, type SearchSectionName, type SongItem } from '@/composables/useMusicSearch';
 import { useSpotifyPlayer } from '@/composables/useSpotifyPlayer';
-import { formatTime } from '@/lib/formatTime';
 import type { SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed, onBeforeUnmount, ref } from 'vue';
@@ -129,31 +129,7 @@ onBeforeUnmount(() => search.dispose());
                             <ul class="search-section__list">
                                 <template v-if="name === 'songs'">
                                     <li v-for="song in state.sections.songs.items" :key="song.id">
-                                        <button
-                                            type="button"
-                                            class="search-row search-row--song"
-                                            data-part="song-row"
-                                            :data-id="song.id"
-                                            :data-playable="song.playable ? 'true' : 'false'"
-                                            :disabled="!song.playable"
-                                            @click="playSong(song)"
-                                        >
-                                            <AeroCover :src="song.image" :alt="`${song.title} cover`" :size="48" />
-                                            <span class="search-row__text">
-                                                <span class="search-row__title" data-part="title">{{ song.title }}</span>
-                                                <span class="search-row__detail">
-                                                    <span data-part="artists">{{ song.artists.join(', ') }}</span>
-                                                    <template v-if="song.album">
-                                                        · <span data-part="album">{{ song.album }}</span>
-                                                    </template>
-                                                </span>
-                                            </span>
-                                            <span class="search-row__meta">
-                                                <span v-if="song.playable" data-part="duration">{{ formatTime(song.duration_ms / 1000) }}</span>
-                                                <span v-else data-part="not-available">Not available</span>
-                                                <span class="search-row__source" data-part="source">{{ sourceLabel(song.source) }}</span>
-                                            </span>
-                                        </button>
+                                        <SongRow :song="song" @play="playSong(song)" />
                                     </li>
                                 </template>
 
@@ -279,26 +255,6 @@ onBeforeUnmount(() => search.dispose());
     font-family: var(--aero-font-family);
     font-size: var(--aero-font-size-body);
     text-align: start;
-}
-
-.search-row--song {
-    background: none;
-    cursor: pointer;
-}
-
-.search-row--song:not(:disabled):hover {
-    border-color: var(--aero-panel-border);
-    background: var(--aero-field-bg);
-}
-
-/* A song Spotify cannot play: dimmed cover, muted text that still keeps its contrast. */
-.search-row--song:disabled {
-    color: var(--aero-text-muted);
-    cursor: default;
-}
-
-.search-row--song:disabled :deep([data-aero='cover']) {
-    opacity: 0.5;
 }
 
 .search-row__text {
