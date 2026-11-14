@@ -32,7 +32,7 @@ test('The settings page is Aero', function () {
     $page = signedInOwnerVisit('/settings/spotify')->assertSee('Connect Spotify');
 
     expect($page->script('document.querySelectorAll("[data-aero=background]").length'))->toBe(1)
-        ->and($page->script('document.querySelectorAll("[data-aero=glass-panel]").length'))->toBe(1)
+        ->and($page->script('document.querySelectorAll("#spotify-settings [data-aero=glass-panel]").length'))->toBe(1)
         ->and($page->script('document.querySelectorAll("[data-slot]").length'))->toBe(0)
         ->and($page->script('document.querySelector("#spotify-connect").closest("form").getAttribute("method")'))->toBe('get');
 });
@@ -64,4 +64,12 @@ test('disconnecting from the page shows the message and the connect button', fun
         ->assertDontSee('Disconnect Spotify');
 
     expect(SpotifyConnection::count())->toBe(0);
+});
+
+test('with the empty SDK URL of the tests, a connection loads no SDK', function () {
+    // spotify-web-player, design D3 and D11: no browser test reaches Spotify's real SDK.
+    $page = ownerSpotifySettings()->assertSee('Spotify connected');
+
+    expect($page->script('document.querySelectorAll("script[data-spotify-sdk]").length'))->toBe(0)
+        ->and($page->script('typeof window.Spotify'))->toBe('undefined');
 });

@@ -184,3 +184,22 @@ test('The settings page props hold no tokens', function () {
 
     $response->assertDontSee('BQ-access-123')->assertDontSee('AQ-refresh-456');
 });
+
+// spotify-web-player, task 1.1 (design D11): where the browser player loads the SDK from.
+
+test('signed-in pages share the SDK URL and guests do not', function () {
+    config()->set('services.spotify.sdk_url', 'https://sdk.example.test/player.js');
+
+    $this->actingAs(User::factory()->create())
+        ->get('/dashboard')
+        ->assertInertia(fn (Assert $page) => $page->where('spotify.sdkUrl', 'https://sdk.example.test/player.js'));
+
+    auth()->logout();
+
+    $this->get('/login')->assertInertia(fn (Assert $page) => $page->missing('spotify.sdkUrl'));
+});
+
+test('the tests run with an empty SDK URL', function () {
+    // This file's beforeEach replaces services.spotify, so read the value phpunit.xml provides.
+    expect(env('SPOTIFY_SDK_URL'))->toBe('');
+});

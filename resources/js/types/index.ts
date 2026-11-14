@@ -23,7 +23,7 @@ export interface SharedData extends PageProps {
     name: string;
     quote: { message: string; author: string };
     auth: Auth;
-    spotify: { status: SpotifyStatus; connected: boolean };
+    spotify: { status: SpotifyStatus; connected: boolean; sdkUrl?: string };
     ziggy: {
         location: string;
         url: string;

@@ -54,6 +54,9 @@ class HandleInertiaRequests extends Middleware
                 return [
                     'status' => $status ?? 'not_connected',
                     'connected' => $status === 'connected',
+                    // Where the browser player loads Spotify's SDK from: configuration, signed-in pages only
+                    // (spotify-web-player, design D11).
+                    ...($request->user() ? ['sdkUrl' => (string) config('services.spotify.sdk_url')] : []),
                 ];
             },
         ]);

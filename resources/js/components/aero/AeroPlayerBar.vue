@@ -115,6 +115,7 @@ const hasNotice = computed(() => Boolean(slots.notice || slots['notice-actions']
                     :min="0"
                     :max="100"
                     :step="1"
+                    :value-text="`${volume}%`"
                     @update:model-value="emit('update:volume', $event)"
                 />
             </div>

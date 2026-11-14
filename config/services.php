@@ -43,6 +43,8 @@ return [
         'owner_id' => env('SPOTIFY_OWNER_ID'),
         'redirect_uri' => env('SPOTIFY_REDIRECT_URI'),
         'timeout' => 10,
+        // Spotify's Web Playback SDK. Empty in the tests, which never load the real SDK (spotify-web-player, D11).
+        'sdk_url' => env('SPOTIFY_SDK_URL', 'https://sdk.scdn.co/spotify-player.js'),
     ],
 
 ];
