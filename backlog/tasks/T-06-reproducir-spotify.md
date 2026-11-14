@@ -3,7 +3,7 @@ id: T-06
 title: Reproducir canciones de Spotify en el navegador
 status: enriched
 discovery: reproductor-musica-privado
-change: ~
+change: spotify-playback-api
 priority: must
 estimate: 5
 language: es
