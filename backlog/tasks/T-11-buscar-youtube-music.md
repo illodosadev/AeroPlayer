@@ -70,6 +70,11 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 
 - **T-14:** "Add to playlist" en las filas de canción de YouTube Music; el endpoint de añadir de T-14 acepta `source: "youtube_music"`. Esta tarea se lleva el escenario de T-14 "Añadir canciones de los dos servicios".
 
+**Seguimiento de spotify-search-api (T-07, 2026-11-14)**
+
+- **Dónde va:** YouTube Music se añade como segunda fuente dentro de `SearchMusicHandler` (`app/Application/Search/Queries`), sin cambiar el contrato de `GET /search/results` (spec `music-search`).
+- **Formato:** cada resultado usa el formato común de `app/Application/Search/Results`, con `source: "youtube_music"`, el valor que ya usa T-14.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

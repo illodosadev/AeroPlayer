@@ -61,6 +61,10 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - **Playlists propias (T-14):** decidir si la misma canción en Spotify y en YouTube Music cuenta como repetida dentro de una playlist propia, y si las playlists propias entran en la lista mezclada de la biblioteca.
 - **Riesgo de política de Spotify:** ver la pregunta abierta 11 del discovery (Developer Policy III.5 sobre integrar contenido de Spotify con el de otro servicio).
 
+**Seguimiento de spotify-search-api (T-07, 2026-11-14)**
+
+- **Dónde va:** la mezcla y la eliminación de duplicados se hacen dentro de `SearchMusicHandler`, una vez que T-11 añada YouTube Music como segunda fuente. Los resultados ya llevan `source` para distinguir el servicio.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

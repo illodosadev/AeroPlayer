@@ -346,6 +346,10 @@ El cliente compartido de la Web API ya existe: `App\Spotify\SpotifyClient` (spec
 - **Otras respuestas** (2xx, 403, 404…) llegan tal cual como `Illuminate\Http\Client\Response`. Un 403 por Premium caducado lo interpreta cada tarea.
 - **Tests:** `Http::preventStrayRequests()` y `Http::fake()` sobre `https://api.spotify.com/v1/*`. Ejemplos en `tests/Feature/Spotify/SpotifyClientTest.php`.
 
+**Seguimiento de spotify-search-api (T-07, 2026-11-14)**
+
+- **Enlaces desde la búsqueda:** los álbumes y artistas de `GET /search/results` ya llevan `id` y `uri` de Spotify, suficientes para enlazar a sus páginas.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

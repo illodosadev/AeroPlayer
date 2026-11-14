@@ -3,7 +3,7 @@ id: T-07
 title: Buscar y reproducir en Spotify
 status: enriched
 discovery: reproductor-musica-privado
-change: spotify-search-api
+change: ~
 priority: must
 estimate: 3.5
 language: es
@@ -434,6 +434,26 @@ El cliente compartido de la Web API ya existe: `App\Spotify\SpotifyClient` (spec
 - **Empezar a reproducir:** desde el manejador de un clic, con `useSpotifyPlayer().play({contextUri | uris, offset})` (`resources/js/composables/useSpotifyPlayer.ts`). La función llama antes a `activateElement()` y rechaza la promesa con `PlayerRequestError(status, code)` si el endpoint falla, con los códigos de `spotify-playback`. Hace falta exactamente uno de `contextUri` o `uris`.
 - **Página nueva:** recibe sola el layout persistente `PlayerLayout`, porque `app.ts` se lo da a toda página fuera de `auth/`, y con él la barra y el reproductor.
 - **Reproducir una canción suelta de la búsqueda:** `play({uris: ['spotify:track:…']})`, porque una pista no es un `context_uri` válido.
+
+**Parte 1 hecha con `spotify-search-api` (2026-11-14)**
+
+T-07 se partió en dos cambios. El primero está archivado; la referencia es `openspec/specs/music-search/spec.md`.
+
+- **Hecho:** `GET /search/results?q=…` busca en Spotify con una sola petición (`type=track,album,artist`, `limit=10`, `offset=0`, `market=from_token`) y responde `{songs, albums, artists}`, cada sección con `{items, next_cursor}`. `GET /search/results?q=…&section=songs|albums|artists&cursor=…` responde la página siguiente de una sección como `{items, next_cursor}`.
+- **Formato común** (`app/Application/Search/Results`):
+  - canción: `source`, `id`, `uri`, `title`, `artists`, `album`, `duration_ms`, `image` y `playable`;
+  - álbum: `source`, `id`, `uri`, `title`, `artists`, `year` e `image`;
+  - artista: `source`, `id`, `uri`, `title` e `image`.
+- **Cursor:** opaco y cifrado con la clave de la app (`App\Http\Search\SearchCursor`); va ligado a la sección y a la consulta, y es `null` al final o cuando el siguiente offset llegaría a 1000. Un cursor malo, alterado o de otra sección o consulta es un 422.
+- **Códigos de error:** el propietario eligió reutilizar los del reproductor en lugar del 503 de los criterios de arriba:
+  - 401 `unauthenticated`;
+  - 409 `spotify_not_connected` y `spotify_reconnect_required`;
+  - 422 de validación (consulta vacía o de más de 200 caracteres, sección o cursor no válidos);
+  - 429 `rate_limited` con `retry_after`;
+  - 502 `spotify_unavailable`, también para cualquier otro rechazo de Spotify, como un 403.
+
+  La página muestra el mismo mensaje de "no disponible" para 429 y 502.
+- **Queda para el segundo cambio, `spotify-search-page`:** la página `/search`, el debounce, "Load more" y reproducir un resultado. La página se abre desde un enlace "Search" en la barra lateral, como eligió el propietario. Al proponerlo, poner aquí `change: spotify-search-page`.
 
 ## Definition of Done
 

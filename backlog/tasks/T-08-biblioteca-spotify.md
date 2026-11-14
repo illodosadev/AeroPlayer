@@ -535,6 +535,11 @@ El cliente compartido de la Web API ya existe: `App\Spotify\SpotifyClient` (spec
 - **Página nueva:** recibe sola el layout persistente `PlayerLayout`, porque `app.ts` se lo da a toda página fuera de `auth/`, y con él la barra y el reproductor.
 - **Canciones guardadas ("me gusta"):** no tienen contexto en Spotify, así que se reproducen con `play({uris: [...], offset})`.
 
+**Seguimiento de spotify-search-api (T-07, 2026-11-14)**
+
+- **Formato de las canciones:** reutilizar `SongResult` (`app/Application/Search/Results`) para las pistas de la biblioteca y añadir `position`, `local` y `added_at` como claves extra.
+- **Paginación:** reutilizar `App\Http\Search\SearchCursor`, un cursor opaco cifrado y ligado a la sección y a la consulta, en lugar de exponer el `offset` o el `next` de Spotify.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests, except the `@manual` scenarios, which are checked by hand in a desktop browser with the real Spotify account and recorded in the change
