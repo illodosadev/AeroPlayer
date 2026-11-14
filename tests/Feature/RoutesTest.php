@@ -34,6 +34,8 @@ test('the web route table keeps its methods, URIs, names and middleware', functi
     expect($table)->toBe([
         ['GET|HEAD', '/', 'home', ['web']],
         ['GET|HEAD', 'dashboard', 'dashboard', ['web', 'auth']],
+        ['GET|HEAD', 'library', 'library', ['web', 'auth']],
+        ['POST', 'library/refresh', 'library.refresh', ['web', 'auth']],
         ['GET|HEAD', 'login', 'login', ['web', 'guest']],
         ['POST', 'login', null, ['web', 'guest']],
         ['POST', 'logout', 'logout', ['web', 'auth']],

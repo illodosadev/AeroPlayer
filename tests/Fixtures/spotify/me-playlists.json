@@ -1,0 +1,81 @@
+{
+  "href": "https://api.spotify.com/v1/me/playlists?offset=0&limit=50",
+  "limit": 50,
+  "next": null,
+  "offset": 0,
+  "previous": null,
+  "total": 3,
+  "items": [
+    {
+      "collaborative": false,
+      "description": "Songs for the motorway",
+      "external_urls": { "spotify": "https://open.spotify.com/playlist/3cEYpjA9oz9GiPac4AsH4n" },
+      "href": "https://api.spotify.com/v1/playlists/3cEYpjA9oz9GiPac4AsH4n",
+      "id": "3cEYpjA9oz9GiPac4AsH4n",
+      "images": [
+        { "height": 640, "url": "https://mosaic.scdn.co/640/ab67616d0000b2733b5e11ca1b063583df9492db", "width": 640 },
+        { "height": 300, "url": "https://mosaic.scdn.co/300/ab67616d0000b2733b5e11ca1b063583df9492db", "width": 300 }
+      ],
+      "name": "Road Trip",
+      "owner": {
+        "display_name": "Alice Owner",
+        "external_urls": { "spotify": "https://open.spotify.com/user/owner-123" },
+        "href": "https://api.spotify.com/v1/users/owner-123",
+        "id": "owner-123",
+        "type": "user",
+        "uri": "spotify:user:owner-123"
+      },
+      "public": false,
+      "snapshot_id": "MTIsZjM0ZDU2Nzg5MGFiY2RlZjEyMzQ1Njc4OTBhYmNkZWY=",
+      "items": { "href": "https://api.spotify.com/v1/playlists/3cEYpjA9oz9GiPac4AsH4n/items", "total": 3 },
+      "type": "playlist",
+      "uri": "spotify:playlist:3cEYpjA9oz9GiPac4AsH4n"
+    },
+    {
+      "collaborative": false,
+      "description": "Fresh indie every week",
+      "external_urls": { "spotify": "https://open.spotify.com/playlist/7dKbC1VnGzXSFqY2cVvRmb" },
+      "href": "https://api.spotify.com/v1/playlists/7dKbC1VnGzXSFqY2cVvRmb",
+      "id": "7dKbC1VnGzXSFqY2cVvRmb",
+      "images": [
+        { "height": null, "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84f1c5b9d0b1e1d6a4c4e6b8a1", "width": null }
+      ],
+      "name": "Indie Picks",
+      "owner": {
+        "display_name": "Alice",
+        "external_urls": { "spotify": "https://open.spotify.com/user/alice-789" },
+        "href": "https://api.spotify.com/v1/users/alice-789",
+        "id": "alice-789",
+        "type": "user",
+        "uri": "spotify:user:alice-789"
+      },
+      "public": true,
+      "snapshot_id": "NDUsYWJjZGVmMDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODk=",
+      "tracks": { "href": "https://api.spotify.com/v1/playlists/7dKbC1VnGzXSFqY2cVvRmb/tracks", "total": 87 },
+      "type": "playlist",
+      "uri": "spotify:playlist:7dKbC1VnGzXSFqY2cVvRmb"
+    },
+    {
+      "collaborative": true,
+      "description": "Everyone adds a song",
+      "external_urls": { "spotify": "https://open.spotify.com/playlist/1hPrq2MZSTvJdK4qXa0Nwe" },
+      "href": "https://api.spotify.com/v1/playlists/1hPrq2MZSTvJdK4qXa0Nwe",
+      "id": "1hPrq2MZSTvJdK4qXa0Nwe",
+      "images": [],
+      "name": "Office Jams",
+      "owner": {
+        "display_name": "Bob",
+        "external_urls": { "spotify": "https://open.spotify.com/user/bob-456" },
+        "href": "https://api.spotify.com/v1/users/bob-456",
+        "id": "bob-456",
+        "type": "user",
+        "uri": "spotify:user:bob-456"
+      },
+      "public": false,
+      "snapshot_id": "Nyw5ODc2NTQzMjEwZmVkY2JhOTg3NjU0MzIxMGZlZGNiYQ==",
+      "items": { "href": "https://api.spotify.com/v1/playlists/1hPrq2MZSTvJdK4qXa0Nwe/items", "total": 41 },
+      "type": "playlist",
+      "uri": "spotify:playlist:1hPrq2MZSTvJdK4qXa0Nwe"
+    }
+  ]
+}

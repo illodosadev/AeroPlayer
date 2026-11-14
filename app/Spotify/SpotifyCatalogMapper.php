@@ -2,6 +2,7 @@
 
 namespace App\Spotify;
 
+use App\Application\Library\Results\PlaylistResult;
 use App\Application\Search\Results\AlbumResult;
 use App\Application\Search\Results\ArtistResult;
 use App\Application\Search\Results\SongResult;
@@ -63,6 +64,36 @@ final class SpotifyCatalogMapper
             title: $this->string($artist, 'name'),
             image: $this->firstImage($artist),
         ), $this->objects($items));
+    }
+
+    /**
+     * Spotify's simplified playlist objects (spotify-library-overview, design D2). The deprecated "tracks" field is
+     * ignored: a playlist the owner only follows comes without "items", so its total is null.
+     *
+     * @param  array<mixed>  $items  Spotify's simplified playlist objects
+     * @param  string  $ownerSpotifyId  the Spotify id of the app's owner, to tell own playlists apart
+     * @return list<PlaylistResult>
+     */
+    public function playlists(array $items, string $ownerSpotifyId): array
+    {
+        return array_map(function (array $playlist) use ($ownerSpotifyId) {
+            $owner = is_array($playlist['owner'] ?? null) ? $playlist['owner'] : [];
+            $collaborative = ($playlist['collaborative'] ?? false) === true;
+            $displayName = $this->string($owner, 'display_name');
+            $total = is_array($playlist['items'] ?? null) ? ($playlist['items']['total'] ?? null) : null;
+
+            return new PlaylistResult(
+                source: self::SOURCE,
+                id: $this->string($playlist, 'id'),
+                uri: $this->string($playlist, 'uri'),
+                title: $this->string($playlist, 'name'),
+                image: $this->firstImage($playlist),
+                owner: $displayName !== '' ? $displayName : null,
+                collaborative: $collaborative,
+                canListTracks: $collaborative || ($ownerSpotifyId !== '' && $this->string($owner, 'id') === $ownerSpotifyId),
+                total: is_int($total) ? $total : null,
+            );
+        }, $this->objects($items));
     }
 
     /**

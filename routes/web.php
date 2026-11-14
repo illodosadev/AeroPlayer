@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Library\RefreshLibraryController;
+use App\Http\Controllers\Library\ShowLibraryController;
 use App\Http\Controllers\RedirectHomeController;
 use App\Http\Controllers\Search\ShowSearchController;
 use App\Http\Controllers\Search\ShowSearchResultsController;
@@ -36,6 +38,11 @@ Route::middleware('auth')->group(function () {
     // The search page (spotify-search-page, design D1) and its results in the app's common format
     // (spotify-search-api, design D4).
     Route::get('search', ShowSearchController::class)->name('search');
+
+    // The library overview and its "Refresh" (spotify-library-overview, design D3 and D4).
+    Route::get('library', ShowLibraryController::class)->name('library');
+    Route::post('library/refresh', RefreshLibraryController::class)->name('library.refresh');
+
     Route::get('search/results', ShowSearchResultsController::class)->name('search.results');
 });
 

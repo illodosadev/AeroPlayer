@@ -29,8 +29,22 @@ final class SpotifyScopes
      */
     public static function missing(string $granted): array
     {
-        $grantedScopes = preg_split('/\s+/', trim($granted), -1, PREG_SPLIT_NO_EMPTY) ?: [];
+        return array_values(array_diff(self::REQUIRED, self::split($granted)));
+    }
 
-        return array_values(array_diff(self::REQUIRED, $grantedScopes));
+    /**
+     * Whether a space-separated list of granted scopes includes the given scope (spotify-library-overview, design D1).
+     */
+    public static function grants(string $granted, string $scope): bool
+    {
+        return in_array($scope, self::split($granted), true);
+    }
+
+    /**
+     * @return list<string>
+     */
+    private static function split(string $granted): array
+    {
+        return preg_split('/\s+/', trim($granted), -1, PREG_SPLIT_NO_EMPTY) ?: [];
     }
 }
