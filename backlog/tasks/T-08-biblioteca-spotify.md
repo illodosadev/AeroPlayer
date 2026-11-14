@@ -3,7 +3,7 @@ id: T-08
 title: Biblioteca de Spotify
 status: enriched
 discovery: reproductor-musica-privado
-change: ~
+change: spotify-library-overview
 priority: must
 estimate: 5
 language: es
