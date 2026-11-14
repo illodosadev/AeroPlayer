@@ -66,7 +66,7 @@ Every test fakes Spotify with `Http::preventStrayRequests()` and `Http::fake()`.
 
 ## 4. Integration
 
-- [ ] 4.1 Run Pint on the changed PHP files and Prettier on the changed frontend files. Then verify that `openspec validate spotify-library-overview --strict`, `npm run types`, `npm run build` and the full `vendor/bin/pest` run pass together, with no `composer dev` running.
+- [x] 4.1 Run Pint on the changed PHP files and Prettier on the changed frontend files. Then verify that `openspec validate spotify-library-overview --strict`, `npm run types`, `npm run build` and the full `vendor/bin/pest` run pass together, with no `composer dev` running.
 
 ## Workflow follow-up
 
