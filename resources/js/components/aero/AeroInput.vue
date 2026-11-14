@@ -12,6 +12,7 @@ defineProps<{
     required?: boolean;
     autofocus?: boolean;
     tabindex?: number;
+    maxlength?: number;
 }>();
 
 defineEmits<{
@@ -32,6 +33,7 @@ defineEmits<{
             :required="required"
             :autofocus="autofocus"
             :tabindex="tabindex"
+            :maxlength="maxlength"
             :aria-invalid="error ? 'true' : undefined"
             :aria-describedby="error ? `${id}-error` : undefined"
             @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"

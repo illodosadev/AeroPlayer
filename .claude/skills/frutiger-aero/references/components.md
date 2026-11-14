@@ -24,7 +24,7 @@ All live in `resources/js/components/aero/`. Each root element has a `data-aero`
 ## AeroInput (`resources/js/components/aero/AeroInput.vue`)
 
 - Hook: `data-aero="input"` on the wrapper; the `<input>` gets the `id`.
-- Props: `id`, `label`, `modelValue` (use `v-model`), `type`, `error`, `autocomplete`, `placeholder`, `required`, `autofocus`, `tabindex`.
+- Props: `id`, `label`, `modelValue` (use `v-model`), `type`, `error`, `autocomplete`, `placeholder`, `required`, `autofocus`, `tabindex`, `maxlength` (bound on the `<input>`, so the browser stops typing at that length; the search field uses 200).
 - With `error`, the field gets `aria-invalid="true"` and `aria-describedby` pointing at the message (`<id>-error`).
 - Browser autofill keeps the Aero field colours.
 

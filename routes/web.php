@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RedirectHomeController;
+use App\Http\Controllers\Search\ShowSearchController;
 use App\Http\Controllers\Search\ShowSearchResultsController;
 use App\Http\Controllers\ShowDashboardController;
 use App\Http\Controllers\ShowStyleguideController;
@@ -32,7 +33,9 @@ Route::middleware('auth')->group(function () {
     Route::get('spotify/token', ShowSpotifyPlaybackTokenController::class)->name('spotify.token');
     Route::put('spotify/player/play', StartSpotifyPlaybackController::class)->name('spotify.player.play');
 
-    // Search results in the app's common format (spotify-search-api, design D4).
+    // The search page (spotify-search-page, design D1) and its results in the app's common format
+    // (spotify-search-api, design D4).
+    Route::get('search', ShowSearchController::class)->name('search');
     Route::get('search/results', ShowSearchResultsController::class)->name('search.results');
 });
 

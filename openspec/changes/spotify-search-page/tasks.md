@@ -4,15 +4,15 @@ Every browser test fakes Spotify on the server with `Http::preventStrayRequests(
 
 ## 1. Route and entry point
 
-- [ ] 1.1 Add `Search/ShowSearchController`, the route `GET search` named `search`, its row in `tests/Feature/RoutesTest.php`, and a placeholder `resources/js/pages/Search.vue` (design D1). Verify in `tests/Feature/Search/SearchPageTest.php`:
+- [x] 1.1 Add `Search/ShowSearchController`, the route `GET search` named `search`, its row in `tests/Feature/RoutesTest.php`, and a placeholder `resources/js/pages/Search.vue` (design D1). Verify in `tests/Feature/Search/SearchPageTest.php`:
   - the owner gets the `Search` component with status 200, with and without a Spotify connection;
   - "A visitor without a session": a guest is redirected to `/login`;
   - no request reaches Spotify.
-- [ ] 1.2 Add the "Search" link to `AppSidebar.vue` and the `maxlength` prop to `AeroInput.vue`, documented in `.claude/skills/frutiger-aero/references/components.md` (design D1, D5).
+- [x] 1.2 Add the "Search" link to `AppSidebar.vue` and the `maxlength` prop to `AeroInput.vue`, documented in `.claude/skills/frutiger-aero/references/components.md` (design D1, D5).
 
 ## 2. The search logic
 
-- [ ] 2.1 Add `resources/js/composables/useMusicSearch.ts` (design D2):
+- [x] 2.1 Add `resources/js/composables/useMusicSearch.ts` (design D2):
   - the 300 ms debounce, Enter and the blank field;
   - cancelling with `AbortController` and dropping stale answers by generation;
   - `loadMore` with the loading guard and the dedupe by `id`;
@@ -22,7 +22,7 @@ Every browser test fakes Spotify on the server with `Http::preventStrayRequests(
 
 ## 3. The page
 
-- [ ] 3.1 Build `Search.vue` (design D1, D3, D5):
+- [x] 3.1 Build `Search.vue` (design D1, D3, D5):
   - the Aero panel with the "Back" link and the search form;
   - the connect and reconnect states;
   - the "Type to search your music.", 'No results for "…"' and "not available" messages;
@@ -38,23 +38,23 @@ Every browser test fakes Spotify on the server with `Http::preventStrayRequests(
   - "An item without an image";
   - "Searching without Spotify connected";
   - "Spotify access was revoked".
-- [ ] 3.2 Verify the typing scenarios in the same file:
+- [x] 3.2 Verify the typing scenarios in the same file:
   - "Typing quickly sends one search";
   - "Enter searches at once";
   - "Surrounding spaces and an empty field";
   - "The field takes at most 200 characters";
   - "A late answer does not replace newer results", with the in-page fetch delay.
-- [ ] 3.3 Verify the paging scenarios:
+- [x] 3.3 Verify the paging scenarios:
   - "Loading more songs";
   - "A double click sends one request";
   - "A song repeated across pages shows once";
   - "Loading more fails";
   - "No more results to load".
-- [ ] 3.4 Wire playing (design D4) and verify, with the fake SDK:
+- [x] 3.4 Wire playing (design D4) and verify, with the fake SDK:
   - "Playing a song from the results";
   - "A song that is not available", checking `disabled` and pressing the row with a script, because Playwright's `click()` waits on a disabled button (design D6);
   - "Playback cannot start".
-- [ ] 3.5 Verify the failure scenarios:
+- [x] 3.5 Verify the failure scenarios:
   - "Spotify cannot answer", all rows;
   - "The rate-limit pause is respected";
   - "An expired token does not stop the search";
