@@ -62,8 +62,9 @@ Every test fakes Spotify with `Http::preventStrayRequests()` and `Http::fake()`.
 
 ## 5. Integration
 
-- [ ] 5.1 Run Pint on the changed PHP files and Prettier on the changed frontend files. Then verify that `openspec validate spotify-library-tracks --strict`, `npm run types`, `npm run build` and the full `vendor/bin/pest` run pass together, with no `composer dev` running.
-- [ ] 5.2 The owner runs the three manual checks of design D7 with the real account, and records the date and the result here.
+- [x] 5.1 Run Pint on the changed PHP files and Prettier on the changed frontend files. Then verify that `openspec validate spotify-library-tracks --strict`, `npm run types`, `npm run build` and the full `vendor/bin/pest` run pass together, with no `composer dev` running.
+- [x] 5.2 The owner runs the three manual checks of design D7 with the real account, and records the date and the result here.
+  - **Result (2026-11-14, owner, real account):** all three pass. An own playlist plays and "Next" moves to the second song. A followed playlist plays and advances, and its page shows only the header, "Play" and "Spotify doesn't let this app list the songs of playlists you don't own.", as designed. Liked Songs plays from the second song and "Next" moves to the third.
 
 ## Workflow follow-up
 
