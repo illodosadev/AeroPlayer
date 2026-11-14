@@ -89,4 +89,5 @@ The app is light mode only and uses its own Frutiger Aero components (`resources
 ## Conventions
 
 - Specs and tasks live in `openspec/`, and the backlog lives in `backlog/`. Read `AGENTS.md` before changing anything.
-- Every model query in `app/` goes through a concrete repository in `app/Repositories/`. The starter kit's auth code goes through `App\Repositories\UserRepository` too, so there is no exception left.
+- CQRS: every use case is a Command (changes state, returns nothing, fails with an `App\Application\UseCaseFailed` exception) or a Query (returns a `Results/` object, an enum, a scalar or null, never a model). Each has its Handler in `app/Application/<Context>/{Commands,Queries}`. Controllers, middleware, form requests and console commands only validate, handle HTTP or console concerns and dispatch through `App\Bus\CommandBus` or `App\Bus\QueryBus`. `tests/Unit/ArchitectureTest.php` enforces it.
+- Every model query in `app/` goes through a concrete repository in `app/Repositories/`, injected only into handlers. The starter kit's auth code goes through `App\Repositories\UserRepository` too, so there is no exception left.

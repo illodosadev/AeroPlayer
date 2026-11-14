@@ -58,8 +58,18 @@ The pipeline is guided: the user should never have to remember what comes next.
 
 ## Code conventions
 
-- **Repositories for all data access:** every model query and write in `app/` goes through a concrete class in `app/Repositories/` (one per model, e.g. `ProductRepository`), injected by the container. Controllers, service providers, actions and validation rules (`unique`/`exists`) never query models directly. Only queries that Laravel runs internally are exempt. Tests may keep using factories and model assertions.
-- **Never create interfaces for repositories.** Use concrete classes only.
+- **CQRS:** every use case is a **Command** (changes state) or a **Query** (reads state), each with its own Handler, in `app/Application/<Context>/{Commands,Queries}`.
+  - Entry points dispatch them through `App\Bus\CommandBus::dispatch()` and `App\Bus\QueryBus::ask()`. Entry points are controllers, middleware, form requests and console commands.
+  - A command handler returns nothing. A failure is an exception extending `App\Application\UseCaseFailed`, in `Exceptions/`, which the entry point turns into the page message or validation error.
+  - A query handler returns a `Results/` object, an enum, a scalar or null, never an Eloquent model.
+  - Entry points only validate input, handle HTTP or console concerns (session, prompts, redirects) and dispatch. They never reach data another way, and that includes the helpers `auth()`, `app()` and `request()`.
+  - `tests/Unit/ArchitectureTest.php` enforces the rule.
+- **Repositories for all data access:** every model query and write in `app/` goes through a concrete class in `app/Repositories/` (one per model, e.g. `ProductRepository`).
+  - Repositories are injected only into handlers. Query handlers call only reading methods.
+  - Entry points, service providers and validation rules never query models directly.
+  - The `unique`/`exists` validation rules and other queries that Laravel runs internally are exempt.
+  - Tests may keep using factories and model assertions.
+- **Never create interfaces for repositories.** Use concrete classes only. The `Command` and `Query` markers in `app/Bus` are the only interfaces of the architecture.
 
 ## Stack
 

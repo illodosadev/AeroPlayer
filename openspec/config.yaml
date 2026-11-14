@@ -18,7 +18,11 @@ context: |
   Local stack: own Docker setup (T-20). Hosting: Hostinger shared plan, music.illodosadev.io (T-04).
   UI text: English only. Backlog and discovery docs: Spanish.
   Data access: every model query and write in app/ goes through a concrete repository class in app/Repositories,
-  injected by the container. NEVER create interfaces for repositories. Only Laravel internals are exempt (AGENTS.md, Code conventions).
+  injected only into handlers. NEVER create interfaces for repositories. Only Laravel internals are exempt (AGENTS.md, Code conventions).
+  CQRS: every use case is a Command (changes state, returns nothing, fails with an App\Application\UseCaseFailed exception)
+  or a Query (returns a Results/ object, an enum, a scalar or null, never a model), with its Handler in
+  app/Application/<Context>/{Commands,Queries}. Controllers, middleware, form requests and console commands only validate,
+  handle HTTP or console concerns and dispatch through App\Bus\CommandBus or App\Bus\QueryBus (tests/Unit/ArchitectureTest.php).
   Tests may use factories and model assertions directly.
   Conventions: conventional commits; one concern per change; work directly on main (no branches, no PRs, no Jira).
 

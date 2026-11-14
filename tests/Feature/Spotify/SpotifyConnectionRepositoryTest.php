@@ -21,7 +21,7 @@ test('Tokens are stored encrypted', function () {
     $owner = User::factory()->create();
 
     app(SpotifyConnectionRepository::class)
-        ->storeForOwner($owner, new SpotifyAccount('owner-123', 'Alice', null), spotifyTokens());
+        ->storeForOwner($owner->id, new SpotifyAccount('owner-123', 'Alice', null), spotifyTokens());
 
     $raw = (array) DB::table('spotify_connections')->first();
 
@@ -41,7 +41,7 @@ test('storing records the account, the scopes, the expiry and the authorization 
     $owner = User::factory()->create();
 
     $connection = app(SpotifyConnectionRepository::class)
-        ->storeForOwner($owner, new SpotifyAccount('owner-123', 'Alice', null), spotifyTokens());
+        ->storeForOwner($owner->id, new SpotifyAccount('owner-123', 'Alice', null), spotifyTokens());
 
     expect($connection->spotify_user_id)->toBe('owner-123')
         ->and($connection->display_name)->toBe('Alice')
@@ -56,8 +56,8 @@ test('storing twice keeps one row, replaces the tokens and gives a new connectio
     $owner = User::factory()->create();
     $account = new SpotifyAccount('owner-123', 'Alice', null);
 
-    $first = $repository->storeForOwner($owner, $account, spotifyTokens());
-    $second = $repository->storeForOwner($owner, $account, spotifyTokens('AQ-new-777', 'BQ-new-888'));
+    $first = $repository->storeForOwner($owner->id, $account, spotifyTokens());
+    $second = $repository->storeForOwner($owner->id, $account, spotifyTokens('AQ-new-777', 'BQ-new-888'));
 
     expect(SpotifyConnection::count())->toBe(1)
         ->and($repository->current()->refresh_token)->toBe('AQ-new-777')
@@ -71,7 +71,7 @@ test('storing after reconnect_required sets the status back to connected', funct
 
     expect($repository->status())->toBe(SpotifyConnectionStatus::ReconnectRequired);
 
-    $repository->storeForOwner($existing->user, new SpotifyAccount('owner-123', 'Alice', null), spotifyTokens());
+    $repository->storeForOwner($existing->user_id, new SpotifyAccount('owner-123', 'Alice', null), spotifyTokens());
 
     expect($repository->status())->toBe(SpotifyConnectionStatus::Connected)
         ->and($repository->current()->refresh_token)->toBe('AQ-refresh-456');
@@ -88,8 +88,8 @@ test('deleting removes the connection, and deleting again does nothing', functio
     $repository = app(SpotifyConnectionRepository::class);
     $connection = SpotifyConnection::factory()->create();
 
-    $repository->deleteForOwner($connection->user);
-    $repository->deleteForOwner($connection->user);
+    $repository->deleteForOwner($connection->user_id);
+    $repository->deleteForOwner($connection->user_id);
 
     expect(SpotifyConnection::count())->toBe(0);
 });

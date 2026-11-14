@@ -2,24 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\SpotifyConnectionRepository;
+use App\Application\Spotify\Commands\ConnectSpotify;
+use App\Application\Spotify\Commands\DisconnectSpotify;
+use App\Application\Spotify\Exceptions\SpotifyConnectionFailed;
+use App\Application\Spotify\Exceptions\SpotifyNotConfigured;
+use App\Application\Spotify\Queries\GetSpotifyAuthorizationUrl;
+use App\Bus\CommandBus;
+use App\Bus\QueryBus;
 use App\Spotify\ConnectFailure;
-use App\Spotify\SpotifyAccount;
-use App\Spotify\SpotifyOAuth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 /**
- * Connecting and disconnecting the owner's Spotify account (spotify-connection, design D5, D7 and D8).
+ * Connecting and disconnecting the owner's Spotify account (spotify-connection, design D5, D7 and D8). The
+ * controller keeps the HTTP part: the single-use state in the session, Spotify's query parameters and the page
+ * message. The use cases are commands and queries (adopt-cqrs, design D5).
  */
 class SpotifyConnectionController extends Controller
 {
     private const STATE_KEY = 'spotify_oauth_state';
 
     public function __construct(
-        private readonly SpotifyOAuth $oauth,
-        private readonly SpotifyConnectionRepository $connections,
+        private readonly CommandBus $commands,
+        private readonly QueryBus $queries,
     ) {}
 
     /**
@@ -27,14 +33,17 @@ class SpotifyConnectionController extends Controller
      */
     public function redirect(Request $request): RedirectResponse
     {
-        if (! $this->oauth->isConfigured()) {
+        $state = Str::random(64);
+
+        try {
+            $url = $this->queries->ask(new GetSpotifyAuthorizationUrl($state));
+        } catch (SpotifyNotConfigured) {
             return redirect('/settings/spotify');
         }
 
-        $state = Str::random(64);
         $request->session()->put(self::STATE_KEY, $state);
 
-        return redirect()->away($this->oauth->authorizeUrl($state));
+        return redirect()->away($url);
     }
 
     /**
@@ -61,25 +70,11 @@ class SpotifyConnectionController extends Controller
             return $this->failed(ConnectFailure::ExchangeRejected);
         }
 
-        $tokens = $this->oauth->exchangeCode($code);
-
-        if ($tokens instanceof ConnectFailure) {
-            return $this->failed($tokens);
+        try {
+            $this->commands->dispatch(new ConnectSpotify($request->user()->getKey(), $code));
+        } catch (SpotifyConnectionFailed $failure) {
+            return $this->failed($failure->reason);
         }
-
-        $account = $this->oauth->fetchAccount($tokens->accessToken);
-
-        if ($account instanceof ConnectFailure) {
-            return $this->failed($account);
-        }
-
-        $refusal = $this->refusal($account);
-
-        if ($refusal !== null) {
-            return $this->failed($refusal);
-        }
-
-        $this->connections->storeForOwner($request->user(), $account, $tokens);
 
         return $this->toSettings('success', 'Spotify connected.');
     }
@@ -90,7 +85,7 @@ class SpotifyConnectionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $this->connections->deleteForOwner($request->user());
+        $this->commands->dispatch(new DisconnectSpotify($request->user()->getKey()));
 
         return $this->toSettings(
             'success',
@@ -99,29 +94,13 @@ class SpotifyConnectionController extends Controller
         );
     }
 
-    /**
-     * Only the configured owner's account, and only with Premium when Spotify reports the product.
-     */
-    private function refusal(SpotifyAccount $account): ?ConnectFailure
-    {
-        if ($account->id !== $this->oauth->ownerId()) {
-            return ConnectFailure::NotOwner;
-        }
-
-        if ($account->product !== null && $account->product !== 'premium') {
-            return ConnectFailure::NotPremium;
-        }
-
-        return null;
-    }
-
     private function failed(ConnectFailure $failure): RedirectResponse
     {
         return $this->toSettings($failure->tone(), $failure->message());
     }
 
     /**
-     * The page message is a session flash read by the settings page (design D8).
+     * The page message is a session flash read by the settings page (spotify-connection, design D8).
      */
     private function toSettings(string $tone, string $text, ?string $detail = null): RedirectResponse
     {

@@ -2,7 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Repositories\UserRepository;
+use App\Application\Owner\Commands\CreateOwnerAccount;
+use App\Application\Owner\Commands\ReplaceOwnerAccount;
+use App\Application\Owner\Queries\GetOwnerAccount;
+use App\Bus\CommandBus;
+use App\Bus\QueryBus;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -27,7 +31,7 @@ class CreateOwner extends Command
     /**
      * Execute the console command.
      */
-    public function handle(UserRepository $users): int
+    public function handle(CommandBus $commands, QueryBus $queries): int
     {
         if (! $this->input->isInteractive()) {
             $this->error('This command needs an interactive terminal.');
@@ -35,7 +39,7 @@ class CreateOwner extends Command
             return self::FAILURE;
         }
 
-        $owner = $users->findOwner();
+        $owner = $queries->ask(new GetOwnerAccount);
 
         if ($owner && ! $this->confirm("An owner account already exists ({$owner->email}). Replace its email and password?")) {
             $this->info('Nothing changed.');
@@ -47,10 +51,10 @@ class CreateOwner extends Command
         $password = $this->askPassword();
 
         if ($owner) {
-            $users->replaceOwner($owner, $email, $password);
+            $commands->dispatch(new ReplaceOwnerAccount($email, $password));
             $this->info("Owner account updated for {$email}.");
         } else {
-            $users->createOwner($email, $password);
+            $commands->dispatch(new CreateOwnerAccount($email, $password));
             $this->info("Owner account created for {$email}.");
         }
 

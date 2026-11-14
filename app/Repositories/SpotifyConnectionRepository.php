@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Enums\SpotifyConnectionStatus;
 use App\Models\SpotifyConnection;
-use App\Models\User;
 use App\Spotify\SpotifyAccount;
 use App\Spotify\SpotifyTokens;
 use Illuminate\Support\Str;
@@ -30,10 +29,10 @@ class SpotifyConnectionRepository
     /**
      * Store the owner's connection, replacing any previous one in place with a new connection identifier.
      */
-    public function storeForOwner(User $owner, SpotifyAccount $account, SpotifyTokens $tokens): SpotifyConnection
+    public function storeForOwner(int $userId, SpotifyAccount $account, SpotifyTokens $tokens): SpotifyConnection
     {
         return SpotifyConnection::query()->updateOrCreate(
-            ['user_id' => $owner->getKey()],
+            ['user_id' => $userId],
             [
                 'connection_id' => (string) Str::uuid(),
                 'spotify_user_id' => $account->id,
@@ -51,8 +50,8 @@ class SpotifyConnectionRepository
     /**
      * Delete the owner's connection and its tokens. Nothing happens when there is none.
      */
-    public function deleteForOwner(User $owner): void
+    public function deleteForOwner(int $userId): void
     {
-        SpotifyConnection::query()->where('user_id', $owner->getKey())->delete();
+        SpotifyConnection::query()->where('user_id', $userId)->delete();
     }
 }

@@ -2,7 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Repositories\SpotifyConnectionRepository;
+use App\Application\Spotify\Queries\GetSpotifyStatus;
+use App\Bus\QueryBus;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -48,7 +49,7 @@ class HandleInertiaRequests extends Middleware
             ],
             // The connection status only, never a token (spotify-connection, design D10). Guests skip the query.
             'spotify' => function () use ($request) {
-                $status = $request->user() ? app(SpotifyConnectionRepository::class)->status()?->value : null;
+                $status = $request->user() ? app(QueryBus::class)->ask(new GetSpotifyStatus)?->value : null;
 
                 return [
                     'status' => $status ?? 'not_connected',
