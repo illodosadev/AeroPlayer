@@ -63,7 +63,11 @@ Visible 2 px focus outline on every control, 4.5:1 text contrast, no animation w
 ## Testing hooks
 
 - Locate components by their `data-aero` hook, never by CSS classes.
-- Browser tests use the helpers in `tests/Pest.php`: `signedInOwnerVisit()` and `aeroContrastRatio()`.
+- Browser tests use the helpers in `tests/Pest.php`:
+  - `signedInOwnerVisit()` and `aeroContrastRatio()`;
+  - `aeroAssertFocusWalk($page, '#page-title')` for "Visible keyboard focus", which only counts enabled controls;
+  - `$page->resize(375, 667)->script(AERO_MOBILE_PROBLEMS)`, which must return `[]`, for "Mobile layout".
+- A new Aero page gets the focus walk and the 375 px check in its own browser test.
 - In Pest browser tests, use explicit selectors (`#id`, `.class`, `[attr]`). A bare tag such as `h1` is looked up as text and waits until the timeout.
 
 ## Keep this skill in sync

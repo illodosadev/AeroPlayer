@@ -30,14 +30,18 @@ test('the user menu links lead to existing pages only', function () {
     $items = $page->script('[...document.querySelectorAll("[role=menu] [role=menuitem], [role=menu] a")].map((el) => ({ text: el.textContent.trim(), href: el.getAttribute("href") }))');
 
     expect($items)->not->toBeEmpty();
-    expect(collect($items)->pluck('text')->implode(' '))->not->toContain('Settings');
+
+    // The "Settings" item leads to the Spotify settings (spotify-connection, owner-auth delta).
+    $settings = collect($items)->firstWhere('text', 'Settings');
+    expect($settings)->not->toBeNull()
+        ->and(parse_url($settings['href'], PHP_URL_PATH))->toBe('/settings/spotify');
 
     foreach ($items as $item) {
         if ($item['href'] === null || str_contains(strtolower($item['text']), 'log out')) {
             continue;
         }
 
-        expect(parse_url($item['href'], PHP_URL_PATH) ?? '')->not->toStartWith('/settings');
+        expect(parse_url($item['href'], PHP_URL_PATH) ?? '')->not->toBeIn(['/settings/profile', '/settings/password', '/settings/appearance']);
         expect($page->script('fetch("'.$item['href'].'").then((r) => r.status)'))->not->toBe(404);
     }
 });

@@ -1,13 +1,10 @@
 <?php
 
 // Accessibility and adaptation (aero-design-system, tasks 5.1 to 5.4): spec aero-design, "Visible keyboard focus",
-// "Reduced motion", "Mobile layout" and "Background image fallback".
+// "Reduced motion", "Mobile layout" and "Background image fallback". The focus walk and the mobile check live in
+// tests/Pest.php, so other pages' browser tests can reuse them (spotify-connection, design D12).
 
 use App\Models\User;
-
-const AERO_CONTROLS = '[...document.querySelectorAll("button, input, a[href], select, textarea")].filter((el) => !el.disabled && el.getClientRects().length > 0)';
-const AERO_KEY = '((el) => el.id || el.dataset.sample || el.textContent.trim())';
-const AERO_INDICATOR = '((el) => el.classList.contains("aero-checkbox__input") ? el.nextElementSibling : el)';
 
 function aeroOwnerAt(string $path, array $options = [])
 {
@@ -19,53 +16,6 @@ function aeroOwnerAt(string $path, array $options = [])
         ->press('Log in')
         ->wait(2)
         ->navigate($path);
-}
-
-/**
- * Walks the page with Tab from the top and checks every enabled control is reached and shows a 2 px outline
- * that it does not have unfocused.
- */
-function aeroAssertFocusWalk($page, string $startSelector): void
-{
-    // Start the walk from the page title: blur() alone keeps the browser's focus starting point (autofocus on login).
-    $page->script('(() => { const start = document.querySelector("'.$startSelector.'"); start.tabIndex = -1; start.focus(); })()');
-
-    $controls = $page->script('(() => {
-        const key = '.AERO_KEY.';
-        const indicator = '.AERO_INDICATOR.';
-        return '.AERO_CONTROLS.'.map((el) => {
-            const s = getComputedStyle(indicator(el));
-            return { key: key(el), outline: s.outlineStyle === "none" ? 0 : parseFloat(s.outlineWidth) };
-        });
-    })()');
-
-    expect($controls)->not->toBeEmpty();
-
-    foreach ($controls as $control) {
-        expect((float) $control['outline'])->toBe(0.0, "{$control['key']} has an outline without focus");
-    }
-
-    $page->keys('*:focus', ['Tab']);
-
-    $visited = [];
-    for ($i = 0; $i < count($controls); $i++) {
-        if ($i > 0) {
-            $page->keys('*:focus', ['Tab']);
-        }
-
-        $visited[] = $page->script('(() => {
-            const el = document.activeElement;
-            const s = getComputedStyle('.AERO_INDICATOR.'(el));
-            return { id: el.id, key: '.AERO_KEY.'(el), outline: s.outlineStyle === "none" ? 0 : parseFloat(s.outlineWidth) };
-        })()');
-    }
-
-    expect(collect($visited)->pluck('key')->sort()->values()->all())
-        ->toBe(collect($controls)->pluck('key')->sort()->values()->all());
-
-    foreach ($visited as $control) {
-        expect((float) $control['outline'])->toBeGreaterThanOrEqual(2.0, "{$control['key']} shows no 2 px focus outline");
-    }
 }
 
 // --- 5.1 Visible keyboard focus ---------------------------------------------------
@@ -142,25 +92,6 @@ test('no animation on the player controls with reduced motion', function () {
 });
 
 // --- 5.3 Mobile layout ------------------------------------------------------------
-
-const AERO_MOBILE_PROBLEMS = '(() => {
-    const problems = [];
-    if (document.documentElement.scrollWidth > 375) {
-        problems.push("scrollWidth " + document.documentElement.scrollWidth);
-    }
-    for (const el of '.AERO_CONTROLS.') {
-        const target = el.classList.contains("aero-checkbox__input") ? el.closest("[data-aero=checkbox]") : el;
-        const r = target.getBoundingClientRect();
-        const name = el.id || el.dataset.sample || el.textContent.trim();
-        if (r.width === 0 || r.height === 0 || r.left < 0 || r.right > 375) {
-            problems.push(name + " outside the viewport (" + r.left + "-" + r.right + ")");
-        }
-        if (r.width < 44 || r.height < 44) {
-            problems.push(name + " touch area " + r.width + "x" + r.height);
-        }
-    }
-    return problems;
-})()';
 
 test('the login fits a 375 px phone with 44 px touch areas', function () {
     $page = visit('/login')->resize(375, 667);

@@ -17,10 +17,13 @@ export interface NavItem {
     isActive?: boolean;
 }
 
+export type SpotifyStatus = 'not_connected' | 'connected' | 'reconnect_required';
+
 export interface SharedData extends PageProps {
     name: string;
     quote: { message: string; author: string };
     auth: Auth;
+    spotify: { status: SpotifyStatus; connected: boolean };
     ziggy: {
         location: string;
         url: string;

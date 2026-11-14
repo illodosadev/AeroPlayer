@@ -23,6 +23,35 @@ npx playwright install chromium
 
 The last command downloads the headless Chromium the browser tests use.
 
+## Spotify
+
+AeroPlayer plays music through the owner's own Spotify app. Register it once:
+
+1. In the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard), create an app with your own Spotify **Premium** account and select the Web API and the Web Playback SDK. The app stays in development mode, which requires the app owner to have Premium.
+2. Add both redirect URIs to the app. They must match exactly, and Spotify does not accept `localhost`:
+   - local: `http://127.0.0.1:8000/spotify/callback`;
+   - production: `https://music.<domain>/spotify/callback`, once the app is deployed.
+3. Fill in the four variables in `.env`:
+   - `SPOTIFY_CLIENT_ID` and `SPOTIFY_CLIENT_SECRET`, from the app's settings;
+   - `SPOTIFY_OWNER_ID`, your Spotify user id: the last part of your profile link (`https://open.spotify.com/user/<id>`), or the `id` that `GET https://api.spotify.com/v1/me` returns;
+   - `SPOTIFY_REDIRECT_URI`, the redirect URI of this environment.
+
+   Without the first three, the settings page shows "Spotify is not configured."
+4. Open the app on `http://127.0.0.1:8000`, never `http://localhost:8000`, and set `APP_URL` to the same address. The session cookie of `localhost` does not travel to `127.0.0.1`, so the callback would arrive without a session.
+5. Keep `SESSION_SAME_SITE=lax` (the default). With `strict`, the session cookie does not travel with the redirect back from Spotify.
+6. Sign in and open **Settings** in the user menu (`/settings/spotify`), then press **Connect Spotify**. Only the account in `SPOTIFY_OWNER_ID` is accepted.
+
+Spotify's refresh tokens last 6 months from the moment you authorize, so the settings page shows "Reconnect before <date>": connect again before then. Disconnecting deletes the stored tokens; to remove AeroPlayer's access on Spotify's side too, use [spotify.com/account/apps](https://www.spotify.com/account/apps/).
+
+Manual check with the real Spotify app, after changing the connection code:
+
+- connect, and check that the page shows "Spotify connected", your name and "Reconnect before <date>";
+- check that the tokens are not in the page source;
+- disconnect;
+- connect again.
+
+Never commit real ids, secrets or tokens: they live only in `.env`.
+
 ## Build
 
 ```bash

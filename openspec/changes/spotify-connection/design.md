@@ -246,7 +246,14 @@ None. The production redirect check is a T-04 follow-up, recorded at `/ship`.
 
 ## Manual checks
 
-<!-- Filled during /opsx-apply: connecting and disconnecting with the real Spotify app on 127.0.0.1, step 6.1. -->
+2026-11-14, step 6.1, with the owner's real Spotify app on `http://127.0.0.1:8000`: passed.
+
+- Connecting showed "Spotify connected.", the account name and "Reconnect before" six months later.
+- The stored tokens were encrypted, no required scope was missing, and the page source held no token.
+- Disconnecting showed "Spotify disconnected." with the spotify.com/account/apps note and the connect button again.
+- Connecting again showed "Spotify connected" again.
+
+The first attempt showed "Spotify is not responding right now." because the local PHP had no root certificates for HTTPS (cURL error 60). The app handled it as designed. Pointing `curl.cainfo` and `openssl.cafile` at a CA bundle fixed it; that is local setup, not a code change.
 
 ## Backlog follow-ups (applied at /ship)
 

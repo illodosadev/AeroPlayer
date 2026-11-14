@@ -7,7 +7,9 @@ use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Testing\TestResponse;
 use Inertia\Testing\AssertableInertia as Assert;
+use Symfony\Component\HttpFoundation\Cookie;
 
 function owner(): User
 {
@@ -17,7 +19,7 @@ function owner(): User
     ]);
 }
 
-function rememberCookie(\Illuminate\Testing\TestResponse $response): ?\Symfony\Component\HttpFoundation\Cookie
+function rememberCookie(TestResponse $response): ?Cookie
 {
     return collect($response->headers->getCookies())
         ->first(fn ($cookie) => str_starts_with($cookie->getName(), 'remember_web_'));
@@ -250,7 +252,6 @@ test('removed auth and settings routes return 404', function (string $method, st
     ['GET', '/verify-email'],
     ['POST', '/email/verification-notification'],
     ['GET', '/confirm-password'],
-    ['GET', '/settings'],
     ['GET', '/settings/profile'],
     ['PATCH', '/settings/profile'],
     ['DELETE', '/settings/profile'],

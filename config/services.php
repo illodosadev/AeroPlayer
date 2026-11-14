@@ -35,4 +35,14 @@ return [
         ],
     ],
 
+    // The owner's Spotify app (spotify-connection, design D6). Spotify counts as configured only when the
+    // client id, the client secret and the owner's Spotify id are all set.
+    'spotify' => [
+        'client_id' => env('SPOTIFY_CLIENT_ID'),
+        'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
+        'owner_id' => env('SPOTIFY_OWNER_ID'),
+        'redirect_uri' => env('SPOTIFY_REDIRECT_URI'),
+        'timeout' => 10,
+    ],
+
 ];
