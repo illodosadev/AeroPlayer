@@ -73,6 +73,11 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 
 - **Dónde va:** YouTube Music se añade dentro de `GetLibraryHandler` (`app/Application/Library/Queries`) y en la misma lista de `resources/js/pages/Library.vue`, con su propio `source` y la etiqueta del servicio en el mapa `SOURCE_LABELS`.
 
+**Seguimiento de spotify-library-tracks (T-08, 2026-11-14)**
+
+- **Rutas:** las páginas de playlist llevan el servicio en la ruta (`/library/playlists/spotify/{id}`); YouTube Music añade `/library/playlists/youtube-music/{id}` con su propio controlador o el mismo con otro lector.
+- **Reutilizar:** `SongRow.vue`, `usePagedSongs` y `LibraryCursor`, con un scope propio.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

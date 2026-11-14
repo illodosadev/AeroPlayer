@@ -1,7 +1,7 @@
 ---
 id: T-08
 title: Biblioteca de Spotify
-status: enriched
+status: done
 discovery: reproductor-musica-privado
 change: spotify-library-tracks
 priority: must
@@ -561,6 +561,24 @@ T-08 se partió en dos cambios por pantalla. El primero está archivado; la refe
   - los textos de vacío solo se aplican cuando se leyeron las dos partes, así que un permiso que falta nunca parece una biblioteca vacía;
   - escribir la caché dentro de la query se trata como infraestructura, como la renovación del token en `GetSpotifyPlaybackToken`.
 - **Queda para el segundo cambio, `spotify-library-tracks`:** el detalle de playlist, Liked Songs, "Load more" y reproducir. El propietario eligió no cachear las páginas de canciones.
+
+**Cerrada con `spotify-library-tracks` (2026-11-14)**
+
+Las dos partes están archivadas. La referencia es ahora `openspec/specs/music-library/spec.md`, con 19 requisitos.
+
+- **Parte 1, `spotify-library-overview`:** `/library` con todas las playlists, el total de Liked Songs, la caché de 10 minutos y "Refresh".
+- **Parte 2, `spotify-library-tracks`:**
+  - `GET /library/playlists/spotify/{id}` y `GET /library/liked`, páginas Aero a las que enlazan las filas de `/library`;
+  - "Load more" de 50 en 50 con un cursor opaco (`OpaqueCursor`, que ahora usa también `SearchCursor`), en `.../songs`;
+  - las queries `GetPlaylist`, `GetPlaylistSongs` y `GetLikedSongs` sobre `SpotifyLibraryReader`; los handlers comprueban la conexión (`ReadsUsableConnection`);
+  - las canciones de playlist guardan la posición de Spotify aunque haya elementos ocultos; los archivos locales y las canciones no disponibles salen desactivados; las canciones borradas y los episodios no se muestran;
+  - `SongRow.vue` (sacada de `Search.vue`) y `usePagedSongs`.
+- **Decisiones del cambio:**
+  - sin caché para las páginas de canciones (elección del propietario);
+  - una playlist que solo se sigue suena con offset position 0, el valor por defecto del reproductor; la spec se corrigió durante la implementación;
+  - en playlists, "Load more" quita repetidos por `position` (una canción puede estar dos veces); en Liked Songs, por `id`.
+- **Comprobado a mano el 2026-11-14 con la cuenta real:** una playlist propia, una que solo se sigue y Liked Songs suenan y avanzan con "Next".
+- **Observación del propietario:** la página de una playlist que solo se sigue se ve rara, porque solo muestra la cabecera, "Play" y el aviso. Mejoras posibles, sin decidir: mostrar la canción que suena o cambiar el texto del aviso.
 
 ## Definition of Done
 

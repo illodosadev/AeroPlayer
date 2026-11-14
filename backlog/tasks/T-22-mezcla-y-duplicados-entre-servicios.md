@@ -69,6 +69,10 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 
 - **Biblioteca:** la mezcla de playlists de los dos servicios va en `GetLibraryHandler`, que hoy devuelve las playlists de Spotify en su orden. Cada playlist ya lleva `source`.
 
+**Seguimiento de spotify-library-tracks (T-08, 2026-11-14)**
+
+- **Canciones guardadas:** llevan `added_at` (ISO 8601), útil para ordenar la lista mezclada. La paginación usa `OpaqueCursor`, que puede llevar el offset de cada servicio en su scope.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

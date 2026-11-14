@@ -906,6 +906,11 @@ Pregunta abierta 1 resuelta: hosting compartido Premium de Hostinger, app en `mu
 
 - **"Add to queue" en la búsqueda:** va en la fila de canción de `resources/js/pages/Search.vue`, desactivado cuando `playable` es false. Hoy pulsar la fila reproduce solo esa canción con `play({uris: [uri]})`.
 
+**Seguimiento de spotify-library-tracks (T-08, 2026-11-14)**
+
+- **Hoy:** una playlist propia suena como contexto de Spotify desde la posición de la canción; Liked Songs suena como las `uris` reproducibles de su página de 50 y se para al final de esa página.
+- **Para la cola:** `usePagedSongs` (`resources/js/composables/usePagedSongs.ts`) y los endpoints `GET /library/liked/songs` y `GET /library/playlists/spotify/{id}/songs` con su cursor opaco sirven para cargar la página siguiente (`POST /queue/continue`).
+
 ## Definition of Done
 
 - [ ] Criterios automatizables cubiertos por tests; los @manual en el checklist del cambio

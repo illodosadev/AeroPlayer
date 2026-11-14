@@ -354,6 +354,10 @@ El cliente compartido de la Web API ya existe: `App\Spotify\SpotifyClient` (spec
 
 - **Enlaces desde la búsqueda:** las filas de álbum y de artista de `resources/js/pages/Search.vue` son elementos de lista sin enlace. Convertirlas en enlaces a sus páginas.
 
+**Seguimiento de spotify-library-tracks (T-08, 2026-11-14)**
+
+- **Páginas de álbum:** reutilizar `SongRow.vue`, `usePagedSongs`, `LibraryState.vue` y el patrón de `SpotifyLibraryReader` (query de página Inertia más endpoint JSON `.../songs` con cursor opaco).
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

@@ -664,6 +664,10 @@ Scenario: La carátula guardada ya no carga
 
 - **"My playlists":** va como sección encima de la lista de Spotify en `resources/js/pages/Library.vue`, visible sea cual sea el estado de Spotify (hoy un error de Spotify oculta todo el contenido de la página).
 
+**Seguimiento de spotify-library-tracks (T-08, 2026-11-14)**
+
+- **"Add to playlist":** va en `resources/js/components/SongRow.vue`, compartida por la búsqueda, las playlists y Liked Songs; oculto o desactivado cuando `playable` es false (archivos locales y canciones no disponibles).
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests
