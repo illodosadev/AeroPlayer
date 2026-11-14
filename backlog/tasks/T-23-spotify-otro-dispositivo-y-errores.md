@@ -345,6 +345,18 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - La zona de aviso de `AeroPlayerBar` tiene dos ranuras: `notice` (solo el mensaje, dentro de una región `role="status"` con `aria-live="polite"` que siempre está en el DOM) y `notice-actions` (el botón "Play here" y el enlace "Reconnect Spotify", fuera de esa región). Los enlaces de `notice-actions` ya tienen área táctil de 44x44 px.
 - T-23 pone los textos y decide cuándo aparecen. Los controles se desactivan uno a uno con `previousDisabled`, `playDisabled`, `nextDisabled` y `seekDisabled`.
 
+**Seguimiento de spotify-api-client (T-05, 2026-11-14)**
+
+El cliente compartido de la Web API ya existe: `App\Spotify\SpotifyClient` (spec `openspec/specs/spotify-web-api/spec.md`).
+
+- **Uso:** los handlers de `app/Application/Spotify` lo inyectan y llaman a `get($ruta, $query)` o `send($método, $ruta, $opciones)`, con rutas relativas a `https://api.spotify.com/v1`. Los controladores, el middleware y la consola no pueden usarlo (`tests/Unit/ArchitectureTest.php`).
+- **Errores tipados:** todos extienden `App\Application\Spotify\Exceptions\SpotifyApiFailed`. Los handlers los dejan subir y el controlador los convierte:
+  - `SpotifyNotConnected` → 409 `spotify_not_connected`;
+  - `SpotifyReconnectRequired` → 409 `spotify_reconnect_required`. La conexión ya queda marcada y la página de ajustes pide reconectar;
+  - `SpotifyUnavailable` y `SpotifyRateLimited` (con `$retryAfter` en segundos): cada pantalla decide su mensaje.
+- **Otras respuestas** (2xx, 403, 404…) llegan tal cual como `Illuminate\Http\Client\Response`. Un 403 por Premium caducado lo interpreta cada tarea.
+- **Tests:** `Http::preventStrayRequests()` y `Http::fake()` sobre `https://api.spotify.com/v1/*`. Ejemplos en `tests/Feature/Spotify/SpotifyClientTest.php`.
+
 ## Definition of Done
 
 - [ ] Criterios automatizables cubiertos por tests; los @manual en el checklist del cambio

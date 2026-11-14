@@ -516,6 +516,19 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 
 - El identificador de la conexión es `spotify_connections.connection_id`, un uuid nuevo en cada conexión. Se lee con `SpotifyConnectionRepository::current()`.
 
+**Seguimiento de spotify-api-client (T-05, 2026-11-14)**
+
+El cliente compartido de la Web API ya existe: `App\Spotify\SpotifyClient` (spec `openspec/specs/spotify-web-api/spec.md`).
+
+- **Uso:** los handlers de `app/Application/Spotify` lo inyectan y llaman a `get($ruta, $query)` o `send($método, $ruta, $opciones)`, con rutas relativas a `https://api.spotify.com/v1`. Los controladores, el middleware y la consola no pueden usarlo (`tests/Unit/ArchitectureTest.php`).
+- **Errores tipados:** todos extienden `App\Application\Spotify\Exceptions\SpotifyApiFailed`. Los handlers los dejan subir y el controlador los convierte:
+  - `SpotifyNotConnected` → 409 `spotify_not_connected`;
+  - `SpotifyReconnectRequired` → 409 `spotify_reconnect_required`. La conexión ya queda marcada y la página de ajustes pide reconectar;
+  - `SpotifyUnavailable` y `SpotifyRateLimited` (con `$retryAfter` en segundos): cada pantalla decide su mensaje.
+- **Otras respuestas** (2xx, 403, 404…) llegan tal cual como `Illuminate\Http\Client\Response`. Un 403 por Premium caducado lo interpreta cada tarea.
+- **Tests:** `Http::preventStrayRequests()` y `Http::fake()` sobre `https://api.spotify.com/v1/*`. Ejemplos en `tests/Feature/Spotify/SpotifyClientTest.php`.
+- **Caché de la biblioteca:** la clave usa `spotify_connections.connection_id` (nota de `spotify-connection`). Ese identificador cambia al reconectar, así que la caché antigua deja de servirse sola.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests, except the `@manual` scenarios, which are checked by hand in a desktop browser with the real Spotify account and recorded in the change

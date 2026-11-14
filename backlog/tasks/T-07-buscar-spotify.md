@@ -416,6 +416,19 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - Las carátulas usan `AeroCover` (`resources/js/components/aero/AeroCover.vue`) con `:src="null"` cuando la pista no tiene imagen. Si la imagen no carga, se ve la carátula genérica sola, sin icono roto y con el mismo tamaño.
 - `alt` no puede estar vacío cuando hay imagen (por ejemplo "<título> cover"). El tamaño se pasa con `:size` en px.
 
+**Seguimiento de spotify-api-client (T-05, 2026-11-14)**
+
+El cliente compartido de la Web API ya existe: `App\Spotify\SpotifyClient` (spec `openspec/specs/spotify-web-api/spec.md`).
+
+- **Uso:** los handlers de `app/Application/Spotify` lo inyectan y llaman a `get($ruta, $query)` o `send($método, $ruta, $opciones)`, con rutas relativas a `https://api.spotify.com/v1`. Los controladores, el middleware y la consola no pueden usarlo (`tests/Unit/ArchitectureTest.php`).
+- **Errores tipados:** todos extienden `App\Application\Spotify\Exceptions\SpotifyApiFailed`. Los handlers los dejan subir y el controlador los convierte:
+  - `SpotifyNotConnected` → 409 `spotify_not_connected`;
+  - `SpotifyReconnectRequired` → 409 `spotify_reconnect_required`. La conexión ya queda marcada y la página de ajustes pide reconectar;
+  - `SpotifyUnavailable` y `SpotifyRateLimited` (con `$retryAfter` en segundos): cada pantalla decide su mensaje.
+- **Otras respuestas** (2xx, 403, 404…) llegan tal cual como `Illuminate\Http\Client\Response`. Un 403 por Premium caducado lo interpreta cada tarea.
+- **Tests:** `Http::preventStrayRequests()` y `Http::fake()` sobre `https://api.spotify.com/v1/*`. Ejemplos en `tests/Feature/Spotify/SpotifyClientTest.php`.
+- **Búsqueda:** `get('/search', ['q' => …, 'type' => …])`. En development mode Spotify devuelve como mucho 10 resultados por tipo (ver T-05, "Restricciones descubiertas").
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

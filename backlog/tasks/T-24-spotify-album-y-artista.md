@@ -334,6 +334,18 @@ Lo apunta el orquestador del lote. Son cambios que piden las tareas de ese lote;
 - **T-13 (cambio 2):** "Play" y pulsar una pista cargan las pistas del álbum en la cola (`uris`) en lugar de `contextUri`+offset; T-13 modifica esos escenarios.
 - **T-25:** añadir el escenario "la página no contiene elementos con el atributo data-slot".
 
+**Seguimiento de spotify-api-client (T-05, 2026-11-14)**
+
+El cliente compartido de la Web API ya existe: `App\Spotify\SpotifyClient` (spec `openspec/specs/spotify-web-api/spec.md`).
+
+- **Uso:** los handlers de `app/Application/Spotify` lo inyectan y llaman a `get($ruta, $query)` o `send($método, $ruta, $opciones)`, con rutas relativas a `https://api.spotify.com/v1`. Los controladores, el middleware y la consola no pueden usarlo (`tests/Unit/ArchitectureTest.php`).
+- **Errores tipados:** todos extienden `App\Application\Spotify\Exceptions\SpotifyApiFailed`. Los handlers los dejan subir y el controlador los convierte:
+  - `SpotifyNotConnected` → 409 `spotify_not_connected`;
+  - `SpotifyReconnectRequired` → 409 `spotify_reconnect_required`. La conexión ya queda marcada y la página de ajustes pide reconectar;
+  - `SpotifyUnavailable` y `SpotifyRateLimited` (con `$retryAfter` en segundos): cada pantalla decide su mensaje.
+- **Otras respuestas** (2xx, 403, 404…) llegan tal cual como `Illuminate\Http\Client\Response`. Un 403 por Premium caducado lo interpreta cada tarea.
+- **Tests:** `Http::preventStrayRequests()` y `Http::fake()` sobre `https://api.spotify.com/v1/*`. Ejemplos en `tests/Feature/Spotify/SpotifyClientTest.php`.
+
 ## Definition of Done
 
 - [ ] Acceptance criteria covered by tests

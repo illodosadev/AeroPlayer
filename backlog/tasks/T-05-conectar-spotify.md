@@ -1,7 +1,7 @@
 ---
 id: T-05
 title: Conectar la cuenta de Spotify
-status: enriched
+status: done
 discovery: reproductor-musica-privado
 change: spotify-api-client
 priority: must
@@ -484,6 +484,20 @@ El proyecto usa CQRS (AGENTS.md, Code conventions), y `spotify-api-client` lo si
 - Cada ruta nueva de `spotify-api-client` es un controlador invocable (solo `__invoke`) en `app/Http/Controllers/Spotify`, con nombre de acción. Los controladores de la conexión ya siguen esta forma: `StartSpotifyConnectionController`, `FinishSpotifyConnectionController`, `DisconnectSpotifyController` y `ShowSpotifySettingsController`.
 - El código compartido entre controladores va en métodos protegidos de un trait en `Concerns/`, como `RedirectsToSpotifySettings`.
 - Una ruta nueva debe añadirse a la tabla de `tests/Feature/RoutesTest.php`, que falla si cambia o falta alguna ruta del grupo `web`.
+
+**Cerrada con `spotify-api-client` (2026-11-14)**
+
+Las dos partes están archivadas. La referencia es ahora `openspec/specs/spotify-connection/spec.md` y `openspec/specs/spotify-web-api/spec.md`.
+
+- **Parte 1, `spotify-connection`:** conectar, desconectar, la página de ajustes y los tokens cifrados.
+- **Parte 2, `spotify-api-client`:** `App\Spotify\SpotifyClient`, que:
+  - renueva el token bajo `Cache::lock` cuando le quedan menos de 60 s, y relee la conexión dentro del lock;
+  - repite una vez tras un 401;
+  - convierte los fallos en los cuatro errores tipados;
+  - aplica una pausa compartida tras un 429;
+  - trata como `reconnect_required` los tokens que ya no se pueden descifrar tras cambiar `APP_KEY`.
+- **Decisión tomada al diseñar:** un `invalid_client` al renovar se trata como `SpotifyUnavailable`, no como "reconectar", porque es un fallo de configuración del servidor.
+- **Comprobado a mano:** el 2026-11-14, con la app real de Spotify en local (parte 1). El cliente se prueba solo con Spotify simulado. Su primer uso real llega con T-06.
 
 ## Definition of Done
 
