@@ -5,8 +5,10 @@ use App\Http\Controllers\ShowDashboardController;
 use App\Http\Controllers\ShowStyleguideController;
 use App\Http\Controllers\Spotify\DisconnectSpotifyController;
 use App\Http\Controllers\Spotify\FinishSpotifyConnectionController;
+use App\Http\Controllers\Spotify\ShowSpotifyPlaybackTokenController;
 use App\Http\Controllers\Spotify\ShowSpotifySettingsController;
 use App\Http\Controllers\Spotify\StartSpotifyConnectionController;
+use App\Http\Controllers\Spotify\StartSpotifyPlaybackController;
 use Illuminate\Support\Facades\Route;
 
 // One invokable controller per route (single-action-controllers, design D4).
@@ -24,6 +26,10 @@ Route::middleware('auth')->group(function () {
 
     Route::redirect('settings', '/settings/spotify')->name('settings');
     Route::get('settings/spotify', ShowSpotifySettingsController::class)->name('spotify.settings');
+
+    // The browser player's endpoints (spotify-playback-api, design D1).
+    Route::get('spotify/token', ShowSpotifyPlaybackTokenController::class)->name('spotify.token');
+    Route::put('spotify/player/play', StartSpotifyPlaybackController::class)->name('spotify.player.play');
 });
 
 require __DIR__.'/auth.php';

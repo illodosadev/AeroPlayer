@@ -98,17 +98,24 @@ final class SpotifyClient
     }
 
     /**
-     * A fresh access token, refreshed under the same lock as the Web API calls. For the Web Playback SDK token
-     * endpoint (T-06), so it reuses the refresh instead of copying it (design D1).
+     * A fresh access token and its remaining lifetime, refreshed under the same lock as the Web API calls. For the
+     * Web Playback SDK token endpoint, so it reuses the refresh instead of copying it (spotify-api-client, design
+     * D1; spotify-playback-api, design D2).
      *
      * @throws SpotifyNotConnected
      * @throws SpotifyReconnectRequired
      * @throws SpotifyUnavailable
      * @throws SpotifyRateLimited
      */
-    public function accessToken(): string
+    public function accessToken(): SpotifyAccessToken
     {
-        return $this->freshToken()[1];
+        [, $accessToken] = $this->freshToken();
+
+        // Read the expiry stored with this token, whether it was refreshed now or by another call.
+        $expiresAt = $this->connections->current()?->access_token_expires_at;
+        $expiresIn = $expiresAt === null ? 0 : max(0, $expiresAt->getTimestamp() - now()->getTimestamp());
+
+        return new SpotifyAccessToken($accessToken, $expiresIn);
     }
 
     /**

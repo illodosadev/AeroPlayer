@@ -10,6 +10,7 @@ use App\Application\Spotify\Exceptions\SpotifyUnavailable;
 use App\Enums\SpotifyConnectionStatus;
 use App\Models\SpotifyConnection;
 use App\Repositories\SpotifyConnectionRepository;
+use App\Spotify\SpotifyAccessToken;
 use App\Spotify\SpotifyClient;
 use App\Spotify\SpotifyOAuth;
 use Illuminate\Encryption\Encrypter;
@@ -157,14 +158,31 @@ test('a stored token without an expiry is refreshed', function () {
     Http::assertSent(fn (Request $request) => clientIsRefresh($request));
 });
 
-test('accessToken returns the refreshed token without calling the Web API', function () {
+test('accessToken returns the refreshed token and its lifetime without calling the Web API', function () {
     clientConnectionExpiringIn(-10);
 
     Http::fake([SpotifyOAuth::TOKEN_URL => Http::response(['access_token' => 'BQ-new-789', 'expires_in' => 3600])]);
 
-    expect(clientUnderTest()->accessToken())->toBe('BQ-new-789');
+    $token = clientUnderTest()->accessToken();
+
+    expect($token->value)->toBe('BQ-new-789')
+        ->and($token->expiresIn)->toBe(3600);
 
     Http::assertSentCount(1);
+});
+
+test('accessToken reports the remaining lifetime of a valid token', function () {
+    clientConnectionExpiringIn(3000);
+    Http::fake();
+
+    expect(clientUnderTest()->accessToken()->expiresIn)->toBe(3000);
+
+    Http::assertNothingSent();
+});
+
+test('the access token value is a sensitive parameter', function () {
+    expect((new ReflectionParameter([SpotifyAccessToken::class, '__construct'], 'value'))
+        ->getAttributes(SensitiveParameter::class))->not->toBe([]);
 });
 
 test('a query and a JSON body reach the Web API', function () {
