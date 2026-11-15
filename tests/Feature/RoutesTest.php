@@ -47,12 +47,16 @@ test('the web route table keeps its methods, URIs, names and middleware', functi
         ['GET|HEAD', 'search/results', 'search.results', ['web', 'auth']],
         ['GET|HEAD|POST|PUT|PATCH|DELETE|OPTIONS', 'settings', 'settings', ['web', 'auth']],
         ['GET|HEAD', 'settings/spotify', 'spotify.settings', ['web', 'auth']],
+        ['GET|HEAD', 'settings/youtube-music', 'youtube-music.settings', ['web', 'auth']],
         ['GET|HEAD', 'spotify/callback', 'spotify.callback', ['web', 'auth']],
         ['GET|HEAD', 'spotify/connect', 'spotify.connect', ['web', 'auth']],
         ['DELETE', 'spotify/connection', 'spotify.disconnect', ['web', 'auth']],
         ['PUT', 'spotify/player/play', 'spotify.player.play', ['web', 'auth']],
         ['GET|HEAD', 'spotify/token', 'spotify.token', ['web', 'auth']],
         ['GET|HEAD', 'styleguide', 'styleguide', ['web', 'auth']],
+        ['POST', 'youtube-music/connect', 'youtube-music.connect', ['web', 'auth']],
+        ['GET|HEAD', 'youtube-music/connect/status', 'youtube-music.connect.status', ['web', 'auth']],
+        ['DELETE', 'youtube-music/connection', 'youtube-music.disconnect', ['web', 'auth']],
     ]);
 });
 

@@ -47,4 +47,14 @@ return [
         'sdk_url' => env('SPOTIFY_SDK_URL', 'https://sdk.scdn.co/spotify-player.js'),
     ],
 
+    // The owner's Google OAuth client, of type "TV and Limited Input devices" (youtube-music-connection, design
+    // D10). YouTube Music counts as configured only when the client id, the secret and the owner's channel id are
+    // all set.
+    'youtube_music' => [
+        'client_id' => env('YOUTUBE_MUSIC_CLIENT_ID'),
+        'client_secret' => env('YOUTUBE_MUSIC_CLIENT_SECRET'),
+        'owner_channel_id' => env('YOUTUBE_MUSIC_OWNER_CHANNEL_ID'),
+        'timeout' => 10,
+    ],
+
 ];

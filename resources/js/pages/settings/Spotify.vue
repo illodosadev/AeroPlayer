@@ -4,6 +4,7 @@
 import AeroBackground from '@/components/aero/AeroBackground.vue';
 import AeroButton from '@/components/aero/AeroButton.vue';
 import AeroGlassPanel from '@/components/aero/AeroGlassPanel.vue';
+import SettingsNav from '@/components/settings/SettingsNav.vue';
 import type { SpotifyStatus } from '@/types';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
@@ -38,6 +39,8 @@ function disconnect(): void {
     <AeroBackground>
         <main id="spotify-settings" class="mx-auto flex min-h-svh w-full max-w-md flex-col justify-center gap-3 p-4 sm:p-6">
             <Link href="/dashboard" class="spotify-settings__back self-start">Back</Link>
+
+            <SettingsNav current="spotify" />
 
             <AeroGlassPanel>
                 <h1 id="spotify-settings-title" class="mb-4 text-xl font-semibold">Spotify</h1>

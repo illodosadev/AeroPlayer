@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Application\Spotify\Queries\GetSpotifyStatus;
+use App\Application\YouTubeMusic\Queries\GetYouTubeMusicStatus;
 use App\Bus\QueryBus;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
@@ -57,6 +58,15 @@ class HandleInertiaRequests extends Middleware
                     // Where the browser player loads Spotify's SDK from: configuration, signed-in pages only
                     // (spotify-web-player, design D11).
                     ...($request->user() ? ['sdkUrl' => (string) config('services.spotify.sdk_url')] : []),
+                ];
+            },
+            // The connection status only, never a token (youtube-music-connection, design D10). Guests skip the query.
+            'youtubeMusic' => function () use ($request) {
+                $status = $request->user() ? app(QueryBus::class)->ask(new GetYouTubeMusicStatus)?->value : null;
+
+                return [
+                    'status' => $status ?? 'not_connected',
+                    'connected' => $status === 'connected',
                 ];
             },
         ]);

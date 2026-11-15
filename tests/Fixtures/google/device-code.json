@@ -1,0 +1,7 @@
+{
+  "device_code": "dev-123",
+  "user_code": "ABCD-EFGH",
+  "verification_url": "https://www.google.com/device",
+  "expires_in": 1800,
+  "interval": 5
+}

@@ -187,6 +187,8 @@ arch('entry points reach data only through the buses')
         'App\Models',
         'App\Spotify\SpotifyOAuth',
         'App\Spotify\SpotifyClient',
+        'App\YouTubeMusic\GoogleDeviceFlow',
+        'App\YouTubeMusic\ConnectionAttempts',
         'Illuminate\Support\Facades\DB',
         'Illuminate\Support\Facades\Auth',
         'Illuminate\Support\Facades\RateLimiter',
@@ -199,6 +201,7 @@ const CONTROLLER_RULE_EXEMPT = [
     'App\Http\Controllers\Controller',
     'App\Http\Controllers\Spotify\Concerns',
     'App\Http\Controllers\Library\Concerns',
+    'App\Http\Controllers\YouTubeMusic\Concerns',
 ];
 
 arch('controllers are invokable')

@@ -56,6 +56,31 @@ Manual check with the real Spotify app, after changing the connection code:
 
 Never commit real ids, secrets or tokens: they live only in `.env`.
 
+## YouTube Music
+
+AeroPlayer connects the owner's YouTube Music account with Google's device flow and an OAuth client of your own. It asks only for read-only access (`youtube.readonly`). Create the client once:
+
+1. In the [Google Cloud console](https://console.cloud.google.com/), create a project and enable the **YouTube Data API v3**.
+2. Configure the OAuth consent screen (Google Auth Platform) for external users, and add your own Google account under **Test users**.
+3. Create an OAuth client of type **TV and Limited Input devices**.
+4. Fill in the three variables in `.env`:
+   - `YOUTUBE_MUSIC_CLIENT_ID` and `YOUTUBE_MUSIC_CLIENT_SECRET`, from the client;
+   - `YOUTUBE_MUSIC_OWNER_CHANNEL_ID`, the id of your YouTube channel (it starts with `UC`). Find it under **Settings → Advanced settings** on YouTube, or as the `id` that `GET https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true` returns.
+
+   Without any of the three, the settings page shows "YouTube Music is not configured."
+5. Sign in, open **Settings** and switch to **YouTube Music** in the settings link bar (`/settings/youtube-music`), then press **Connect YouTube Music**. The page shows a code: open the address it links to, enter the code and approve with your account. Google warns that the app is not verified, because it is your own: choose "Advanced" and continue. The page notices the approval by itself. Only the account whose channel is `YOUTUBE_MUSIC_OWNER_CHANNEL_ID` is accepted.
+
+While the consent screen stays in **Testing**, Google ends the authorization after 7 days, and you have to connect again. Publishing the app to production requires Google's verification. Disconnecting tries to revoke the access at Google and deletes the stored tokens; you can check at [myaccount.google.com/permissions](https://myaccount.google.com/permissions) that AeroPlayer no longer has access.
+
+The attempt waiting for your approval, with its encrypted device code, lives in the cache, and a lock stops two status requests from asking Google at once. The cache store must be shared by every PHP process, as for Spotify.
+
+Manual check with the real Google client, after changing the connection code:
+
+- connect, approve the code with your account, and check that the page shows "YouTube Music connected" and your channel name;
+- check that the page source holds no token or device code;
+- disconnect, and check that the access is gone from myaccount.google.com/permissions;
+- connect again.
+
 ## Build
 
 ```bash

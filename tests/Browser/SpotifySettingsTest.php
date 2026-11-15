@@ -66,6 +66,26 @@ test('disconnecting from the page shows the message and the connect button', fun
     expect(SpotifyConnection::count())->toBe(0);
 });
 
+// youtube-music-connection, task 4.5: the settings link bar (spec delta of spotify-connection).
+
+test('Reaching the YouTube Music settings', function () {
+    configureYouTubeMusic();
+
+    signedInOwnerVisit('/settings/spotify')
+        ->click('[data-part=settings-nav] a[href="/settings/youtube-music"]')
+        ->wait(1)
+        ->assertPathIs('/settings/youtube-music')
+        ->assertSee('Connect YouTube Music')
+        ->assertPresent('[data-part=settings-nav] a[href="/settings/spotify"]');
+});
+
+test('The current page is marked', function () {
+    $page = signedInOwnerVisit('/settings/spotify');
+
+    expect($page->script('document.querySelector("[data-part=settings-nav] a[href=\"/settings/spotify\"]").getAttribute("aria-current")'))->toBe('page')
+        ->and($page->script('document.querySelector("[data-part=settings-nav] a[href=\"/settings/youtube-music\"]").hasAttribute("aria-current")'))->toBeFalse();
+});
+
 test('with the empty SDK URL of the tests, a connection loads no SDK', function () {
     // spotify-web-player, design D3 and D11: no browser test reaches Spotify's real SDK.
     $page = ownerSpotifySettings()->assertSee('Spotify connected');

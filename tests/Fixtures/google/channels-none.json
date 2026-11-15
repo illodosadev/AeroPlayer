@@ -1,0 +1,4 @@
+{
+  "kind": "youtube#channelListResponse",
+  "pageInfo": { "totalResults": 0, "resultsPerPage": 5 }
+}

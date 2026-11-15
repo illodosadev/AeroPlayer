@@ -59,6 +59,29 @@ function something()
 }
 
 /**
+ * A Google answer from tests/Fixtures/google (youtube-music-connection), optionally changed with $overrides.
+ *
+ * @param  array<string, mixed>  $overrides
+ * @return array<string, mixed>
+ */
+function googleFixture(string $name, array $overrides = []): array
+{
+    return array_replace(json_decode(file_get_contents(__DIR__."/Fixtures/google/{$name}.json"), true), $overrides);
+}
+
+/**
+ * Configure the owner's Google client with test values: client "client-abc", secret "secret-xyz", channel "UC-owner".
+ */
+function configureYouTubeMusic(): void
+{
+    config([
+        'services.youtube_music.client_id' => 'client-abc',
+        'services.youtube_music.client_secret' => 'secret-xyz',
+        'services.youtube_music.owner_channel_id' => 'UC-owner',
+    ]);
+}
+
+/**
  * Signs the owner in through the form and opens the given page in the same browser session.
  * Each visit() starts a new browser context, so the sign-in and the page share one chain (design D11).
  */

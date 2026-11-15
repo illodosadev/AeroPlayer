@@ -17,6 +17,10 @@ use App\Http\Controllers\Spotify\ShowSpotifyPlaybackTokenController;
 use App\Http\Controllers\Spotify\ShowSpotifySettingsController;
 use App\Http\Controllers\Spotify\StartSpotifyConnectionController;
 use App\Http\Controllers\Spotify\StartSpotifyPlaybackController;
+use App\Http\Controllers\YouTubeMusic\DisconnectYouTubeMusicController;
+use App\Http\Controllers\YouTubeMusic\ShowYouTubeMusicConnectStatusController;
+use App\Http\Controllers\YouTubeMusic\ShowYouTubeMusicSettingsController;
+use App\Http\Controllers\YouTubeMusic\StartYouTubeMusicConnectionController;
 use Illuminate\Support\Facades\Route;
 
 // One invokable controller per route (single-action-controllers, design D4).
@@ -58,6 +62,13 @@ Route::middleware('auth')->group(function () {
         ->name('library.playlist.songs');
 
     Route::get('search/results', ShowSearchResultsController::class)->name('search.results');
+
+    // YouTube Music connection and settings (youtube-music-connection, design D7).
+    Route::get('settings/youtube-music', ShowYouTubeMusicSettingsController::class)->name('youtube-music.settings');
+    Route::post('youtube-music/connect', StartYouTubeMusicConnectionController::class)->name('youtube-music.connect');
+    Route::get('youtube-music/connect/status', ShowYouTubeMusicConnectStatusController::class)
+        ->name('youtube-music.connect.status');
+    Route::delete('youtube-music/connection', DisconnectYouTubeMusicController::class)->name('youtube-music.disconnect');
 });
 
 require __DIR__.'/auth.php';
