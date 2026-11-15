@@ -14,6 +14,7 @@ const props = defineProps<{
     status: YouTubeMusicStatus;
     channelName: string | null;
     waiting: { userCode: string; verificationUrl: string } | null;
+    misconfigured: boolean;
     message: { tone: 'success' | 'info' | 'error'; text: string; detail?: string } | null;
 }>();
 
@@ -162,6 +163,10 @@ onBeforeUnmount(stopPolling);
                     <template v-else>
                         <p class="font-semibold">YouTube Music connected</p>
                         <p data-part="channel">{{ channelName }}</p>
+                        <!-- A renewal was refused for the client (youtube-music-credentials, design D5). -->
+                        <p v-if="misconfigured" data-part="config-error" class="youtube-music-settings__error">
+                            YouTube Music is not configured correctly.
+                        </p>
                     </template>
                 </div>
 
@@ -203,7 +208,8 @@ onBeforeUnmount(stopPolling);
     color: var(--aero-text);
 }
 
-.youtube-music-settings__message[data-tone='error'] {
+.youtube-music-settings__message[data-tone='error'],
+.youtube-music-settings__error {
     color: var(--aero-error);
 }
 

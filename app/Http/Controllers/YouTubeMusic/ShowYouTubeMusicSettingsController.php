@@ -26,6 +26,7 @@ class ShowYouTubeMusicSettingsController extends Controller
             'status' => $settings->status,
             'channelName' => $settings->channelName,
             'waiting' => $settings->waiting,
+            'misconfigured' => $settings->misconfigured,
             'message' => $request->session()->get('youtubeMusicMessage'),
         ]);
     }

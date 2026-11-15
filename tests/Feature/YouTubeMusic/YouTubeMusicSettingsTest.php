@@ -135,6 +135,39 @@ test('The settings page holds no tokens', function () {
     }
 });
 
+// --- The configuration error (youtube-music-credentials, task 3.1, design D5) ----------------------------------
+
+test('A renewal was refused for the client', function () {
+    YouTubeMusicConnection::factory()->for($this->owner)->create(['config_error_at' => now()]);
+
+    $this->actingAs($this->owner)
+        ->get('/settings/youtube-music')
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('status', 'connected')
+            ->where('channelName', 'Alice Music')
+            ->where('misconfigured', true));
+
+    Http::assertNothingSent();
+});
+
+test('No configuration error', function () {
+    YouTubeMusicConnection::factory()->for($this->owner)->create();
+
+    $this->actingAs($this->owner)
+        ->get('/settings/youtube-music')
+        ->assertInertia(fn (Assert $page) => $page->where('misconfigured', false));
+});
+
+test('the configuration error is hidden while the client is not configured', function () {
+    config(['services.youtube_music.client_secret' => '']);
+    YouTubeMusicConnection::factory()->for($this->owner)->create(['config_error_at' => now()]);
+
+    $this->actingAs($this->owner)
+        ->get('/settings/youtube-music')
+        ->assertInertia(fn (Assert $page) => $page->where('configured', false)->where('misconfigured', false));
+});
+
 test('A visitor opens the YouTube Music settings', function () {
     $this->get('/settings/youtube-music')->assertRedirect('/login');
 

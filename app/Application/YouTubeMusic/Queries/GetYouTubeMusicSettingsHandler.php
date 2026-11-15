@@ -3,6 +3,7 @@
 namespace App\Application\YouTubeMusic\Queries;
 
 use App\Application\YouTubeMusic\Results\YouTubeMusicSettings;
+use App\Enums\YouTubeMusicConnectionStatus;
 use App\Repositories\YouTubeMusicConnectionRepository;
 use App\YouTubeMusic\ConnectionAttempts;
 use App\YouTubeMusic\GoogleDeviceFlow;
@@ -25,11 +26,17 @@ final readonly class GetYouTubeMusicSettingsHandler
             ? ['userCode' => $attempt->userCode, 'verificationUrl' => $attempt->verificationUrl]
             : null;
 
+        $configured = $this->flow->isConfigured();
+
         return new YouTubeMusicSettings(
-            configured: $this->flow->isConfigured(),
+            configured: $configured,
             status: $connection?->status->value ?? 'not_connected',
             channelName: $connection ? ($connection->channel_title ?: $connection->channel_id) : null,
             waiting: $waiting,
+            // Hidden while the client is not configured at all: the page says that first (design D5).
+            misconfigured: $configured
+                && $connection?->status === YouTubeMusicConnectionStatus::Connected
+                && $connection->config_error_at !== null,
         );
     }
 }

@@ -189,6 +189,7 @@ arch('entry points reach data only through the buses')
         'App\Spotify\SpotifyClient',
         'App\YouTubeMusic\GoogleDeviceFlow',
         'App\YouTubeMusic\ConnectionAttempts',
+        'App\YouTubeMusic\YouTubeMusicCredentials',
         'Illuminate\Support\Facades\DB',
         'Illuminate\Support\Facades\Auth',
         'Illuminate\Support\Facades\RateLimiter',

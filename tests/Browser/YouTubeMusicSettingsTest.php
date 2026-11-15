@@ -41,6 +41,7 @@ function ownerYouTubeMusicSettings(string $state)
         ),
         'connected' => YouTubeMusicConnection::factory()->for(User::sole())->create(),
         'reconnect required' => YouTubeMusicConnection::factory()->for(User::sole())->reconnectRequired()->create(),
+        'configuration error' => YouTubeMusicConnection::factory()->for(User::sole())->create(['config_error_at' => now()]),
     };
 
     return $page->navigate('/settings/youtube-music');
@@ -51,6 +52,8 @@ dataset('youtube music states', [
     'waiting' => ['waiting', 'ABCD-EFGH'],
     'connected' => ['connected', 'YouTube Music connected'],
     'reconnect required' => ['reconnect required', 'Please reconnect YouTube Music.'],
+    // youtube-music-credentials, task 3.2.
+    'configuration error' => ['configuration error', 'YouTube Music is not configured correctly.'],
 ]);
 
 test('The page is Aero in every state', function (string $state, string $text) {

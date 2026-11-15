@@ -159,6 +159,21 @@ class GoogleDeviceFlow
     }
 
     /**
+     * Ask Google for a new access token with the refresh token (youtube-music-credentials, design D2). The answer is
+     * returned as it is, for the credentials service to interpret; a ConnectionException bubbles up. It never calls
+     * ->throw(), whose exception would embed part of the token response.
+     */
+    public function requestRefresh(#[\SensitiveParameter] string $refreshToken): Response
+    {
+        return Http::asForm()->timeout($this->timeout())->post(self::TOKEN_URL, [
+            'client_id' => $this->clientId(),
+            'client_secret' => $this->clientSecret(),
+            'refresh_token' => $refreshToken,
+            'grant_type' => 'refresh_token',
+        ]);
+    }
+
+    /**
      * Try to revoke a token at Google. Any answer, or none, is ignored: revoking is best effort (design D6).
      */
     public function revoke(#[\SensitiveParameter] string $token): void

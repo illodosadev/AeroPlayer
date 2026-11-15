@@ -74,6 +74,8 @@ While the consent screen stays in **Testing**, Google ends the authorization aft
 
 The attempt waiting for your approval, with its encrypted device code, lives in the cache, and a lock stops two status requests from asking Google at once. The cache store must be shared by every PHP process, as for Spotify.
 
+Google's access tokens last about an hour, and the app renews them by itself before they expire, one renewal at a time. When Google refuses a renewal because the authorization ended, for example after the 7 days in **Testing**, the settings page asks you to reconnect YouTube Music. When Google refuses the client instead, for example after the client secret changed, the page shows "YouTube Music is not configured correctly." until you fix the variables in `.env`: reconnecting would not help, and the next good renewal clears the message.
+
 Manual check with the real Google client, after changing the connection code:
 
 - connect, approve the code with your account, and check that the page shows "YouTube Music connected" and your channel name;

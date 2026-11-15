@@ -165,11 +165,37 @@ test('a revocation that fails or does not answer is ignored', function (mixed $a
     'no answer' => fn () => fn () => throw new ConnectionException('timed out'),
 ]);
 
+// --- Renewal (youtube-music-credentials, task 2.1) ------------------------------------------------------------
+
+test('the renewal posts the refresh token with the client credentials', function () {
+    Http::fake([GoogleDeviceFlow::TOKEN_URL => Http::response(['access_token' => 'ya29.new-789', 'expires_in' => 3599])]);
+
+    $response = deviceFlow()->requestRefresh('1//refresh-456');
+
+    expect($response->json('access_token'))->toBe('ya29.new-789');
+
+    Http::assertSent(fn (Request $request) => $request->method() === 'POST'
+        && $request->url() === GoogleDeviceFlow::TOKEN_URL
+        && $request->data() === [
+            'client_id' => 'client-abc',
+            'client_secret' => 'secret-xyz',
+            'refresh_token' => '1//refresh-456',
+            'grant_type' => 'refresh_token',
+        ]);
+});
+
+test('a renewal Google cannot serve comes back as the response, without throwing', function () {
+    Http::fake([GoogleDeviceFlow::TOKEN_URL => Http::response(['error' => 'upstream-body-detail'], 503)]);
+
+    expect(deviceFlow()->requestRefresh('1//refresh-456')->status())->toBe(503);
+});
+
 test('every token parameter is sensitive', function () {
     $sensitive = fn (string $method, string $name) => (new ReflectionParameter([GoogleDeviceFlow::class, $method], $name))
         ->getAttributes(SensitiveParameter::class) !== [];
 
     expect($sensitive('pollToken', 'deviceCode'))->toBeTrue()
         ->and($sensitive('fetchChannel', 'accessToken'))->toBeTrue()
-        ->and($sensitive('revoke', 'token'))->toBeTrue();
+        ->and($sensitive('revoke', 'token'))->toBeTrue()
+        ->and($sensitive('requestRefresh', 'refreshToken'))->toBeTrue();
 });

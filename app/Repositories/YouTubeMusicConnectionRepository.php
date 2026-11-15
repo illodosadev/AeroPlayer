@@ -44,8 +44,62 @@ class YouTubeMusicConnectionRepository
                 'access_token_expires_at' => now()->addSeconds($tokens->expiresIn),
                 'authorized_at' => now(),
                 'status' => YouTubeMusicConnectionStatus::Connected,
+                'config_error_at' => null,
             ],
         );
+    }
+
+    /**
+     * Store a renewed access token and its expiry on the connection with this identifier, the refresh token when
+     * Google rotated it, and clear the configuration-error mark (youtube-music-credentials, design D4). The model is
+     * saved, not mass-updated, so the encrypted casts apply. A connection replaced meanwhile is left alone.
+     */
+    public function storeRefreshedTokens(
+        string $connectionId,
+        #[\SensitiveParameter] string $accessToken,
+        #[\SensitiveParameter] ?string $refreshToken,
+        int $expiresIn,
+    ): void {
+        $connection = YouTubeMusicConnection::query()->where('connection_id', $connectionId)->first();
+
+        if ($connection === null) {
+            return;
+        }
+
+        $connection->access_token = $accessToken;
+        $connection->access_token_expires_at = now()->addSeconds($expiresIn);
+        $connection->config_error_at = null;
+
+        if ($refreshToken !== null) {
+            $connection->refresh_token = $refreshToken;
+        }
+
+        $connection->save();
+    }
+
+    /**
+     * Mark the connection with this identifier as needing a reconnect and delete its tokens. The settings page then
+     * asks the owner to reconnect.
+     */
+    public function markReconnectRequired(string $connectionId): void
+    {
+        YouTubeMusicConnection::query()->where('connection_id', $connectionId)->update([
+            'status' => YouTubeMusicConnectionStatus::ReconnectRequired->value,
+            'access_token' => null,
+            'refresh_token' => null,
+            'access_token_expires_at' => null,
+        ]);
+    }
+
+    /**
+     * Mark the connection with this identifier with a configuration error, keeping the time of the first one.
+     */
+    public function markConfigError(string $connectionId): void
+    {
+        YouTubeMusicConnection::query()
+            ->where('connection_id', $connectionId)
+            ->whereNull('config_error_at')
+            ->update(['config_error_at' => now()]);
     }
 
     /**

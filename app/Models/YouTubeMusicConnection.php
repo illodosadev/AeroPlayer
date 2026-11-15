@@ -33,6 +33,7 @@ class YouTubeMusicConnection extends Model
         'access_token_expires_at',
         'authorized_at',
         'status',
+        'config_error_at',
     ];
 
     /**
@@ -53,6 +54,7 @@ class YouTubeMusicConnection extends Model
             'refresh_token' => 'encrypted',
             'access_token_expires_at' => 'datetime',
             'authorized_at' => 'datetime',
+            'config_error_at' => 'datetime',
             'status' => YouTubeMusicConnectionStatus::class,
         ];
     }

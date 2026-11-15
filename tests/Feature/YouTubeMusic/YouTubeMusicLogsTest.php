@@ -3,11 +3,13 @@
 // youtube-music-connection, task 4.3: "YouTube Music secrets are not logged", over the three failures of the
 // scenario. Every log entry is captured, with its context, and searched for each secret.
 
+use App\Application\YouTubeMusic\Exceptions\YouTubeMusicUnavailable;
 use App\Models\User;
 use App\Models\YouTubeMusicConnection;
 use App\YouTubeMusic\ConnectionAttempts;
 use App\YouTubeMusic\DeviceCode;
 use App\YouTubeMusic\GoogleDeviceFlow;
+use App\YouTubeMusic\YouTubeMusicCredentials;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Log\Events\MessageLogged;
 use Illuminate\Support\Facades\Event;
@@ -41,6 +43,20 @@ test('the token endpoint answering 503 while waiting logs no secret', function (
     app(ConnectionAttempts::class)->start(new DeviceCode('dev-123', 'ABCD-EFGH', 'https://www.google.com/device', 5, 1800));
 
     $this->actingAs($this->owner)->getJson('/youtube-music/connect/status')->assertExactJson(['status' => 'pending']);
+});
+
+// youtube-music-credentials, task 2.4: "A failed renewal logs no secret", in the logs and in the failure itself.
+
+test('a renewal answering 503 logs no secret, and its failure carries none', function () {
+    Http::fake([GoogleDeviceFlow::TOKEN_URL => Http::response(['error' => 'upstream-body-detail'], 503)]);
+    YouTubeMusicConnection::factory()->for($this->owner)->create(['access_token_expires_at' => now()->subMinute()]);
+
+    try {
+        app(YouTubeMusicCredentials::class)->accessToken();
+        $this->fail('The renewal should have failed.');
+    } catch (YouTubeMusicUnavailable $failure) {
+        $this->logged[] = $failure->getMessage().' '.$failure->getTraceAsString();
+    }
 });
 
 test('a revocation that does not answer logs no secret', function () {

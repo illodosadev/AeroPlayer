@@ -93,3 +93,92 @@ test('deleting the owner account deletes its connection', function () {
 
     expect(YouTubeMusicConnection::count())->toBe(0);
 });
+
+// youtube-music-credentials, task 1.1 (design D4): renewed tokens, reconnecting and the configuration-error mark.
+
+test('storing renewed tokens saves the access token and its expiry, encrypted, and clears the mark', function () {
+    $this->freezeSecond();
+    $connection = YouTubeMusicConnection::factory()->create(['config_error_at' => now()->subHour()]);
+
+    app(YouTubeMusicConnectionRepository::class)->storeRefreshedTokens($connection->connection_id, 'ya29.new-789', '1//refresh-777', 3599);
+
+    $stored = $connection->fresh();
+    $raw = implode(' ', array_map('strval', (array) DB::table('youtube_music_connections')->first()));
+
+    expect($stored->access_token)->toBe('ya29.new-789')
+        ->and($stored->refresh_token)->toBe('1//refresh-777')
+        ->and($stored->access_token_expires_at->equalTo(now()->addSeconds(3599)))->toBeTrue()
+        ->and($stored->config_error_at)->toBeNull()
+        ->and($raw)->not->toContain('ya29.new-789')->not->toContain('1//refresh-777');
+});
+
+test('storing renewed tokens without a new refresh token keeps the stored one', function () {
+    $connection = YouTubeMusicConnection::factory()->create();
+
+    app(YouTubeMusicConnectionRepository::class)->storeRefreshedTokens($connection->connection_id, 'ya29.new-789', null, 3599);
+
+    expect($connection->fresh()->refresh_token)->toBe('1//refresh-456')
+        ->and($connection->fresh()->access_token)->toBe('ya29.new-789');
+});
+
+test('marking for reconnecting deletes the tokens and the expiry', function () {
+    $connection = YouTubeMusicConnection::factory()->create();
+
+    app(YouTubeMusicConnectionRepository::class)->markReconnectRequired($connection->connection_id);
+
+    $stored = $connection->fresh();
+
+    expect($stored->status)->toBe(YouTubeMusicConnectionStatus::ReconnectRequired)
+        ->and($stored->access_token)->toBeNull()
+        ->and($stored->refresh_token)->toBeNull()
+        ->and($stored->access_token_expires_at)->toBeNull();
+});
+
+test('the configuration-error mark is set once and keeps its first time', function () {
+    $this->travelTo('2026-11-15 10:00:00');
+    $connection = YouTubeMusicConnection::factory()->create();
+    $repository = app(YouTubeMusicConnectionRepository::class);
+
+    $repository->markConfigError($connection->connection_id);
+    $this->travelTo('2026-11-15 11:00:00');
+    $repository->markConfigError($connection->connection_id);
+
+    $stored = $connection->fresh();
+
+    expect($stored->config_error_at->toDateTimeString())->toBe('2026-11-15 10:00:00')
+        ->and($stored->status)->toBe(YouTubeMusicConnectionStatus::Connected)
+        ->and($stored->access_token)->toBe('ya29.access-123');
+});
+
+test('each write leaves a connection with another identifier alone', function () {
+    $connection = YouTubeMusicConnection::factory()->create();
+    $repository = app(YouTubeMusicConnectionRepository::class);
+
+    $repository->storeRefreshedTokens('another-connection', 'ya29.new-789', '1//refresh-777', 3599);
+    $repository->markReconnectRequired('another-connection');
+    $repository->markConfigError('another-connection');
+
+    $stored = $connection->fresh();
+
+    expect($stored->status)->toBe(YouTubeMusicConnectionStatus::Connected)
+        ->and($stored->access_token)->toBe('ya29.access-123')
+        ->and($stored->refresh_token)->toBe('1//refresh-456')
+        ->and($stored->config_error_at)->toBeNull();
+});
+
+test('storing the owner connection clears the configuration-error mark', function () {
+    $existing = YouTubeMusicConnection::factory()->create(['config_error_at' => now()]);
+
+    app(YouTubeMusicConnectionRepository::class)->storeForOwner($existing->user_id, ownerChannel(), googleTokens());
+
+    expect(YouTubeMusicConnection::sole()->config_error_at)->toBeNull();
+});
+
+test('the token parameters of storeRefreshedTokens are sensitive', function () {
+    $sensitive = fn (string $name) => (new ReflectionParameter([YouTubeMusicConnectionRepository::class, 'storeRefreshedTokens'], $name))
+        ->getAttributes(SensitiveParameter::class) !== [];
+
+    expect($sensitive('accessToken'))->toBeTrue()
+        ->and($sensitive('refreshToken'))->toBeTrue()
+        ->and($sensitive('connectionId'))->toBeFalse();
+});
