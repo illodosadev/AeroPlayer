@@ -3,7 +3,7 @@ id: T-09
 title: Conectar la cuenta de YouTube Music
 status: enriched
 discovery: reproductor-musica-privado
-change: ~
+change: youtube-music-connection
 priority: must
 estimate: 6
 language: es
