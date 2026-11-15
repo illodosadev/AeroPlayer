@@ -368,6 +368,8 @@ Scenario: Spotify acepta la redirección de producción
   - o subir `illodosadev.io` a 8.4 tras comprobar que sigue funcionando. Lo decide el usuario.
 
   T-01 fija PHP 8.3 en `config.platform.php` (cambio `project-foundation`). Pasar a 8.4 es subir esa fijación y modificar el requisito "Minimum PHP platform".
+
+  **Resuelto el 2026-11-14:** el usuario subió `illodosadev.io` a PHP 8.4, la versión que ya exigen `composer.json` (`^8.4`, plataforma 8.4.0) y los tests de CI. Tras el cambio, el sitio principal sigue respondiendo 200 y las extensiones que necesita la app (`intl`, `pdo_mysql`, `pdo_sqlite`, `mbstring`, `bcmath`, `gd`, `zip`, `curl`, `openssl`) siguen activas. Las opciones de PHP volvieron a sus valores por defecto, que bastan para la app. Falta confirmar que `music.illodosadev.io` hereda la versión al crearlo.
 - **Dónde puede apuntar el directorio del subdominio:** si `hosting_websites_add-domain` acepta una carpeta fuera de `public_html` (como `aeroplayer/public`) o hace falta el enlace simbólico por SSH.
 - **Motor y versión de la base de datos** (MySQL o MariaDB): se anota al crearla (`SELECT VERSION()`). T-20 usa MySQL; si es MariaDB, se cambia la imagen local. T-14 pide la collation `utf8mb4_bin`, que existe en los dos.
 - **SSH en el plan:** comprobar en hPanel que está activado, el puerto (Hostinger suele usar el 65002) y que existen `rsync` y `composer` en el servidor. Todo D14 depende de ello; si no hubiera `rsync`, se sube un archivo comprimido por `scp` y se descomprime por SSH.
