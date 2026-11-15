@@ -305,3 +305,17 @@ The system SHALL NOT write the client secret, the device code, the access token,
 - **WHEN** the page is shown
 - **THEN** document.documentElement.scrollWidth is at most 375
 - **AND** every control lies within the viewport width with a touch area of at least 44x44 px
+
+### Requirement: The settings page shows a configuration error
+When the connection carries the configuration-error mark that a refused renewal leaves, "/settings/youtube-music" SHALL show "YouTube Music is not configured correctly." next to the connection state, without sending anything to Google. Without the mark it SHALL not show that text.
+
+#### Scenario: A renewal was refused for the client
+- **GIVEN** YouTube Music connected with the channel name "Alice Music" and the configuration-error mark
+- **WHEN** the owner opens "/settings/youtube-music"
+- **THEN** the page shows "YouTube Music connected", "Alice Music" and "YouTube Music is not configured correctly."
+- **AND** no request is sent to Google
+
+#### Scenario: No configuration error
+- **GIVEN** YouTube Music connected without the configuration-error mark
+- **WHEN** the owner opens "/settings/youtube-music"
+- **THEN** the page does not show "YouTube Music is not configured correctly."

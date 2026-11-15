@@ -1,7 +1,7 @@
 ---
 id: T-09
 title: Conectar la cuenta de YouTube Music
-status: enriched
+status: done
 discovery: reproductor-musica-privado
 change: youtube-music-credentials
 priority: must
@@ -382,12 +382,12 @@ Scenario: Un intento fallido no toca la conexión existente
 **Seguimiento de youtube-music-connection (parte 1 de 2, archivada el 2026-11-15)**
 
 - **Hecho:** el flujo para dispositivos, la conexión cifrada solo para el canal del propietario, la página `/settings/youtube-music`, la desconexión con revocación, la prop compartida `youtubeMusic` y la barra de enlaces de ajustes. Spec `youtube-music-connection`.
-- **Pendiente, en `youtube-music-credentials`:** el servicio compartido de credenciales (`accessToken()` con renovación bajo bloqueo), los errores tipados, `reconnect_required` con `invalid_grant` y la marca `config_error` con `invalid_client`. Sus escenarios son los de "Usar las credenciales" de esta tarea, más el fallo de la renovación en "Los registros no guardan secretos".
-- **Prueba manual (2026-11-15):** conectar con la cuenta real funciona. En la página de permisos de Google no aparece ninguna entrada con el nombre de la app, así que la revocación no se pudo comprobar a ojo.
+- **Hecho en `youtube-music-credentials` (archivada el 2026-11-15):** el servicio compartido de credenciales (`accessToken()` con renovación bajo bloqueo), los errores tipados, `reconnect_required` con `invalid_grant` y la marca `config_error_at` con `invalid_client`. Spec `youtube-music-credentials`. Sus escenarios son los de "Usar las credenciales" de esta tarea, más el fallo de la renovación en "Los registros no guardan secretos".
+- **Prueba manual (2026-11-15):** conectar con la cuenta real funciona. En la página de permisos de Google no aparece ninguna entrada con el nombre de la app, así que la revocación no se pudo comprobar a ojo. La renovación del token, forzando su caducidad, funciona con la conexión real.
 
 ## Definition of Done
 
-- [ ] T-27 done, and its route and scope reflected in the change
-- [ ] Acceptance criteria covered by tests
-- [ ] Spec deltas archived in openspec/specs/
-- [ ] Work committed on main
+- [x] T-27 done, and its route and scope reflected in the change
+- [x] Acceptance criteria covered by tests
+- [x] Spec deltas archived in openspec/specs/
+- [x] Work committed on main

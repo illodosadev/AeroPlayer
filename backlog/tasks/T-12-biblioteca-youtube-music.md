@@ -55,6 +55,7 @@ Scenario: La integración no oficial falla
 <!-- Added by /task-enrich: error paths, permissions, empty states, limits. -->
 
 - **Pregunta abierta 2, resuelta por T-27 (2026-11-15):**
+  - **Token (T-09, cerrada el 2026-11-15):** los handlers inyectan `App\YouTubeMusic\YouTubeMusicCredentials` y llaman a `accessToken()`, que devuelve un token válido al menos 60 s y lo renueva si hace falta. Falla con uno de cuatro errores, que heredan de `YouTubeMusicCredentialsFailed`: `YouTubeMusicNotConnected`, `YouTubeMusicReconnectRequired`, `YouTubeMusicUnavailable` y `YouTubeMusicMisconfigured`. Esta tarea decide qué mensaje muestra cada uno. Un 401 de la Data API con un token que parece válido no lo trata el servicio: lo decide esta tarea (spec `youtube-music-credentials`);
   - **Ruta: la API oficial** (YouTube Data API v3) con el token de T-09 y el scope `youtube.readonly`, no la API interna. La interna solo lee la biblioteca con el scope completo, que incluye escritura, y el usuario lo descarta por D6;
   - **Playlists:** `playlists?part=snippet,contentDetails&mine=true`, las playlists propias;
   - **"Me gusta":** `playlistItems?playlistId=LM`, el "Liked Music" de YouTube Music;
