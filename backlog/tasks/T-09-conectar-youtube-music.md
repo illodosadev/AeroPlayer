@@ -379,6 +379,12 @@ Scenario: Un intento fallido no toca la conexión existente
 - Hosting compartido de Hostinger, app en `music.illodosadev.io`, despliegue con GitHub Actions y SSH lanzado a mano (D14–D16).
 - No hay procesos permanentes ni workers. T-27 descarta Python: todo va en PHP.
 
+**Seguimiento de youtube-music-connection (parte 1 de 2, archivada el 2026-11-15)**
+
+- **Hecho:** el flujo para dispositivos, la conexión cifrada solo para el canal del propietario, la página `/settings/youtube-music`, la desconexión con revocación, la prop compartida `youtubeMusic` y la barra de enlaces de ajustes. Spec `youtube-music-connection`.
+- **Pendiente, en `youtube-music-credentials`:** el servicio compartido de credenciales (`accessToken()` con renovación bajo bloqueo), los errores tipados, `reconnect_required` con `invalid_grant` y la marca `config_error` con `invalid_client`. Sus escenarios son los de "Usar las credenciales" de esta tarea, más el fallo de la renovación en "Los registros no guardan secretos".
+- **Prueba manual (2026-11-15):** conectar con la cuenta real funciona. En la página de permisos de Google no aparece ninguna entrada con el nombre de la app, así que la revocación no se pudo comprobar a ojo.
+
 ## Definition of Done
 
 - [ ] T-27 done, and its route and scope reflected in the change
