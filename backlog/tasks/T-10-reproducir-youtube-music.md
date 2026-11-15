@@ -17,7 +17,7 @@ Reproducir canciones de YouTube Music en el reproductor con los mismos controles
 
 ## Context
 
-Necesidad v1 del discovery. Depende de T-09 y usa la barra de reproductor de T-21 (controles Aero, separada de T-03). La interfaz va en inglés. Es la mitad de YouTube del reproductor; la de Spotify es T-06. Cómo se reproduce (reproductor embebido de YouTube u otro) y si Premium evita anuncios es la pregunta abierta 2. En el móvil, la reproducción con la pantalla bloqueada es la pregunta abierta 3.
+Necesidad v1 del discovery. Depende de T-27 (el spike de YouTube Music, que decide el método de reproducción y si hay anuncios), de T-09 y usa la barra de reproductor de T-21 (controles Aero, separada de T-03). La interfaz va en inglés. Es la mitad de YouTube del reproductor; la de Spotify es T-06. Cómo se reproduce (reproductor embebido de YouTube u otro) y si Premium evita anuncios es la pregunta abierta 2. En el móvil, la reproducción con la pantalla bloqueada es la pregunta abierta 3.
 
 ## Acceptance criteria
 
@@ -49,7 +49,12 @@ Scenario: Canción no reproducible
 
 <!-- Added by /task-enrich: error paths, permissions, empty states, limits. -->
 
-- **Bloqueada por la pregunta abierta 2** (método de reproducción y anuncios).
+- **Pregunta abierta 2, resuelta por T-27 (2026-11-15):**
+  - **Método:** reproductor embebido de YouTube (IFrame API) con el id del vídeo. Reprodujo canciones de la búsqueda, de "Liked Music", un videoclip y un vídeo que no es música;
+  - **Anuncios:** ninguno con la cuenta Premium iniciada en el navegador. El reproductor no usa el token de la app: Premium depende de la sesión de YouTube del navegador;
+  - **Errores:** el reproductor avisa por `onError` (101 o 150, inserción bloqueada; 100, vídeo no encontrado). Eso alimenta "This song can't be played." En la prueba, un primer intento dio error sin que se anotara el código, y tras recargar sonó todo;
+  - **Origen:** la página se sirvió por HTTP, no como fichero local, y con `origin` en `playerVars`;
+  - **Comprobación previa opcional:** la Data API (`videos?part=status`, campo `embeddable`) dice antes de reproducir si un vídeo se puede insertar.
 - Falta decidir si, cuando una canción falla dentro de una lista, se pasa sola a la siguiente. Es la misma decisión pendiente que en T-23 (errores de Spotify): conviene tomarla una vez para los dos servicios.
 - El texto "This song can't be played." es el mismo que usa T-23 para Spotify (añadido al enriquecer T-06 el 2026-11-09).
 

@@ -17,7 +17,7 @@ Ver y reproducir las playlists y los "me gusta" del usuario en YouTube Music, pa
 
 ## Context
 
-Necesidad v1 del discovery. Es la mitad de YouTube de la biblioteca; la de Spotify es T-08. Depende de T-09 y T-10.
+Necesidad v1 del discovery. Es la mitad de YouTube de la biblioteca; la de Spotify es T-08. Depende de T-27 (el spike de YouTube Music, que decide la ruta técnica), de T-09 y de T-10.
 
 ## Acceptance criteria
 
@@ -54,7 +54,14 @@ Scenario: La integración no oficial falla
 
 <!-- Added by /task-enrich: error paths, permissions, empty states, limits. -->
 
-- Depende de la pregunta abierta 2.
+- **Pregunta abierta 2, resuelta por T-27 (2026-11-15):**
+  - **Ruta: la API oficial** (YouTube Data API v3) con el token de T-09 y el scope `youtube.readonly`, no la API interna. La interna solo lee la biblioteca con el scope completo, que incluye escritura, y el usuario lo descarta por D6;
+  - **Playlists:** `playlists?part=snippet,contentDetails&mine=true`, las playlists propias;
+  - **"Me gusta":** `playlistItems?playlistId=LM`, el "Liked Music" de YouTube Music;
+  - **Canciones de una playlist:** `playlistItems?playlistId=<id>`, paginado con `pageToken`, hasta 50 por página;
+  - **Límite:** la API oficial no lista las playlists de otros usuarios guardadas en la biblioteca. Los escenarios deben decir "sus playlists" (las propias) y "Liked Music";
+  - **Cuota:** 10 000 unidades al día y 1 por página de listado. Conviene caché, como la de T-08;
+  - **Errores:** la integración es oficial, así que el escenario "La integración no oficial falla" pasa a ser "YouTube Music no responde" (5xx, timeout o cuota agotada, 403 `quotaExceeded`).
 - **Pregunta abierta 6, resuelta el 2026-11-09:** una sola lista mezclada y sin duplicados. Al enriquecer, reescribir esta tarea así:
   - **Misma vista que T-08:** alimenta la vista unificada `/library` de T-08 con elementos de formato común y `source: "youtube_music"`. No hace una "biblioteca de YouTube Music" aparte. Las playlists usan la ruta `/library/playlists/youtube-music/{id}`.
   - **Biblioteca vacía:** el escenario se reescribe para la vista unificada.

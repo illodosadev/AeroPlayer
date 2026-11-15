@@ -49,7 +49,7 @@
 
 - **Dispositivos:** navegador de escritorio y navegador móvil. Accesible por Internet desde fuera de casa, no solo en la red local.
 - **Móvil:** el usuario lo considera imprescindible: la música debe sonar en el móvil, también con la pantalla bloqueada. Si con Spotify no se puede (ver Constraints), acepta como alternativa que en móvil suene la app oficial de Spotify y la web la controle con Spotify Connect.
-- **Seguridad / acceso:** solo un usuario, con login propio por email y contraseña (confirmado el 2026-11-09). No hay registro: la cuenta se crea con un comando artisan, y la app no envía ningún email (T-02). Solo se puede conectar la cuenta de Spotify del propietario (T-05). Los tokens de Spotify / YouTube y las cookies de sesión de YouTube Music son credenciales personales y deben guardarse de forma segura en el servidor.
+- **Seguridad / acceso:** solo un usuario, con login propio por email y contraseña (confirmado el 2026-11-09). No hay registro: la cuenta se crea con un comando artisan, y la app no envía ningún email (T-02). Solo se puede conectar la cuenta de Spotify del propietario (T-05). Los tokens de Spotify y de YouTube Music son credenciales personales y deben guardarse de forma segura en el servidor.
 - **Hosting:** el hosting contratado en Hostinger, en el subdominio `music.illodosadev.io` (subdominio del sitio `illodosadev.io`, D16), aislado de otros proyectos alojados en la misma cuenta.
 
 ## Constraints & assumptions
@@ -70,8 +70,8 @@
 
     Fuentes: https://developer.spotify.com/blog/2026-02-06-update-on-developer-access-and-platform-security, https://developer.spotify.com/documentation/web-api/tutorials/february-2026-migration-guide, https://developer.spotify.com/documentation/web-api/concepts/quota-modes, https://developer.spotify.com/documentation/web-api/concepts/redirect_uri
 - **YouTube Music:**
-  - No tiene API oficial. El usuario acepta librerías no oficiales (por ejemplo, autenticación con sus cookies), asumiendo el riesgo de que dejen de funcionar o de que el servicio bloquee el acceso. Es para uso personal.
-  - Las librerías no oficiales más conocidas están en Python (por ejemplo, `ytmusicapi`). Ejecutarlas depende del plan de Hostinger (ver Open questions).
+  - No tiene API oficial. La conexión usa el flujo OAuth para dispositivos de Google con un cliente OAuth propio (decidido el 2026-11-14, T-09); lo no oficial es la API interna de YouTube Music. El usuario acepta librerías o clientes no oficiales para esa API, asumiendo el riesgo de que dejen de funcionar o de que el servicio bloquee el acceso. Es para uso personal.
+  - Las librerías no oficiales más conocidas están en Python (por ejemplo, `ytmusicapi`). Ejecutarlas depende del hosting; lo comprueba el spike T-27.
 - **Reproducción en móvil:** la reproducción en segundo plano o con la pantalla bloqueada en navegadores móviles es limitada, tanto con el SDK de Spotify como con el reproductor embebido de YouTube.
 
 ## Out of scope
@@ -84,11 +84,16 @@
 ## Open questions
 
 1. ~~**Plan de Hostinger:** ¿es hosting compartido, Cloud o VPS? De esto depende si se puede ejecutar Python (librerías no oficiales de YT Music), workers de colas o Docker, y qué versión de PHP/Node hay disponible.~~ **Resuelta el 2026-11-09** (leído de la cuenta con la extensión MCP de Hostinger; detalle en T-04):
-   - **Plan:** "Premium Web Hosting", compartido (CloudLinux). No tiene Node.js, Docker, procesos permanentes ni Redis.
-   - **PHP:** 8.3 en `illodosadev.io`, con 7.3–8.5 disponibles. `exec` y `shell_exec` están desactivadas.
+   - **Plan:** hosting compartido. No tiene Node.js, Docker, procesos permanentes ni Redis.
+   - **PHP:** la versión del despliegue se fija en T-04. Ejecutar procesos desde PHP está limitado; si se puede usar Python lo responde T-27.
    - **Despliegue:** GitHub Actions + SSH con un botón manual (D14, D15). La app va en `music.illodosadev.io`, como subdominio de `illodosadev.io` (D16).
    - **Python para YT Music:** sigue abierto en la pregunta 2.
-2. **Viabilidad de YT Music:** spike técnico para elegir la librería o el enfoque no oficial, cómo autenticar (cookies o OAuth del cliente TV), y cómo reproducir (¿reproductor embebido de YouTube? ¿Premium evita anuncios en el embed?).
+2. **Viabilidad de YT Music:** spike técnico para elegir la librería o el enfoque no oficial, cómo autenticar y cómo reproducir (¿reproductor embebido de YouTube? ¿Premium evita anuncios en el embed?). **Autenticación resuelta el 2026-11-14 (T-09):** OAuth con el flujo para dispositivos de Google y un cliente OAuth propio; se descartan las cookies. **Resuelto por el spike T-27 el 2026-11-15:**
+   - **Ruta:** cliente PHP propio, sin Python ni `ytmusicapi`;
+   - **Biblioteca:** API oficial (YouTube Data API v3) con `youtube.readonly`, así que se mantiene D6, sin las playlists de otros usuarios guardadas;
+   - **Búsqueda:** API interna de YouTube Music, sin token;
+   - **Reproducción:** reproductor embebido de YouTube, sin anuncios con Premium;
+   - **Pendiente:** verificar la app con Google, en una tarea aparte, para que la autorización no caduque a los 7 días.
 3. **Viabilidad en móvil:** spike en el móvil real del usuario. ¿Qué sistema y navegador usa (iOS Safari / Android Chrome)? ¿Suena con la pantalla bloqueada para Spotify y para YouTube? ¿Funciona el plan B de Spotify Connect con la UX esperada? *(Nota del 2026-11-09: Spotify dice ahora que el SDK funciona en navegadores móviles, así que la prueba debe empezar por el SDK. Ver Constraints > Spotify.)*
 4. ~~**Playlists mixtas:** ¿se guardan solo en la base de datos de la app, o se sincronizan con los servicios? ¿Qué pasa si una canción deja de estar disponible?~~ **Resuelta el 2026-11-09 (T-14):**
    - **D6:** se guardan solo en la base de datos de la app. No se sincronizan con Spotify ni con YouTube Music, y no se piden permisos de escritura.

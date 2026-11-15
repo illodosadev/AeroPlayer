@@ -17,7 +17,7 @@ Buscar canciones, álbumes y artistas de YouTube Music y reproducirlos desde los
 
 ## Context
 
-Necesidad v1 del discovery. Depende de T-09 y T-10. Cómo se presentan juntos los resultados de los dos servicios es la pregunta abierta 6.
+Necesidad v1 del discovery. Depende de T-27 (el spike de YouTube Music, que decide la ruta técnica), de T-09 y de T-10. Cómo se presentan juntos los resultados de los dos servicios es la pregunta abierta 6.
 
 ## Acceptance criteria
 
@@ -55,7 +55,13 @@ Scenario: La integración no oficial falla
 
 <!-- Added by /task-enrich: error paths, permissions, empty states, limits. -->
 
-- Depende de la pregunta abierta 2 (librería).
+- **Pregunta abierta 2, resuelta por T-27 (2026-11-15):**
+  - **Ruta:** cliente PHP propio contra la API interna de YouTube Music, **sin token**: `POST https://music.youtube.com/youtubei/v1/search?alt=json` con el contexto `WEB_REMIX` (`clientVersion` `1.<AAAAMMDD>.01.00`), `Content-Type: application/json`, `Origin: https://music.youtube.com` y el parámetro del filtro (por ejemplo, canciones);
+  - **Respuesta:** filas `musicResponsiveListItemRenderer`, con título, artista, álbum, duración e id del vídeo;
+  - **Sin `ytmusicapi`:** con OAuth responde 400, y la búsqueda no necesita la cuenta;
+  - **La API oficial no se usa para buscar:** `search.list` cuesta 100 unidades de cuota y devuelve vídeos, no canciones de Music;
+  - **Falta decidir** si la búsqueda en YouTube Music exige tener YouTube Music conectado (T-09), aunque técnicamente no use la conexión;
+  - **Riesgo:** es una API no documentada. Si cambia, se aplica el escenario "La integración no oficial falla".
 - **Pregunta abierta 6, resuelta el 2026-11-09:** una sola lista mezclada y sin duplicados. Al enriquecer, reescribir esta tarea así:
   - **Segunda fuente de la lista de T-07:** YouTube Music se suma a la lista única de búsqueda, con el formato común de T-07 y `source: "youtube_music"`, sin cambiar los componentes de la lista. El paginado usa un `cursor` opaco por sección.
   - **Sin resultados:** el mensaje "no hay resultados en YouTube Music" se sustituye por el global 'No results for "…"', que solo aparece si ningún servicio devuelve nada.
