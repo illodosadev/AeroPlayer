@@ -3,6 +3,7 @@
 // A song that cannot play is a disabled button, dimmed, with the reason in place of its duration.
 import AeroCover from '@/components/aero/AeroCover.vue';
 import { formatTime } from '@/lib/formatTime';
+import { sourceLabel } from '@/lib/sources';
 import { computed } from 'vue';
 
 export interface SongRowSong {
@@ -23,11 +24,8 @@ const props = defineProps<{ song: SongRowSong }>();
 
 defineEmits<{ play: [] }>();
 
-// The label of each song's service; YouTube Music joins it in T-11 and T-12.
-const SOURCE_LABELS: Record<string, string> = { spotify: 'Spotify' };
-
 const reason = computed(() => (props.song.local ? "Local file, can't play here" : 'Not available'));
-const sourceLabel = computed(() => SOURCE_LABELS[props.song.source] ?? props.song.source);
+const label = computed(() => sourceLabel(props.song.source));
 </script>
 
 <template>
@@ -55,7 +53,7 @@ const sourceLabel = computed(() => SOURCE_LABELS[props.song.source] ?? props.son
         <span class="song-row__meta">
             <span v-if="song.playable" data-part="duration">{{ formatTime(song.duration_ms / 1000) }}</span>
             <span v-else data-part="not-available">{{ reason }}</span>
-            <span class="song-row__source" data-part="source">{{ sourceLabel }}</span>
+            <span class="song-row__source" data-part="source">{{ label }}</span>
         </span>
     </button>
 </template>

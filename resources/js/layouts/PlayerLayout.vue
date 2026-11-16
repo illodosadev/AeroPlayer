@@ -1,14 +1,38 @@
 <script setup lang="ts">
 // The persistent layout of every signed-in page (spotify-web-player, design D1 and D10): the page, and the player
 // bar fixed at the bottom. Inertia keeps it mounted across visits, so the Spotify device survives navigation.
+import AeroButton from '@/components/aero/AeroButton.vue';
+import AeroIcon from '@/components/aero/AeroIcon.vue';
 import AeroPlayerBar from '@/components/aero/AeroPlayerBar.vue';
+import QueuePanel from '@/components/QueuePanel.vue';
+import { useQueue } from '@/composables/useQueue';
 import { useSpotifyPlayer } from '@/composables/useSpotifyPlayer';
 import type { SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 
 const page = usePage<SharedData>();
 const player = useSpotifyPlayer();
+const queue = useQueue();
+
+// The queue panel and its "Queue" button in the bar (playback-queue, design D9).
+const queueOpen = ref(false);
+
+async function focusQueueToggle(): Promise<void> {
+    await nextTick();
+    document.querySelector<HTMLElement>('[data-part="queue-toggle"]')?.focus();
+}
+
+function toggleQueue(): void {
+    queueOpen.value = !queueOpen.value;
+}
+
+function onKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Escape' && queueOpen.value) {
+        queueOpen.value = false;
+        void focusQueueToggle();
+    }
+}
 
 const bar = ref<HTMLElement | null>(null);
 const barHeight = ref(0);
@@ -40,6 +64,10 @@ watch(
 );
 
 onMounted(() => {
+    // The queue lives on the server: read it now and keep it in sync while the tab is visible (design D8).
+    queue.startSync(page.props.player?.queuePollSeconds ?? 30);
+    document.addEventListener('keydown', onKeydown);
+
     if (!bar.value) {
         return;
     }
@@ -56,7 +84,9 @@ onMounted(() => {
 onBeforeUnmount(() => {
     observer?.disconnect();
     document.documentElement.style.removeProperty('--app-player-height');
+    document.removeEventListener('keydown', onKeydown);
     player.stop();
+    queue.stopSync();
 });
 </script>
 
@@ -66,6 +96,18 @@ onBeforeUnmount(() => {
     </div>
 
     <div id="app-player" ref="bar" class="app-player">
+        <!-- The queue's messages, announced politely (playback-queue, design D9). Always rendered, so each one is read. -->
+        <div class="app-player__queue-status">
+            <p
+                role="status"
+                aria-live="polite"
+                data-part="queue-message"
+                :class="['app-player__queue-message', { 'app-player__queue-message--shown': queue.message.value }]"
+            >
+                {{ queue.message.value ?? '' }}
+            </p>
+        </div>
+
         <AeroPlayerBar
             :title="track?.title ?? ''"
             :artist="track?.artists.join(', ') ?? ''"
@@ -90,7 +132,21 @@ onBeforeUnmount(() => {
             <template v-if="!connected" #notice-actions>
                 <Link href="/settings/spotify" class="app-player__link">Spotify settings</Link>
             </template>
+            <template #extra>
+                <AeroButton
+                    shape="orb"
+                    data-part="queue-toggle"
+                    aria-label="Queue"
+                    :aria-expanded="queueOpen ? 'true' : 'false'"
+                    :aria-controls="queueOpen ? 'queue-panel' : undefined"
+                    @click="toggleQueue"
+                >
+                    <AeroIcon name="queue" />
+                </AeroButton>
+            </template>
         </AeroPlayerBar>
+
+        <QueuePanel v-if="queueOpen" />
     </div>
 </template>
 
@@ -101,6 +157,31 @@ onBeforeUnmount(() => {
     bottom: 0;
     z-index: 40;
     padding: var(--aero-space-2);
+}
+
+/* The queue's message floats above the bar's start, out of the way of the queue panel at the end. */
+.app-player__queue-status {
+    position: absolute;
+    bottom: 100%;
+    inset-inline-start: var(--aero-space-2);
+    max-width: calc(100vw - 2 * var(--aero-space-2));
+    pointer-events: none;
+}
+
+.app-player__queue-message {
+    margin: 0 0 var(--aero-space-1);
+    padding: 0;
+    color: var(--aero-text);
+    font-family: var(--aero-font-family);
+    font-size: var(--aero-font-size-small);
+}
+
+.app-player__queue-message--shown {
+    padding: var(--aero-space-1) var(--aero-space-3);
+    border: 1px solid var(--aero-panel-border);
+    border-radius: var(--aero-radius-pill);
+    background: var(--aero-panel-bg-fallback);
+    box-shadow: var(--aero-panel-shadow);
 }
 
 .app-player__link {

@@ -6,7 +6,8 @@ import AeroButton from '@/components/aero/AeroButton.vue';
 import AeroCover from '@/components/aero/AeroCover.vue';
 import AeroGlassPanel from '@/components/aero/AeroGlassPanel.vue';
 import LibraryState from '@/components/library/LibraryState.vue';
-import SongRow, { type SongRowSong } from '@/components/SongRow.vue';
+import QueueableSongRow from '@/components/QueueableSongRow.vue';
+import { type SongRowSong } from '@/components/SongRow.vue';
 import { usePagedSongs } from '@/composables/usePagedSongs';
 import { useSpotifyPlayer } from '@/composables/useSpotifyPlayer';
 import { Head, Link } from '@inertiajs/vue3';
@@ -111,7 +112,7 @@ function playSong(song: PlaylistSong): void {
                     <template v-else>
                         <ul class="library-songs" aria-labelledby="library-playlist-title">
                             <li v-for="song in paged.items.value" :key="song.position">
-                                <SongRow :song="song" @play="playSong(song)" />
+                                <QueueableSongRow :song="song" @play="playSong(song)" />
                             </li>
                         </ul>
 

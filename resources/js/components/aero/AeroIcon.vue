@@ -3,7 +3,7 @@
 // v-html only ever receives these repository files, loaded at build time, never user data.
 import { computed } from 'vue';
 
-export type AeroIconName = 'previous' | 'play' | 'pause' | 'next' | 'volume' | 'note';
+export type AeroIconName = 'previous' | 'play' | 'pause' | 'next' | 'volume' | 'note' | 'queue' | 'queue-add' | 'move-up' | 'move-down' | 'remove';
 
 const files = import.meta.glob<string>('../../../aero/icons/*.svg', { query: '?raw', import: 'default', eager: true });
 

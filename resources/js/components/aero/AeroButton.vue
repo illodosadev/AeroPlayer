@@ -74,7 +74,7 @@ withDefaults(
 
 /* Real hover only where the pointer really hovers, so a tap does not leave hover stuck (design D3). */
 @media (hover: hover) {
-    .aero-button:not(:disabled):hover {
+    .aero-button:not(:disabled, [aria-disabled='true']):hover {
         --_base: color-mix(in srgb, var(--aero-gel-base) 78%, #fff);
         --_top: rgba(255, 255, 255, 0.95);
         box-shadow:
@@ -95,7 +95,7 @@ withDefaults(
 }
 
 /* Pressed: the button sinks 1 px and darkens. :active clears on release outside, so it does not stick. */
-.aero-button:not(:disabled):active,
+.aero-button:not(:disabled, [aria-disabled='true']):active,
 .aero-button[data-state='pressed'] {
     --_base: color-mix(in srgb, var(--aero-gel-base) 80%, #000);
     --_top: rgba(255, 255, 255, 0.45);
@@ -103,7 +103,10 @@ withDefaults(
     transform: translateY(1px);
 }
 
-.aero-button:disabled {
+/* aria-disabled="true": busy for a moment. It looks disabled but keeps the keyboard focus (playback-queue, design D7);
+   the parent ignores its presses. */
+.aero-button:disabled,
+.aero-button[aria-disabled='true'] {
     --_base: #9aa7b3;
     --_low: #7c8a97;
     --_top: rgba(255, 255, 255, 0.5);

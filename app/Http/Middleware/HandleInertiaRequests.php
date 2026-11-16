@@ -69,6 +69,10 @@ class HandleInertiaRequests extends Middleware
                     'connected' => $status === 'connected',
                 ];
             },
+            // How often a visible tab reads the queue again, in seconds (playback-queue, design D6). Signed-in pages only.
+            'player' => fn () => $request->user()
+                ? ['queuePollSeconds' => max(1, (int) config('player.queue_poll_seconds'))]
+                : null,
         ]);
     }
 }

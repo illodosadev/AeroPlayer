@@ -6,7 +6,7 @@ import AeroButton from '@/components/aero/AeroButton.vue';
 import AeroCover from '@/components/aero/AeroCover.vue';
 import AeroGlassPanel from '@/components/aero/AeroGlassPanel.vue';
 import AeroInput from '@/components/aero/AeroInput.vue';
-import SongRow from '@/components/SongRow.vue';
+import QueueableSongRow from '@/components/QueueableSongRow.vue';
 import { useMusicSearch, type SearchSectionName, type SongItem } from '@/composables/useMusicSearch';
 import { useSpotifyPlayer } from '@/composables/useSpotifyPlayer';
 import type { SharedData } from '@/types';
@@ -129,7 +129,7 @@ onBeforeUnmount(() => search.dispose());
                             <ul class="search-section__list">
                                 <template v-if="name === 'songs'">
                                     <li v-for="song in state.sections.songs.items" :key="song.id">
-                                        <SongRow :song="song" @play="playSong(song)" />
+                                        <QueueableSongRow :song="song" @play="playSong(song)" />
                                     </li>
                                 </template>
 

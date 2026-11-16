@@ -24,6 +24,8 @@ pest()->extend(BrowserTestCase::class)
     ->use(RefreshDatabase::class)
     ->in('Browser');
 
+require_once __DIR__.'/Support/PlaybackQueue.php';
+
 // Fail browser actions after 10 s instead of the plugin's default, so a wrong selector surfaces quickly.
 pest()->browser()->timeout(10000);
 

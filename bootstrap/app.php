@@ -31,7 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // endpoints (spotify-library-tracks, design D4) and the YouTube Music polling endpoint (youtube-music-connection,
         // design D7).
         $exceptions->render(function (AuthenticationException $exception, Request $request) {
-            if ($request->expectsJson() && $request->is('spotify/token', 'spotify/player/*', 'search/results', 'library/liked/songs', 'library/playlists/spotify/*/songs', 'youtube-music/connect/status')) {
+            if ($request->expectsJson() && $request->is('spotify/token', 'spotify/player/*', 'search/results', 'library/liked/songs', 'library/playlists/spotify/*/songs', 'youtube-music/connect/status', 'queue', 'queue/*')) {
                 return response()->json(['error' => 'unauthenticated'], 401, ['Cache-Control' => 'no-store, private']);
             }
         });
@@ -41,7 +41,7 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($exception->getStatusCode() === 419
                 && $exception->getPrevious() instanceof TokenMismatchException
                 && $request->expectsJson()
-                && $request->is('spotify/player/*')) {
+                && $request->is('spotify/player/*', 'queue', 'queue/*')) {
                 return response()->json(['error' => 'session_expired'], 419, ['Cache-Control' => 'no-store, private']);
             }
         });

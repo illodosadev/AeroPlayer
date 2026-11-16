@@ -202,6 +202,7 @@ const CONTROLLER_RULE_EXEMPT = [
     'App\Http\Controllers\Controller',
     'App\Http\Controllers\Spotify\Concerns',
     'App\Http\Controllers\Library\Concerns',
+    'App\Http\Controllers\PlaybackQueue\Concerns',
     'App\Http\Controllers\YouTubeMusic\Concerns',
 ];
 

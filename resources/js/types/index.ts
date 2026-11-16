@@ -27,6 +27,7 @@ export interface SharedData extends PageProps {
     auth: Auth;
     spotify: { status: SpotifyStatus; connected: boolean; sdkUrl?: string };
     youtubeMusic: { status: YouTubeMusicStatus; connected: boolean };
+    player: { queuePollSeconds: number } | null;
     ziggy: {
         location: string;
         url: string;

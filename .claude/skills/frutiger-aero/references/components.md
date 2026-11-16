@@ -78,7 +78,7 @@ All live in `resources/js/components/aero/`. Each root element has a `data-aero`
 ## AeroIcon (`resources/js/components/aero/AeroIcon.vue`)
 
 - Hook: `data-aero="icon"`, plus `data-icon` with the icon name, on a `<span aria-hidden="true">`.
-- Prop: `name`: `previous`, `play`, `pause`, `next`, `volume` or `note`, the hand-made files in `resources/aero/icons/` (each logged in `resources/aero/CREDITS.md`).
+- Prop: `name`: `previous`, `play`, `pause`, `next`, `volume`, `note`, `queue`, `queue-add`, `move-up`, `move-down` or `remove`, the hand-made files in `resources/aero/icons/` (each logged in `resources/aero/CREDITS.md`).
 - The SVG is inlined and uses `currentColor`, so it takes the text colour of the button around it. The icon is decorative: the button carries the accessible name (`aria-label`).
 - To add an icon, drop a 24x24 SVG with `fill="currentColor"` in `resources/aero/icons/`, add its provenance row and its name to the `AeroIconName` type.
 

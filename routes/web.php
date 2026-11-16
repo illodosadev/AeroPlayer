@@ -6,6 +6,12 @@ use App\Http\Controllers\Library\ShowLikedSongsController;
 use App\Http\Controllers\Library\ShowLikedSongsPageController;
 use App\Http\Controllers\Library\ShowPlaylistController;
 use App\Http\Controllers\Library\ShowPlaylistSongsPageController;
+use App\Http\Controllers\PlaybackQueue\AddQueueItemsController;
+use App\Http\Controllers\PlaybackQueue\ChangeQueueCurrentController;
+use App\Http\Controllers\PlaybackQueue\MoveQueueItemController;
+use App\Http\Controllers\PlaybackQueue\RemoveQueueItemController;
+use App\Http\Controllers\PlaybackQueue\ReplaceQueueController;
+use App\Http\Controllers\PlaybackQueue\ShowQueueController;
 use App\Http\Controllers\RedirectHomeController;
 use App\Http\Controllers\Search\ShowSearchController;
 use App\Http\Controllers\Search\ShowSearchResultsController;
@@ -62,6 +68,14 @@ Route::middleware('auth')->group(function () {
         ->name('library.playlist.songs');
 
     Route::get('search/results', ShowSearchResultsController::class)->name('search.results');
+
+    // The owner's playback queue, in JSON (playback-queue, design D6).
+    Route::get('queue', ShowQueueController::class)->name('queue.show');
+    Route::put('queue', ReplaceQueueController::class)->name('queue.replace');
+    Route::patch('queue', ChangeQueueCurrentController::class)->name('queue.update');
+    Route::post('queue/items', AddQueueItemsController::class)->name('queue.items.add');
+    Route::patch('queue/items/{item}', MoveQueueItemController::class)->whereNumber('item')->name('queue.items.move');
+    Route::delete('queue/items/{item}', RemoveQueueItemController::class)->whereNumber('item')->name('queue.items.remove');
 
     // YouTube Music connection and settings (youtube-music-connection, design D7).
     Route::get('settings/youtube-music', ShowYouTubeMusicSettingsController::class)->name('youtube-music.settings');
