@@ -3,7 +3,7 @@ id: T-13
 title: Cola de reproducción con shuffle y repeat
 status: enriched
 discovery: reproductor-musica-privado
-change: ~
+change: playback-queue
 priority: must
 estimate: 8
 language: es
